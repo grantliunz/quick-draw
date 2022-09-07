@@ -25,6 +25,35 @@ import org.imgscalr.Scalr;
  * adapted from https://github.com/deepjavalibrary/djl-demo.
  */
 public class DoodlePrediction {
+
+  private final ZooModel<Image, Classifications> model;
+
+  /**
+   * Constructs the doodle prediction model by loading it from a file.
+   *
+   * @throws ModelException If there is an error in reading the input/output of the DL model.
+   * @throws IOException If the model cannot be found on the file system.
+   */
+  public DoodlePrediction() throws ModelException, IOException {
+    final ImageClassificationTranslator translator =
+        ImageClassificationTranslator.builder()
+            .addTransform(new ToTensor())
+            .optFlag(Image.Flag.GRAYSCALE)
+            .optApplySoftmax(true)
+            .build();
+
+    final Criteria<Image, Classifications> criteria =
+        Criteria.builder()
+            .setTypes(Image.class, Classifications.class)
+            // This will not work if the application runs from a JAR.
+            .optModelUrls("src/main/resources/ml/doodle_mobilenet.zip")
+            .optOption("mapLocation", "true")
+            .optTranslator(translator)
+            .build();
+
+    model = ModelZoo.loadModel(criteria);
+  }
+
   /**
    * Prints the top K predictions of a given image under test.
    *
@@ -68,34 +97,6 @@ public class DoodlePrediction {
     }
 
     System.out.println(sb);
-  }
-
-  private final ZooModel<Image, Classifications> model;
-
-  /**
-   * Constructs the doodle prediction model by loading it from a file.
-   *
-   * @throws ModelException If there is an error in reading the input/output of the DL model.
-   * @throws IOException If the model cannot be found on the file system.
-   */
-  public DoodlePrediction() throws ModelException, IOException {
-    final ImageClassificationTranslator translator =
-        ImageClassificationTranslator.builder()
-            .addTransform(new ToTensor())
-            .optFlag(Image.Flag.GRAYSCALE)
-            .optApplySoftmax(true)
-            .build();
-
-    final Criteria<Image, Classifications> criteria =
-        Criteria.builder()
-            .setTypes(Image.class, Classifications.class)
-            // This will not work if the application runs from a JAR.
-            .optModelUrls("src/main/resources/ml/doodle_mobilenet.zip")
-            .optOption("mapLocation", "true")
-            .optTranslator(translator)
-            .build();
-
-    model = ModelZoo.loadModel(criteria);
   }
 
   /**

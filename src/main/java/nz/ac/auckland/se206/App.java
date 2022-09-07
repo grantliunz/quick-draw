@@ -2,6 +2,7 @@ package nz.ac.auckland.se206;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
  * remain as the class that runs the JavaFX application.
  */
 public class App extends Application {
+
   public static void main(final String[] args) {
     launch();
   }
@@ -24,7 +26,7 @@ public class App extends Application {
    * @return The node of the input file.
    * @throws IOException If the file is not found.
    */
-  private static Parent loadFxml(final String fxml) throws IOException {
+  public static Parent loadFxml(final String fxml) throws IOException {
     return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
   }
 
@@ -35,10 +37,18 @@ public class App extends Application {
    * @throws IOException If "src/main/resources/fxml/canvas.fxml" is not found.
    */
   @Override
-  public void start(final Stage stage) throws IOException {
-    final Scene scene = new Scene(loadFxml("canvas"), 840, 680);
+  public void start(final Stage stage) throws Exception {
+    SceneManager.addUi(SceneManager.AppUi.MENU, loadFxml("menu"));
+    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
 
+    final Scene scene = new Scene(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
     stage.setScene(scene);
+    stage.setTitle("Speedy Sketchers");
     stage.show();
+    stage.setOnCloseRequest(
+        e -> {
+          Platform.exit();
+          System.exit(0);
+        });
   }
 }

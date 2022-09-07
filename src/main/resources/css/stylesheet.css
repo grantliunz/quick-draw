@@ -1,0 +1,12 @@
+.drawing-canvas {
+  -fx-border-color: black;
+  -fx-border-width: 2px;
+}
+
+.red {
+  -fx-background-color: red;
+}
+
+.top-3-list {
+  -fx-font-size: 20.0;
+}
