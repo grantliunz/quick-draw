@@ -4,13 +4,29 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.SceneManager;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuController {
-
+@FXML
+private HBox hboxx;
+@FXML
+private Button test;
   private TextToSpeech tts = new TextToSpeech();
-
+@FXML
+  public void view(ActionEvent event){
+    List<Button> buttonlist = new ArrayList<>();
+    buttonlist.add(new Button("Monkey"));
+    buttonlist.add(new Button("Monkey"));
+    buttonlist.add(new Button("Monkey"));
+    //hboxx.getChildren().clear();
+  System.out.println("balls");
+    hboxx.getChildren().addAll(buttonlist);
+  }
   @FXML
   private void onSwitchToReady(ActionEvent event) {
     // Changes scene
@@ -33,5 +49,11 @@ public class MenuController {
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();
+  }
+  @FXML
+    private void onAdd(ActionEvent event){
+      Button button = (Button) event.getSource();
+      Scene sceneButtonIsIn = button.getScene();
+      sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.PROFILE));
   }
 }

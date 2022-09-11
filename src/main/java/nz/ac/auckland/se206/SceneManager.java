@@ -17,6 +17,7 @@ public class SceneManager {
 
   public enum AppUi {
     MENU,
-    CANVAS
+    CANVAS,
+    PROFILE
   }
 }

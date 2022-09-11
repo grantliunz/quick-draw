@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+
 /**
  * This is the entry point of the JavaFX application, while you can change this class, it should
  * remain as the class that runs the JavaFX application.
@@ -40,6 +42,7 @@ public class App extends Application {
   public void start(final Stage stage) throws Exception {
     SceneManager.addUi(SceneManager.AppUi.MENU, loadFxml("menu"));
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
+    SceneManager.addUi(SceneManager.AppUi.PROFILE, loadFxml("profile"));
 
     final Scene scene = new Scene(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
     stage.setScene(scene);
