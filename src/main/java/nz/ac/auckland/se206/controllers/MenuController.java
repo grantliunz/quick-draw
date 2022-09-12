@@ -1,32 +1,62 @@
 package nz.ac.auckland.se206.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.SceneManager;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MenuController {
-@FXML
-private HBox hboxx;
-@FXML
-private Button test;
+  @FXML private Button start;
+  @FXML private HBox hboxx; // This box contains all the user profile buttons
+  @FXML private Label header;
+  @FXML private Button addProfile;
+  @FXML private Button switchProfile;
+  @FXML private Button stats;
+
   private TextToSpeech tts = new TextToSpeech();
-@FXML
-  public void view(ActionEvent event){
-    List<Button> buttonlist = new ArrayList<>();
-    buttonlist.add(new Button("Monkey"));
-    buttonlist.add(new Button("Monkey"));
-    buttonlist.add(new Button("Monkey"));
-    //hboxx.getChildren().clear();
-  System.out.println("balls");
-    hboxx.getChildren().addAll(buttonlist);
+
+  /**
+   * This method is setup to display all the user profiles as buttons and assign actions to them
+   * TODO: Add the json user files to this and finish implementation
+   */
+  @FXML
+  public void view() {
+    List<Button> b = new ArrayList<>();
+    for (int x = 0; x < 7; x++) {
+      Button button = new Button("Monkey");
+      button.setOnAction(
+          e -> {
+            hboxx.setVisible(false);
+            header.setText("Welcome Monkey");
+            start.setVisible(true);
+            addProfile.setVisible(false);
+            switchProfile.setVisible(true);
+            stats.setVisible(true);
+          });
+      b.add(button);
+    }
+    hboxx.getChildren().clear();
+    hboxx.getChildren().addAll(b);
   }
+
+  /**
+   * Called when the gui is loaded
+   *
+   * @throws Exception
+   */
+  public void initialize() throws Exception {
+    start.setVisible(false); // set start button invis
+    switchProfile.setVisible(false);
+    stats.setVisible(false);
+    this.view(); // display current profiles
+  }
+
   @FXML
   private void onSwitchToReady(ActionEvent event) {
     // Changes scene
@@ -50,10 +80,40 @@ private Button test;
     Thread thread = new Thread(task);
     thread.start();
   }
+
+  /**
+   * Upon clicking the + button to add a profile this method is called to switch to the profile
+   * creation menu
+   *
+   * @param event
+   */
   @FXML
-    private void onAdd(ActionEvent event){
-      Button button = (Button) event.getSource();
-      Scene sceneButtonIsIn = button.getScene();
-      sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.PROFILE));
+  private void onAdd(ActionEvent event) {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.PROFILE));
+  }
+
+  /**
+   * This method is called when the user wants to switch profiles which takes them back to the
+   * initial profile select menu
+   *
+   * @param event
+   */
+  @FXML
+  private void switchProfile(ActionEvent event) {
+    header.setText("Who are you?");
+    hboxx.setVisible(true);
+    start.setVisible(false);
+    addProfile.setVisible(true);
+    switchProfile.setVisible(false);
+    stats.setVisible(false);
+  }
+
+  @FXML
+  private void displayStats(ActionEvent event) {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.STATS));
   }
 }
