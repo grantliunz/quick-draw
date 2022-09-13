@@ -26,6 +26,7 @@ public class MenuController {
   @FXML private Button switchProfile;
   @FXML private Button stats;
   public static List<User> userList = new ArrayList<>();
+  private User chosenUser;
 
   private TextToSpeech tts = new TextToSpeech();
 
@@ -46,18 +47,18 @@ public class MenuController {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
       for (User user : userList2) { // creates a button based on each user in userList
         Button button = new Button(user.getName());
-        button
-            .setOnAction( // sets what a button should do upon being pressed NOTE: may be best to
-                          // just
-                // move to a helper func
-                e -> {
-                  hboxx.setVisible(false);
-                  header.setText("Welcome" + " " + button.getText());
-                  start.setVisible(true);
-                  addProfile.setVisible(false);
-                  switchProfile.setVisible(true);
-                  stats.setVisible(true);
-                });
+        button.setOnAction( // sets what a button should do upon being pressed NOTE: may be best to
+            // just
+            // move to a helper func
+            e -> {
+              chosenUser = user;
+              hboxx.setVisible(false);
+              header.setText("Welcome" + " " + button.getText());
+              start.setVisible(true);
+              addProfile.setVisible(false);
+              switchProfile.setVisible(true);
+              stats.setVisible(true);
+            });
         b.add(button);
       }
       hboxx.getChildren().clear();
@@ -84,6 +85,9 @@ public class MenuController {
     // Changes scene
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
+    CanvasController controller =
+        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    controller.setUser(chosenUser);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
 
     javafx.concurrent.Task<Void> task =

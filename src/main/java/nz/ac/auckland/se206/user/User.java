@@ -1,6 +1,8 @@
 package nz.ac.auckland.se206.user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
   private String name;
   private int gamesWon = 0;
   private int gamesLost = 0;
