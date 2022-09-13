@@ -1,5 +1,11 @@
 package nz.ac.auckland.se206.controllers;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -26,26 +32,37 @@ public class MenuController {
   /**
    * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
+   *
+   * @throws IOException
+   * @throws DatabindException
+   * @throws StreamReadException
    */
-  protected void view() {
+  protected void view() throws StreamReadException, DatabindException, IOException {
     List<Button> b = new ArrayList<>(); // stores buttons
-    for (int x = 0; x < userList.size(); x++) { // creates a button based on each user in userList
-      Button button = new Button(userList.get(x).getName());
-      button
-          .setOnAction( // sets what a button should do upon being pressed NOTE: may be best to just
-              // move to a helper func
-              e -> {
-                hboxx.setVisible(false);
-                header.setText("Welcome" + " " + button.getText());
-                start.setVisible(true);
-                addProfile.setVisible(false);
-                switchProfile.setVisible(true);
-                stats.setVisible(true);
-              });
-      b.add(button);
+    ObjectMapper mapper = new ObjectMapper();
+    File db = new File("src/main/resources/users.json");
+
+    if (db.length() != 0) {
+      List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
+      for (User user : userList2) { // creates a button based on each user in userList
+        Button button = new Button(user.getName());
+        button
+            .setOnAction( // sets what a button should do upon being pressed NOTE: may be best to
+                          // just
+                // move to a helper func
+                e -> {
+                  hboxx.setVisible(false);
+                  header.setText("Welcome" + " " + button.getText());
+                  start.setVisible(true);
+                  addProfile.setVisible(false);
+                  switchProfile.setVisible(true);
+                  stats.setVisible(true);
+                });
+        b.add(button);
+      }
+      hboxx.getChildren().clear();
+      hboxx.getChildren().addAll(b);
     }
-    hboxx.getChildren().clear();
-    hboxx.getChildren().addAll(b);
   }
 
   /**
