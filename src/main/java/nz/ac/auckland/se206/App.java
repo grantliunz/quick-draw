@@ -4,7 +4,6 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -26,8 +25,8 @@ public class App extends Application {
    * @return The node of the input file.
    * @throws IOException If the file is not found.
    */
-  public static Parent loadFxml(final String fxml) throws IOException {
-    return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
+  public static FXMLLoader loadFxml(final String fxml) throws IOException {
+    return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml"));
   }
 
   /**

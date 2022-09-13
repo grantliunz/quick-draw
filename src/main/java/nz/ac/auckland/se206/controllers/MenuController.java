@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.SceneManager;
+import nz.ac.auckland.se206.User;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 
 public class MenuController {
@@ -18,6 +19,7 @@ public class MenuController {
   @FXML private Button addProfile;
   @FXML private Button switchProfile;
   @FXML private Button stats;
+  public static List<User> userList = new ArrayList<>();
 
   private TextToSpeech tts = new TextToSpeech();
 
@@ -25,20 +27,21 @@ public class MenuController {
    * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
    */
-  @FXML
-  public void view() {
-    List<Button> b = new ArrayList<>();
-    for (int x = 0; x < 7; x++) {
-      Button button = new Button("Monkey");
-      button.setOnAction(
-          e -> {
-            hboxx.setVisible(false);
-            header.setText("Welcome Monkey");
-            start.setVisible(true);
-            addProfile.setVisible(false);
-            switchProfile.setVisible(true);
-            stats.setVisible(true);
-          });
+  protected void view() {
+    List<Button> b = new ArrayList<>(); // stores buttons
+    for (int x = 0; x < userList.size(); x++) { // creates a button based on each user in userList
+      Button button = new Button(userList.get(x).getName());
+      button
+          .setOnAction( // sets what a button should do upon being pressed NOTE: may be best to just
+                        // move to a helper func
+              e -> {
+                hboxx.setVisible(false);
+                header.setText("Welcome" + " " + button.getText());
+                start.setVisible(true);
+                addProfile.setVisible(false);
+                switchProfile.setVisible(true);
+                stats.setVisible(true);
+              });
       b.add(button);
     }
     hboxx.getChildren().clear();
@@ -51,10 +54,12 @@ public class MenuController {
    * @throws Exception
    */
   public void initialize() throws Exception {
+
     start.setVisible(false); // set start button invis
     switchProfile.setVisible(false);
     stats.setVisible(false);
-    this.view(); // display current profiles
+    hboxx.setVisible(true);
+    view(); // display current profiles
   }
 
   @FXML
