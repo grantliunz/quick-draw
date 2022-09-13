@@ -1,4 +1,4 @@
-package nz.ac.auckland.se206;
+package nz.ac.auckland.se206.scenes;
 
 import javafx.scene.Parent;
 

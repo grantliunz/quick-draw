@@ -8,9 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import nz.ac.auckland.se206.SceneManager;
-import nz.ac.auckland.se206.User;
+import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.speech.TextToSpeech;
+import nz.ac.auckland.se206.user.User;
 
 public class MenuController {
   @FXML private Button start;
@@ -33,7 +33,7 @@ public class MenuController {
       Button button = new Button(userList.get(x).getName());
       button
           .setOnAction( // sets what a button should do upon being pressed NOTE: may be best to just
-                        // move to a helper func
+              // move to a helper func
               e -> {
                 hboxx.setVisible(false);
                 header.setText("Welcome" + " " + button.getText());

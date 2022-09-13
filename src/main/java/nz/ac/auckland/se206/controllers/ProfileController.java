@@ -5,12 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import nz.ac.auckland.se206.SceneManager;
-import nz.ac.auckland.se206.User;
+import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.user.User;
 
 public class ProfileController {
-  @FXML Button add;
-  @FXML TextField name;
+  @FXML private TextField name;
 
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
