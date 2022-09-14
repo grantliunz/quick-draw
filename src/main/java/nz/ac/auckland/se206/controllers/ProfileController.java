@@ -18,9 +18,10 @@ public class ProfileController {
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    MenuController.userList =
-        mapper.readValue(
-            new File("src/main/resources/users.json"), new TypeReference<List<User>>() {});
+    File file = new File("src/main/resources/users.json");
+    if (file.length() != 0) {
+      MenuController.userList = mapper.readValue(file, new TypeReference<List<User>>() {});
+    }
     User newUser = new User(name.getText());
     MenuController.userList.add(newUser);
     mapper.writeValue(new File("src/main/resources/users.json"), MenuController.userList);
