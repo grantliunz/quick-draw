@@ -99,6 +99,7 @@ public class CanvasController {
       }
       count++;
     }
+    userList.get(count).addWord(randomWord);
     if (result == "w") {
       // user.setGamesWon(this.user.getGamesWon() + 1);
       int gamesWon = temp.getGamesWon() + 1;
