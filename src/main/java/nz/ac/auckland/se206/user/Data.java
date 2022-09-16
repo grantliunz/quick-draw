@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.user;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class Data implements Serializable {
@@ -19,113 +18,110 @@ public class Data implements Serializable {
   Data() {}
 
   Data(String word, String result, long time, Difficulty difficulty) {
-  super();
-  this.word = word;
-  this.result = result;
-  this.time = time;
-  this.difficulty = difficulty;
+    super();
+    this.word = word;
+    this.result = result;
+    this.time = time;
+    this.difficulty = difficulty;
   }
 
-//   /**
-//    * @return String return the result
-//    */
-//   public ArrayList<String> getResult() {
-//     return resultA;
-//   }
+  //   /**
+  //    * @return String return the result
+  //    */
+  //   public ArrayList<String> getResult() {
+  //     return resultA;
+  //   }
 
-//   /**
-//    * @param result the result to set
-//    */
-//   public void addResult(String result) {
-//     resultA.add(result);
-//   }
+  //   /**
+  //    * @param result the result to set
+  //    */
+  //   public void addResult(String result) {
+  //     resultA.add(result);
+  //   }
 
-//   /**
-//    * @return Difficulty return the difficulty
-//    */
-//   public ArrayList<Difficulty> getDifficulty() {
-//     return difficultyA;
-//   }
+  //   /**
+  //    * @return Difficulty return the difficulty
+  //    */
+  //   public ArrayList<Difficulty> getDifficulty() {
+  //     return difficultyA;
+  //   }
 
-//   /**
-//    * @param difficulty the difficulty to set
-//    */
-//   public void addDifficulty(Difficulty difficulty) {
-//     difficultyA.add(difficulty);
-//   }
+  //   /**
+  //    * @param difficulty the difficulty to set
+  //    */
+  //   public void addDifficulty(Difficulty difficulty) {
+  //     difficultyA.add(difficulty);
+  //   }
 
-//   /**
-//    * @return long return the time
-//    */
-//   public ArrayList<Integer> getTime() {
-//     return timeA;
-//   }
+  //   /**
+  //    * @return long return the time
+  //    */
+  //   public ArrayList<Integer> getTime() {
+  //     return timeA;
+  //   }
 
-//   /**
-//    * @param time the time to set
-//    */
-//   public void addTime(int time) {
-//     timeA.add(time);
-//   }
+  //   /**
+  //    * @param time the time to set
+  //    */
+  //   public void addTime(int time) {
+  //     timeA.add(time);
+  //   }
 
-//   /**
-//    * @return String return the word
-//    */
-//   public ArrayList<String> getWord() {
-//     return wordA;
-//   }
+  //   /**
+  //    * @return String return the word
+  //    */
+  //   public ArrayList<String> getWord() {
+  //     return wordA;
+  //   }
 
-//   /**
-//    * @param word the word to set
-//    */
-//   public void addWord(String word) {
-//     wordA.add(word);
-//   }
-// 
-    /**
-     * @param result the result to set
-     */
-    public void setResult(String result) {
-        this.result = result;
-    }
+  //   /**
+  //    * @param word the word to set
+  //    */
+  //   public void addWord(String word) {
+  //     wordA.add(word);
+  //   }
+  //
+  /**
+   * @param result the result to set
+   */
+  public void setResult(String result) {
+    this.result = result;
+  }
 
-    public String getResult(){
-      return result;
-    }
+  public String getResult() {
+    return result;
+  }
 
-    /**
-     * @param difficulty the difficulty to set
-     */
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
+  /**
+   * @param difficulty the difficulty to set
+   */
+  public void setDifficulty(Difficulty difficulty) {
+    this.difficulty = difficulty;
+  }
 
-    public Difficulty getDifficulty(){
-      return difficulty;
-    }
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
 
-    /**
-     * @param time the time to set
-     */
-    public void setTime(long time) {
-        this.time = time;
-    }
+  /**
+   * @param time the time to set
+   */
+  public void setTime(long time) {
+    this.time = time;
+  }
 
-    public long getTime(){
-      return time;
-    }
+  public long getTime() {
+    return time;
+  }
 
-    /**
-     * @param word the word to set
-     */
-    public void setWord(String word) {
-        this.word = word;
-    }
+  /**
+   * @param word the word to set
+   */
+  public void setWord(String word) {
+    this.word = word;
+  }
 
-    public String getWord(){
-      return word;
-    }
-
+  public String getWord() {
+    return word;
+  }
 }
-
-

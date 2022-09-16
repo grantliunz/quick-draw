@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.user;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
