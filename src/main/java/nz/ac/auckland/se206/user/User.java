@@ -9,7 +9,6 @@ public class User implements Serializable {
   private int gamesWon = 0;
   private int gamesLost = 0;
   private ArrayList<String> words = new ArrayList<>();
-  // private Data data = new Data();
   private ArrayList<Data> stats = new ArrayList<>();
 
   public User(String name) {
