@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206.user;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
@@ -9,7 +10,8 @@ public class User implements Serializable {
   private int gamesWon = 0;
   private int gamesLost = 0;
   private ArrayList<String> words = new ArrayList<>();
-  private Data data = new Data();
+  // private Data data = new Data();
+  private ArrayList<Data> stats = new ArrayList<>();
 
   public User(String name) {
     this.name = name;
@@ -49,14 +51,12 @@ public class User implements Serializable {
     return words;
   }
 
-  public void addData(String word, String result, int time, Difficulty difficulty) {
-    data.addResult(result);
-    data.addDifficulty(difficulty);
-    data.addTime(time);
-    data.addWord(word);
+  public void addData(String word, String result, long time, Difficulty difficulty) {
+    Data data = new Data(word, result, time, difficulty);
+    stats.add(data);
   }
 
-  public Data getData() {
-    return data;
+  public ArrayList<Data> getData() {
+    return stats;
   }
 }
