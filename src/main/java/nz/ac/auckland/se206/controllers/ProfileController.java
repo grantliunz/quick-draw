@@ -1,5 +1,9 @@
 package nz.ac.auckland.se206.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -13,7 +17,14 @@ public class ProfileController {
 
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
-    MenuController.userList.add(new User(name.getText()));
+    ObjectMapper mapper = new ObjectMapper();
+    File file = new File("src/main/resources/users.json");
+    if (file.length() != 0) {
+      MenuController.userList = mapper.readValue(file, new TypeReference<List<User>>() {});
+    }
+    User newUser = new User(name.getText());
+    MenuController.userList.add(newUser);
+    mapper.writeValue(new File("src/main/resources/users.json"), MenuController.userList);
 
     MenuController controller =
         (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);

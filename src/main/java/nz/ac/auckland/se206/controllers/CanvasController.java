@@ -6,10 +6,15 @@ import static nz.ac.auckland.se206.ml.DoodlePrediction.printPredictions;
 import ai.djl.ModelException;
 import ai.djl.modality.Classifications;
 import ai.djl.translate.TranslateException;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Platform;
@@ -31,6 +36,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
@@ -72,6 +78,39 @@ public class CanvasController {
   // mouse coordinates
   private double currentX;
   private double currentY;
+  private static User user;
+
+  public static void setUser(User passedUser) {
+    user = passedUser;
+  }
+
+  public void updateResult(String result)
+      throws StreamReadException, DatabindException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    List<User> userList =
+        mapper.readValue(
+            new File("src/main/resources/users.json"), new TypeReference<List<User>>() {});
+    User temp = null;
+    int count = 0;
+    for (User u : userList) {
+      if (user.getName().equals(u.getName())) {
+        temp = u;
+        break;
+      }
+      count++;
+    }
+    userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
+    if (result == "w") {
+      // user.setGamesWon(this.user.getGamesWon() + 1);
+      int gamesWon = temp.getGamesWon() + 1;
+      userList.get(count).setGamesWon(gamesWon);
+      mapper.writeValue(new File("src/main/resources/users.json"), userList);
+    } else {
+      int gamesLost = temp.getGamesLost() + 1;
+      userList.get(count).setGamesLost(gamesLost);
+      mapper.writeValue(new File("src/main/resources/users.json"), userList);
+    }
+  }
 
   /**
    * JavaFX calls this method once the GUI elements are loaded. In our case we create a listener for
@@ -312,6 +351,12 @@ public class CanvasController {
                 // Check if prediction is correct
                 if (randomWord.equals(prediction)) {
                   resultLabel.setText("You win!");
+                  try {
+                    updateResult("w");
+                  } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                  }
                   finishGame();
                 }
               } else {
@@ -335,14 +380,18 @@ public class CanvasController {
 
   private void setTimer() {
     /*
-     Adapted from:
-
-     @author mr mcwolf <https://stackoverflow.com/users/4815321/mr-mcwolf>
-    * @copyright 2017 mr mcwolf
-    * @license CC BY-SA 3.0
-    * @see {@link https://stackoverflow.com/a/47655973/1248177|JavaFX, countdown timer in Label
-    *     setText}
-    */
+     * Adapted from:
+     *
+     * @author mr mcwolf <https://stackoverflow.com/users/4815321/mr-mcwolf>
+     *
+     * @copyright 2017 mr mcwolf
+     *
+     * @license CC BY-SA 3.0
+     *
+     * @see {@link https://stackoverflow.com/a/47655973/1248177|JavaFX, countdown
+     * timer in Label
+     * setText}
+     */
     timer = new Timer();
     timer.scheduleAtFixedRate(
         new TimerTask() {
@@ -365,6 +414,12 @@ public class CanvasController {
               Platform.runLater(
                   () -> {
                     resultLabel.setText("Times Up, you lose!");
+                    try {
+                      updateResult("l");
+                    } catch (IOException e) {
+                      // TODO Auto-generated catch block
+                      e.printStackTrace();
+                    }
                     finishGame();
                   });
               finishGame();
