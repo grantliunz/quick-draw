@@ -8,7 +8,6 @@ public class User implements Serializable {
   private String name;
   private int gamesWon = 0;
   private int gamesLost = 0;
-  private ArrayList<String> words = new ArrayList<>();
   private ArrayList<Data> stats = new ArrayList<>();
 
   public User(String name) {
@@ -39,14 +38,6 @@ public class User implements Serializable {
 
   public void setGamesLost(int gamesLost) {
     this.gamesLost = gamesLost;
-  }
-
-  public void addWord(String word) {
-    words.add(word);
-  }
-
-  public ArrayList<String> getWords() {
-    return words;
   }
 
   public void addData(String word, String result, long time, Difficulty difficulty) {
