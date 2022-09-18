@@ -7,6 +7,8 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import nz.ac.auckland.se206.scenes.SceneManager;
@@ -19,6 +21,12 @@ public class ProfileController {
 
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
+    if (name.getText().isBlank()) {
+      Alert a = new Alert(AlertType.CONFIRMATION);
+      a.setHeaderText("Please enter a name");
+      a.show();
+      return;
+    }
     ObjectMapper mapper = new ObjectMapper();
     File file = new File("src/main/resources/users.json");
     if (file.length() != 0) {

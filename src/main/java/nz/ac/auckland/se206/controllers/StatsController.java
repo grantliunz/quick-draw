@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -42,8 +41,6 @@ public class StatsController {
   private void populateWinLists(ArrayList<Data> gamesWon) {
     StringBuilder sbWords = new StringBuilder("\n");
     StringBuilder sbTimes = new StringBuilder(gamesWon.size() + "\n");
-    System.out.println(
-        (Collections.min(gamesWon, (a, b) -> (int) (a.getTime() - b.getTime()))).getWord());
     for (Data game : gamesWon) {
       sbWords.append(game.getWord() + " \n");
       sbTimes.append("| " + game.getTime() + "s\n");
