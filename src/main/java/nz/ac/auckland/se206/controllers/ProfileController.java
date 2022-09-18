@@ -40,6 +40,7 @@ public class ProfileController {
         (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.view();
 
+    name.clear();
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
