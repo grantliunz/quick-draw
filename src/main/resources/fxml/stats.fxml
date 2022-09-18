@@ -7,7 +7,7 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.StatsController">
    <children>
-      <Label layoutX="424.0" layoutY="104.0" text="Stats">
+      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="74.0" prefHeight="94.0" prefWidth="520.0" text="Stats" textAlignment="CENTER">
          <font>
             <Font size="65.0" />
          </font>

@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 import nz.ac.auckland.se206.user.User;
 
@@ -53,6 +54,9 @@ public class MenuController {
             // move to a helper func
             e -> {
               chosenUser = user;
+              StatsController statsController =
+                  (StatsController) SceneManager.getUiController(AppUi.STATS);
+              statsController.updateStats(user);
               profilesHbox.setVisible(false);
               headerLabel.setText("Welcome" + " " + button.getText());
               startButton.setVisible(true);
