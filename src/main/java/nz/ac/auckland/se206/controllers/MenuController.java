@@ -45,7 +45,7 @@ public class MenuController {
   protected void view() throws StreamReadException, DatabindException, IOException {
     List<Button> b = new ArrayList<>(); // stores buttons
     ObjectMapper mapper = new ObjectMapper();
-    File db = new File("src/main/resources/users.json");
+    File db = new File(".profiles/users.json");
 
     if (db.length() != 0) {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});

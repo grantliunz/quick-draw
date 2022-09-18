@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -43,9 +44,10 @@ public class StatsController {
     StringBuilder sbTimes = new StringBuilder(gamesWon.size() + "\n");
     for (Data game : gamesWon) {
       sbWords.append(game.getWord() + " \n");
-      sbTimes.append("| " + game.getTime() + "s\n");
+      sbTimes.append("  | " + game.getTime() + "s\n");
     }
     winListLabel.setText(sbWords.toString());
+    winListLabel.setAlignment(Pos.TOP_RIGHT);
     winTimeListLabel.setText(sbTimes.toString());
   }
 

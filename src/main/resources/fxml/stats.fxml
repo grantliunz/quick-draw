@@ -26,7 +26,7 @@
                   </Label>
                   <HBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="374.0">
                      <children>
-                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="353.0" prefWidth="152.0" text="Name">
+                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="353.0" prefWidth="152.0" text="Name" textAlignment="RIGHT">
                            <font>
                               <Font size="27.0" />
                            </font>
@@ -47,7 +47,7 @@
                         <Font size="37.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" prefHeight="353.0" prefWidth="344.0">
+                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="353.0" prefWidth="344.0" text="Name&#10;" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>

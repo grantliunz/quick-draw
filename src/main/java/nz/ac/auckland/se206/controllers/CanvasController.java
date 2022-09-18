@@ -92,8 +92,7 @@ public class CanvasController {
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     List<User> userList =
-        mapper.readValue(
-            new File("src/main/resources/users.json"), new TypeReference<List<User>>() {});
+        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     User temp = null;
     int count = 0;
     for (User u : userList) {
@@ -109,11 +108,11 @@ public class CanvasController {
       // user.setGamesWon(this.user.getGamesWon() + 1);
       int gamesWon = temp.getGamesWon() + 1;
       userList.get(count).setGamesWon(gamesWon);
-      mapper.writeValue(new File("src/main/resources/users.json"), userList);
+      mapper.writeValue(new File(".profiles/users.json"), userList);
     } else {
       int gamesLost = temp.getGamesLost() + 1;
       userList.get(count).setGamesLost(gamesLost);
-      mapper.writeValue(new File("src/main/resources/users.json"), userList);
+      mapper.writeValue(new File(".profiles/users.json"), userList);
     }
   }
 
