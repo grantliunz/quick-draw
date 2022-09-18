@@ -4,14 +4,20 @@ import java.io.Serializable;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class Data implements Serializable {
-  private String result;
+
+  public enum Result {
+    WIN,
+    LOSS
+  }
+
+  private Result result;
   private Difficulty difficulty;
   private long time;
   private String word;
 
   Data() {}
 
-  Data(String word, String result, long time, Difficulty difficulty) {
+  Data(String word, Result result, long time, Difficulty difficulty) {
     super();
     this.word = word;
     this.result = result;
@@ -22,11 +28,11 @@ public class Data implements Serializable {
   /**
    * @param result the result to set
    */
-  public void setResult(String result) {
+  public void setResult(Result result) {
     this.result = result;
   }
 
-  public String getResult() {
+  public Result getResult() {
     return result;
   }
 

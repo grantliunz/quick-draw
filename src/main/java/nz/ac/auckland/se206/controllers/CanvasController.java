@@ -36,6 +36,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
@@ -84,7 +85,7 @@ public class CanvasController {
     user = passedUser;
   }
 
-  public void updateResult(String result)
+  public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     List<User> userList =
@@ -100,7 +101,7 @@ public class CanvasController {
       count++;
     }
     userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
-    if (result == "w") {
+    if (result == Result.WIN) {
       // user.setGamesWon(this.user.getGamesWon() + 1);
       int gamesWon = temp.getGamesWon() + 1;
       userList.get(count).setGamesWon(gamesWon);
@@ -352,7 +353,7 @@ public class CanvasController {
                 if (randomWord.equals(prediction)) {
                   resultLabel.setText("You win!");
                   try {
-                    updateResult("w");
+                    updateResult(Result.WIN);
                   } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -415,7 +416,7 @@ public class CanvasController {
                   () -> {
                     resultLabel.setText("Times Up, you lose!");
                     try {
-                      updateResult("l");
+                      updateResult(Result.WIN);
                     } catch (IOException e) {
                       // TODO Auto-generated catch block
                       e.printStackTrace();
