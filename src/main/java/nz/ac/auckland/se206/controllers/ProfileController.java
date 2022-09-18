@@ -22,7 +22,7 @@ public class ProfileController {
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
     if (name.getText().isBlank()) {
-      Alert a = new Alert(AlertType.CONFIRMATION);
+      Alert a = new Alert(AlertType.ERROR);
       a.setHeaderText("Please enter a name");
       a.show();
       return;
