@@ -36,6 +36,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
@@ -68,6 +69,8 @@ public class CanvasController {
   @FXML private Button eraserButton;
   @FXML private Button clearButton;
   @FXML private Button newGameButton;
+
+  @FXML private Button menuButton;
   @FXML private Button saveImageButton;
   private GraphicsContext graphic;
   private DoodlePrediction model;
@@ -100,6 +103,7 @@ public class CanvasController {
       }
       count++;
     }
+    user.addData(randomWord, result, 60 - remainingTime, Difficulty.E);
     userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
     if (result == Result.WIN) {
       // user.setGamesWon(this.user.getGamesWon() + 1);
@@ -135,6 +139,7 @@ public class CanvasController {
     // Hide end game buttons
 
     newGameButton.setVisible(false);
+    menuButton.setVisible(false);
     saveImageButton.setVisible(false);
   }
 
@@ -223,6 +228,7 @@ public class CanvasController {
     eraserButton.setDisable(true);
     clearButton.setDisable(true);
     newGameButton.setVisible(true);
+    menuButton.setVisible(true);
     saveImageButton.setVisible(true);
   }
 
@@ -321,6 +327,15 @@ public class CanvasController {
     if (file != null) {
       ImageIO.write(getCurrentSnapshot(), "bmp", file);
     }
+  }
+
+  @FXML
+  private void onDisplayMenu(ActionEvent event) {
+    StatsController statsController = (StatsController) SceneManager.getUiController(AppUi.STATS);
+    statsController.updateStats(user);
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
   }
 
   private void populatePredictionList() throws TranslateException {

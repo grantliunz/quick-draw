@@ -1,5 +1,7 @@
 package nz.ac.auckland.se206.controllers;
 
+import static nz.ac.auckland.se206.App.loadFxml;
+
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -86,10 +88,13 @@ public class MenuController {
   }
 
   @FXML
-  private void onSwitchToReady(ActionEvent event) {
+  private void onSwitchToReady(ActionEvent event) throws IOException {
     // Changes scene
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
+
+    // Make a new canvas
+    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(chosenUser);

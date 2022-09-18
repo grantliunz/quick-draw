@@ -95,11 +95,12 @@
             </Label>
             <ListView fx:id="predictionList0" layoutX="14.0" layoutY="211.0" prefHeight="125.0" prefWidth="339.0" styleClass="top-3-list" />
             <ListView fx:id="predictionList1" layoutX="14.0" layoutY="336.0" prefHeight="170.0" prefWidth="229.0" />
-            <Button fx:id="newGameButton" layoutX="31.0" layoutY="608.0" mnemonicParsing="false" onAction="#onNewGame" text="Start New Game">
+            <Button fx:id="newGameButton" layoutX="144.0" layoutY="642.0" mnemonicParsing="false" onAction="#onNewGame" prefHeight="50.0" prefWidth="199.0" text="Start New Game">
                <font>
                   <Font size="23.0" />
                </font>
             </Button>
+            <Button fx:id="menuButton" layoutX="20.0" layoutY="655.0" mnemonicParsing="false" onAction="#onDisplayMenu" text="Back to Menu" />
          </children>
       </Pane>
    </children>
