@@ -35,18 +35,27 @@ public class StatsController {
     ArrayList<Data> gamesLost = getGamesWonOrLoss(user.getData(), Result.LOSS);
 
     populateWinLists(gamesWon);
+    populateLossList(gamesLost);
   }
 
   private void populateWinLists(ArrayList<Data> gamesWon) {
-    StringBuilder sbWord = new StringBuilder();
-    StringBuilder sbTime = new StringBuilder();
+    StringBuilder sbWords = new StringBuilder();
+    StringBuilder sbTimes = new StringBuilder();
 
     for (Data game : gamesWon) {
-      sbWord.append(game.getWord() + " \n");
-      sbTime.append("| " + game.getTime() + "\n");
+      sbWords.append(game.getWord() + " \n");
+      sbTimes.append("| " + game.getTime() + "\n");
     }
-    winListLabel.setText(sbWord.toString());
-    winTimeListLabel.setText(sbTime.toString());
+    winListLabel.setText(sbWords.toString());
+    winTimeListLabel.setText(sbTimes.toString());
+  }
+
+  private void populateLossList(ArrayList<Data> gamesLost) {
+    StringBuilder sbWords = new StringBuilder();
+    for (Data game : gamesLost) {
+      sbWords.append(game.getWord() + " \n");
+    }
+    lossListLabel.setText(sbWords.toString());
   }
 
   private ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {

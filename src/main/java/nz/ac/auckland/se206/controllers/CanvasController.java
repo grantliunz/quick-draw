@@ -431,7 +431,7 @@ public class CanvasController {
                   () -> {
                     resultLabel.setText("Times Up, you lose!");
                     try {
-                      updateResult(Result.WIN);
+                      updateResult(Result.LOSS);
                     } catch (IOException e) {
                       // TODO Auto-generated catch block
                       e.printStackTrace();
