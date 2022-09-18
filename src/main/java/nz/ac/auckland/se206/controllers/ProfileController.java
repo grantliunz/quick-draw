@@ -10,9 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.User;
 
 public class ProfileController {
+
   @FXML private TextField name;
 
   @FXML
@@ -33,5 +35,12 @@ public class ProfileController {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
+  }
+
+  @FXML
+  private void onCancel(ActionEvent event) {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
   }
 }
