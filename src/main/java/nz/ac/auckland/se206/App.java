@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,6 +43,11 @@ public class App extends Application {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     SceneManager.addUi(SceneManager.AppUi.PROFILE, loadFxml("profile"));
     SceneManager.addUi(SceneManager.AppUi.STATS, loadFxml("stats"));
+
+    File dir = new File(".profiles");
+    if (!dir.exists()) {
+      dir.mkdirs();
+    }
 
     final Scene scene = new Scene(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
     stage.setScene(scene);

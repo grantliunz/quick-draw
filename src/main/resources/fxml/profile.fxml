@@ -19,5 +19,10 @@
          </font>
       </TextField>
       <Button fx:id="add" layoutX="471.0" layoutY="426.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="56.0" text="Add" />
+      <Button layoutX="27.0" layoutY="650.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

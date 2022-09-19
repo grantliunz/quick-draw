@@ -1,5 +1,7 @@
 package nz.ac.auckland.se206.controllers;
 
+import static nz.ac.auckland.se206.App.loadFxml;
+
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -15,16 +17,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 import nz.ac.auckland.se206.user.User;
 
 public class MenuController {
-  @FXML private Button start;
-  @FXML private HBox hboxx; // This box contains all the user profile buttons
-  @FXML private Label header;
-  @FXML private Button addProfile;
-  @FXML private Button switchProfile;
-  @FXML private Button stats;
+
+  @FXML private Button startButton;
+  @FXML private HBox profilesHbox; // This box contains all the user profile buttons
+  @FXML private Label headerLabel;
+  @FXML private Button addProfileButton;
+  @FXML private Button switchProfileButton;
+  @FXML private Button displayStatsButton;
   public static List<User> userList = new ArrayList<>();
   private User chosenUser;
 
@@ -41,7 +45,7 @@ public class MenuController {
   protected void view() throws StreamReadException, DatabindException, IOException {
     List<Button> b = new ArrayList<>(); // stores buttons
     ObjectMapper mapper = new ObjectMapper();
-    File db = new File("src/main/resources/users.json");
+    File db = new File(".profiles/users.json");
 
     if (db.length() != 0) {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
@@ -52,17 +56,20 @@ public class MenuController {
             // move to a helper func
             e -> {
               chosenUser = user;
-              hboxx.setVisible(false);
-              header.setText("Welcome" + " " + button.getText());
-              start.setVisible(true);
-              addProfile.setVisible(false);
-              switchProfile.setVisible(true);
-              stats.setVisible(true);
+              StatsController statsController =
+                  (StatsController) SceneManager.getUiController(AppUi.STATS);
+              statsController.updateStats(user);
+              profilesHbox.setVisible(false);
+              headerLabel.setText("Welcome" + " " + button.getText());
+              startButton.setVisible(true);
+              addProfileButton.setVisible(false);
+              switchProfileButton.setVisible(true);
+              displayStatsButton.setVisible(true);
             });
         b.add(button);
       }
-      hboxx.getChildren().clear();
-      hboxx.getChildren().addAll(b);
+      profilesHbox.getChildren().clear();
+      profilesHbox.getChildren().addAll(b);
     }
   }
 
@@ -73,18 +80,21 @@ public class MenuController {
    */
   public void initialize() throws Exception {
 
-    start.setVisible(false); // set start button invis
-    switchProfile.setVisible(false);
-    stats.setVisible(false);
-    hboxx.setVisible(true);
+    startButton.setVisible(false); // set start button invis
+    switchProfileButton.setVisible(false);
+    displayStatsButton.setVisible(false);
+    profilesHbox.setVisible(true);
     view(); // display current profiles
   }
 
   @FXML
-  private void onSwitchToReady(ActionEvent event) {
+  private void onSwitchToReady(ActionEvent event) throws IOException {
     // Changes scene
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
+
+    // Make a new canvas
+    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(chosenUser);
@@ -127,17 +137,17 @@ public class MenuController {
    * @param event
    */
   @FXML
-  private void switchProfile(ActionEvent event) {
-    header.setText("Who are you?");
-    hboxx.setVisible(true);
-    start.setVisible(false);
-    addProfile.setVisible(true);
-    switchProfile.setVisible(false);
-    stats.setVisible(false);
+  private void onSwitchProfile(ActionEvent event) {
+    headerLabel.setText("Who are you?");
+    profilesHbox.setVisible(true);
+    startButton.setVisible(false);
+    addProfileButton.setVisible(true);
+    switchProfileButton.setVisible(false);
+    displayStatsButton.setVisible(false);
   }
 
   @FXML
-  private void displayStats(ActionEvent event) {
+  private void onDisplayStats(ActionEvent event) {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.STATS));
