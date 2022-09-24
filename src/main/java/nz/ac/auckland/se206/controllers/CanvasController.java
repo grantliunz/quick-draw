@@ -147,6 +147,8 @@ public class CanvasController {
     newGameButton.setVisible(false);
     menuButton.setVisible(false);
     saveImageButton.setVisible(false);
+    predictionList0.setVisible(false);
+    predictionList1.setVisible(false);
   }
 
   @FXML
@@ -174,6 +176,8 @@ public class CanvasController {
 
     canvas.setOnMousePressed(
         e -> {
+          predictionList1.setVisible(true);
+          predictionList0.setVisible(true);
           currentX = e.getX();
           currentY = e.getY();
 
@@ -376,12 +380,11 @@ public class CanvasController {
                             + " - "
                             + String.format("%.1f%%", 100 * classification.getProbability()));
                 // Check if prediction is correct
-                if (randomWord.equals(prediction)) {
+                if (randomWord.equals(prediction) && predictionList0.isVisible()) {
                   resultLabel.setText("You win!");
                   try {
                     updateResult(Result.WIN);
                   } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                   }
                   finishGame();
