@@ -21,21 +21,27 @@ public class ProfileController {
 
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
+
+    // Gives the user an error is attempting to create profile with no name
     if (name.getText().isBlank()) {
       Alert a = new Alert(AlertType.ERROR);
       a.setHeaderText("Please enter a name");
       a.show();
       return;
     }
+
+    // Gets user data from json file
     ObjectMapper mapper = new ObjectMapper();
     File file = new File(".profiles/users.json");
     if (file.length() != 0) {
       MenuController.userList = mapper.readValue(file, new TypeReference<List<User>>() {});
     }
+    // Creates new users and saves
     User newUser = new User(name.getText());
     MenuController.userList.add(newUser);
     mapper.writeValue(new File(".profiles/users.json"), MenuController.userList);
 
+    // Changes scene back to menu
     MenuController controller =
         (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.view();

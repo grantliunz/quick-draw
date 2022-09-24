@@ -58,6 +58,12 @@ public class CanvasController {
 
   public static final int MAX_TIME = 60;
 
+  private static User user;
+
+  public static void setUser(User passedUser) {
+    user = passedUser;
+  }
+
   @FXML private Canvas canvas;
   @FXML private Label wordLabel;
   @FXML private Label timerLabel;
@@ -82,19 +88,17 @@ public class CanvasController {
   // mouse coordinates
   private double currentX;
   private double currentY;
-  private static User user;
-
-  public static void setUser(User passedUser) {
-    user = passedUser;
-  }
 
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
+
+    // List of users read from json file
     List<User> userList =
         mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     User temp = null;
     int count = 0;
+    // Accesses the current user
     for (User u : userList) {
       if (user.getName().equals(u.getName())) {
         temp = u;
@@ -102,10 +106,13 @@ public class CanvasController {
       }
       count++;
     }
+
+    // Updates the played words of user
     user.addData(randomWord, result, 60 - remainingTime, Difficulty.E);
     userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
+
+    // Updates the score of the user
     if (result == Result.WIN) {
-      // user.setGamesWon(this.user.getGamesWon() + 1);
       int gamesWon = temp.getGamesWon() + 1;
       userList.get(count).setGamesWon(gamesWon);
       mapper.writeValue(new File(".profiles/users.json"), userList);
@@ -144,18 +151,19 @@ public class CanvasController {
 
   @FXML
   private void onStartDraw() {
+
+    // Enables drawing controls
     brushButton.setDisable(false);
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
     onSwitchToBrush();
 
     setTimer();
-
     startDrawButton.setVisible(false);
   }
 
   @FXML
-  void onSwitchToBrush() {
+  private void onSwitchToBrush() {
     // Brush size
     final double size = 5.0;
 
@@ -191,7 +199,7 @@ public class CanvasController {
   }
 
   @FXML
-  void onSwitchToEraser() {
+  private void onSwitchToEraser() {
     // brush size
     final double size = 10.0;
 
@@ -314,12 +322,15 @@ public class CanvasController {
 
   @FXML
   private void onSaveImage() throws IOException {
+
+    // Finds directory and creates it if it doesnt exist
     FileChooser fileChooser = new FileChooser();
     final File tmpFolder = new File("tmp");
-
     if (!tmpFolder.exists()) {
       tmpFolder.mkdir();
     }
+
+    // Opens for user to save image
     fileChooser.setInitialDirectory(tmpFolder);
     fileChooser.getExtensionFilters().addAll(new ExtensionFilter("BMP Files (*.bmp)", "*.bmp"));
     File file = fileChooser.showSaveDialog(null);
@@ -330,6 +341,7 @@ public class CanvasController {
 
   @FXML
   private void onDisplayMenu(ActionEvent event) {
+    // Updates UI back to the main menu
     StatsController statsController = (StatsController) SceneManager.getUiController(AppUi.STATS);
     statsController.updateStats(user);
     Button button = (Button) event.getSource();

@@ -39,16 +39,19 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws Exception {
+    // Loads all initial scenes
     SceneManager.addUi(SceneManager.AppUi.MENU, loadFxml("menu"));
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     SceneManager.addUi(SceneManager.AppUi.PROFILE, loadFxml("profile"));
     SceneManager.addUi(SceneManager.AppUi.STATS, loadFxml("stats"));
 
+    // Creates a profiles directory
     File dir = new File(".profiles");
     if (!dir.exists()) {
       dir.mkdirs();
     }
 
+    // Shows scene
     final Scene scene = new Scene(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
     stage.setScene(scene);
     stage.setTitle("Speedy Sketchers");

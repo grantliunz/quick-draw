@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class CategorySelector {
 
-  private Map<Difficulty, List<String>> difficulty2categories;
+  private final Map<Difficulty, List<String>> difficulty2categories;
 
   public CategorySelector() throws Exception {
     difficulty2categories = new HashMap<>();
