@@ -23,13 +23,14 @@ import nz.ac.auckland.se206.user.User;
 
 public class MenuController {
 
+  public static List<User> userList = new ArrayList<>();
+
   @FXML private Button startButton;
   @FXML private HBox profilesHbox; // This box contains all the user profile buttons
   @FXML private Label headerLabel;
   @FXML private Button addProfileButton;
   @FXML private Button switchProfileButton;
   @FXML private Button displayStatsButton;
-  public static List<User> userList = new ArrayList<>();
   private User chosenUser;
 
   private TextToSpeech tts = new TextToSpeech();
@@ -51,9 +52,9 @@ public class MenuController {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
       for (User user : userList2) { // creates a button based on each user in userList
         Button button = new Button(user.getName());
-        button.setOnAction( // sets what a button should do upon being pressed NOTE: may be best to
-            // just
-            // move to a helper func
+        // sets what a button should do upon being pressed NOTE: may be best to just move to a
+        // helper function
+        button.setOnAction(
             e -> {
               chosenUser = user;
               StatsController statsController =
@@ -73,11 +74,7 @@ public class MenuController {
     }
   }
 
-  /**
-   * Called when the gui is loaded
-   *
-   * @throws Exception
-   */
+  /** Called when the gui is loaded */
   public void initialize() throws Exception {
 
     startButton.setVisible(false); // set start button invis
@@ -139,6 +136,7 @@ public class MenuController {
   @FXML
   private void onSwitchProfile(ActionEvent event) {
     headerLabel.setText("Who are you?");
+    // Update buttons
     profilesHbox.setVisible(true);
     startButton.setVisible(false);
     addProfileButton.setVisible(true);

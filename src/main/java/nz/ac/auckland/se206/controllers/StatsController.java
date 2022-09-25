@@ -14,8 +14,6 @@ import nz.ac.auckland.se206.user.User;
 
 public class StatsController {
 
-  private User user;
-
   @FXML private Label headerLabel;
   @FXML private Label winListLabel;
   @FXML private Label winTimeListLabel;
@@ -29,23 +27,27 @@ public class StatsController {
   }
 
   public void updateStats(User user) {
-    this.user = user;
+    // Changes the header to show user name
     headerLabel.setText(user.getName() + "'s Stats");
 
+    // Updates stored stats
     ArrayList<Data> gamesWon = getGamesWonOrLoss(user.getData(), Result.WIN);
     ArrayList<Data> gamesLost = getGamesWonOrLoss(user.getData(), Result.LOSS);
 
+    // Refreshes the UI
     populateWinLists(gamesWon);
     populateLossList(gamesLost);
   }
 
   private void populateWinLists(ArrayList<Data> gamesWon) {
+    // Creates a string of words won
     StringBuilder sbWords = new StringBuilder("\n");
     StringBuilder sbTimes = new StringBuilder(gamesWon.size() + "\n");
     for (Data game : gamesWon) {
-      sbWords.append(game.getWord() + " \n");
-      sbTimes.append("  | " + game.getTime() + "s\n");
+      sbWords.append(game.getWord()).append(" \n");
+      sbTimes.append("  | ").append(game.getTime()).append("s\n");
     }
+    // Updates the UI
     winListLabel.setText(sbWords.toString());
     winListLabel.setAlignment(Pos.TOP_RIGHT);
     winTimeListLabel.setText(sbTimes.toString());
@@ -53,9 +55,9 @@ public class StatsController {
 
   private void populateLossList(ArrayList<Data> gamesLost) {
     StringBuilder sbWords = new StringBuilder();
-    sbWords.append(gamesLost.size() + "\n");
+    sbWords.append(gamesLost.size()).append("\n");
     for (Data game : gamesLost) {
-      sbWords.append(game.getWord() + " \n");
+      sbWords.append(game.getWord()).append(" \n");
     }
     lossListLabel.setText(sbWords.toString());
   }
