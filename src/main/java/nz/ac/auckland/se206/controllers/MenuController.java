@@ -67,6 +67,7 @@ public class MenuController {
               switchProfileButton.setVisible(true);
               displayStatsButton.setVisible(true);
             });
+        button.getStyleClass().add("select-profile-button");
         b.add(button);
       }
       profilesHbox.getChildren().clear();
@@ -135,7 +136,7 @@ public class MenuController {
    */
   @FXML
   private void onSwitchProfile(ActionEvent event) {
-    headerLabel.setText("Who are you?");
+    headerLabel.setText("Who's Playing?");
     // Update buttons
     profilesHbox.setVisible(true);
     startButton.setVisible(false);
