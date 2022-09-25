@@ -1,12 +1,49 @@
-.drawing-canvas {
-  -fx-border-color: black;
-  -fx-border-width: 2px;
+
+.bg-light-blue {
+  -fx-background-color: #B8D0EB;
 }
 
-.red {
-  -fx-background-color: red;
+.bg-purple {
+  -fx-background-color: #6F2DBD;
+}
+
+.bg-light-purple {
+  -fx-background-color: #B298DC;
+
+}
+
+.text-purple {
+  -fx-text-fill: #6F2DBD;
+}
+
+.text-white {
+  -fx-text-fill: #fff;
+}
+
+.new-profile {
+  -fx-padding: 0px;
+}
+
+
+.select-profile-button {
+  -fx-background-color: #6F2DBD;
+  -fx-text-fill: white;
+  -fx-font-size: 30px;
+  -fx-background-radius: 10px;
+
+
+}
+
+.rounded {
+  -fx-background-radius: 10px;
 }
 
 .top-3-list {
   -fx-font-size: 20.0;
+}
+
+
+.drawing-canvas {
+  -fx-border-color: black;
+  -fx-border-width: 2px;
 }
