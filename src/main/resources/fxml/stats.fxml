@@ -12,7 +12,7 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.StatsController">
    <children>
-      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="72.0" prefHeight="110.0" prefWidth="980.0" styleClass="text-purple" text="Stats" textAlignment="CENTER">
+      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="60.0" prefHeight="110.0" prefWidth="980.0" styleClass="text-purple" text="Stats" textAlignment="CENTER">
          <font>
             <Font name="Bauhaus 93" size="96.0" />
          </font>
@@ -30,7 +30,7 @@
             <String fx:value="rounded" />
          </styleClass>
       </Button>
-      <HBox alignment="CENTER" layoutX="83.0" layoutY="206.0" prefHeight="442.0" prefWidth="834.0">
+      <HBox alignment="CENTER" layoutX="83.0" layoutY="244.0" prefHeight="368.0" prefWidth="834.0">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="380.0" prefWidth="374.0">
                <children>
@@ -71,5 +71,10 @@
             </VBox>
          </children>
       </HBox>
+      <Label fx:id="bestGameLabel" alignment="CENTER" layoutX="219.0" layoutY="189.0" prefHeight="43.0" prefWidth="562.0" styleClass="text-purple">
+         <font>
+            <Font name="Segoe UI" size="36.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

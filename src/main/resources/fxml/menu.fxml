@@ -12,9 +12,9 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.MenuController">
    <children>
-      <Label alignment="CENTER" layoutX="75.0" layoutY="58.0" prefHeight="117.0" prefWidth="852.0" stylesheets="@../css/stylesheet.css" text="Speedy Sketchers">
+      <Label alignment="CENTER" layoutX="82.0" prefHeight="117.0" prefWidth="852.0" stylesheets="@../css/stylesheet.css" text="Speedy Sketchers presents:">
          <font>
-            <Font name="Bauhaus 93" size="96.0" />
+            <Font name="Bauhaus 93" size="38.0" />
          </font>
          <styleClass>
             <String fx:value="text-purple" />
@@ -74,5 +74,14 @@
             <String fx:value="rounded" />
          </styleClass>
       </Button>
+      <Label alignment="CENTER" layoutX="41.0" layoutY="81.0" prefHeight="117.0" prefWidth="918.0" stylesheets="@../css/stylesheet.css" text="Quick, Draw! SE206  Edition">
+         <font>
+            <Font name="Bauhaus 93" size="65.0" />
+         </font>
+         <styleClass>
+            <String fx:value="text-purple" />
+            <String fx:value="header-text" />
+         </styleClass>
+      </Label>
    </children>
 </Pane>
