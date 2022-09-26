@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ProfileController">
+<Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ProfileController">
    <children>
-      <Label layoutX="332.0" layoutY="170.0" text="Whats your name?">
+      <Label layoutX="181.0" layoutY="130.0" styleClass="text-purple" text="Whats your name?">
          <font>
-            <Font name="SansSerif Regular" size="40.0" />
+            <Font name="Bauhaus 93" size="79.0" />
          </font>
       </Label>
-      <TextField fx:id="name" layoutX="394.0" layoutY="322.0">
+      <TextField fx:id="name" layoutX="362.0" layoutY="328.0">
          <font>
-            <Font size="17.0" />
+            <Font name="Bauhaus 93" size="25.0" />
          </font>
       </TextField>
-      <Button fx:id="add" layoutX="471.0" layoutY="426.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="56.0" text="Add" />
-      <Button layoutX="27.0" layoutY="650.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel">
+      <Button fx:id="add" layoutX="467.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="57.0" prefWidth="66.0" text="+">
+         <font>
+            <Font size="29.0" />
+         </font>
+         <styleClass>
+            <String fx:value="bg-light-purple" />
+            <String fx:value="text-white" />
+            <String fx:value="new-profile" />
+            <String fx:value="rounded" />
+         </styleClass></Button>
+      <Button layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="100.0" prefWidth="100.0">
          <font>
             <Font size="23.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="74.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <styleClass>
+            <String fx:value="bg-purple" />
+            <String fx:value="rounded" />
+         </styleClass>
       </Button>
    </children>
 </Pane>

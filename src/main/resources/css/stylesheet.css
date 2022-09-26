@@ -44,6 +44,7 @@
 
 
 .drawing-canvas {
-  -fx-border-color: black;
-  -fx-border-width: 2px;
+  -fx-border-color: #6F2DBD;
+  -fx-border-width: 4px;
+  -fx-background-color: white;
 }

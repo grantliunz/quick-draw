@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,20 +39,28 @@ import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.Data.Result;
+import nz.ac.auckland.se206.user.Data;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 /**
- * This is the controller of the canvas. You are free to modify this class and the corresponding
- * FXML file as you see fit. For example, you might no longer need the "Predict" button because the
+ * This is the controller of the canvas. You are free to modify this class and
+ * the corresponding
+ * FXML file as you see fit. For example, you might no longer need the "Predict"
+ * button because the
  * DL model should be automatically queried in the background every second.
  *
- * <p>!! IMPORTANT !!
+ * <p>
+ * !! IMPORTANT !!
  *
- * <p>Although we added the scale of the image, you need to be careful when changing the size of the
- * drawable canvas and the brush size. If you make the brush too big or too small with respect to
- * the canvas size, the ML model will not work correctly. So be careful. If you make some changes in
+ * <p>
+ * Although we added the scale of the image, you need to be careful when
+ * changing the size of the
+ * drawable canvas and the brush size. If you make the brush too big or too
+ * small with respect to
+ * the canvas size, the ML model will not work correctly. So be careful. If you
+ * make some changes in
  * the canvas and brush sizes, make sure that the prediction works fine.
  */
 public class CanvasController {
@@ -64,24 +73,37 @@ public class CanvasController {
     user = passedUser;
   }
 
-  @FXML private Canvas canvas;
-  @FXML private Label wordLabel;
-  @FXML private Label timerLabel;
-  @FXML private Button startDrawButton;
-  @FXML private ListView<String> predictionList0;
-  @FXML private ListView<String> predictionList1;
-  @FXML private Label resultLabel;
-  @FXML private Button brushButton;
-  @FXML private Button eraserButton;
-  @FXML private Button clearButton;
-  @FXML private Button newGameButton;
+  @FXML
+  private Canvas canvas;
+  @FXML
+  private Label wordLabel;
+  @FXML
+  private Label timerLabel;
+  @FXML
+  private Button startDrawButton;
+  @FXML
+  private ListView<String> predictionList0;
+  @FXML
+  private ListView<String> predictionList1;
+  @FXML
+  private Label resultLabel;
+  @FXML
+  private Button brushButton;
+  @FXML
+  private Button eraserButton;
+  @FXML
+  private Button clearButton;
+  @FXML
+  private Button newGameButton;
 
-  @FXML private Button menuButton;
-  @FXML private Button saveImageButton;
+  @FXML
+  private Button menuButton;
+  @FXML
+  private Button saveImageButton;
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
-
+  private boolean drawn;
   private int remainingTime;
 
   private String randomWord;
@@ -94,8 +116,8 @@ public class CanvasController {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     User temp = null;
     int count = 0;
     // Accesses the current user
@@ -123,12 +145,19 @@ public class CanvasController {
     }
   }
 
+  public void isUnique(String word) {
+    ObjectMapper mapper = new ObjectMapper();
+    ArrayList<Data> wordList = user.getData();
+  }
+
   /**
-   * JavaFX calls this method once the GUI elements are loaded. In our case we create a listener for
+   * JavaFX calls this method once the GUI elements are loaded. In our case we
+   * create a listener for
    * the drawing, and we load the ML model.
    *
-   * @throws ModelException If there is an error in reading the input/output of the DL model.
-   * @throws IOException If the model cannot be found on the file system.
+   * @throws ModelException If there is an error in reading the input/output of
+   *                        the DL model.
+   * @throws IOException    If the model cannot be found on the file system.
    */
   public void initialize() throws Exception {
     graphic = canvas.getGraphicsContext2D();
@@ -180,15 +209,14 @@ public class CanvasController {
           predictionList0.setVisible(true);
           currentX = e.getX();
           currentY = e.getY();
-
           graphic.fillOval(e.getX() - size / 2, e.getY() - size / 2, size, size);
+          drawn = true;
         });
 
     canvas.setOnMouseDragged(
         e -> {
           final double x = e.getX() - size / 2;
           final double y = e.getY() - size / 2;
-
           // This is the colour of the brush.
           graphic.setFill(Color.BLACK);
           graphic.setLineWidth(size);
@@ -199,6 +227,7 @@ public class CanvasController {
           // update the coordinates
           currentX = x;
           currentY = y;
+          drawn = true;
         });
   }
 
@@ -248,7 +277,7 @@ public class CanvasController {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
-
+    drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
   }
 
@@ -256,14 +285,18 @@ public class CanvasController {
   @FXML
   private void onClear() {
     graphic.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    drawn = false;
   }
 
   /**
-   * This method executes when the user clicks the "Predict" button. It gets the current drawing,
-   * queries the DL model and prints on the console the top 5 predictions of the DL model and the
+   * This method executes when the user clicks the "Predict" button. It gets the
+   * current drawing,
+   * queries the DL model and prints on the console the top 5 predictions of the
+   * DL model and the
    * elapsed time of the prediction in milliseconds.
    *
-   * @throws TranslateException If there is an error in reading the input/output of the DL model.
+   * @throws TranslateException If there is an error in reading the input/output
+   *                            of the DL model.
    */
   @FXML
   private void onPredict() throws TranslateException {
@@ -271,7 +304,6 @@ public class CanvasController {
     System.out.println("Top 5 predictions");
 
     final long start = System.currentTimeMillis();
-
     printPredictions(model.getPredictions(getCurrentSnapshot(), 5));
 
     System.out.println("prediction performed in " + (System.currentTimeMillis() - start) + " ms");
@@ -287,8 +319,8 @@ public class CanvasController {
     final BufferedImage image = SwingFXUtils.fromFXImage(snapshot, null);
 
     // Convert into a binary image.
-    final BufferedImage imageBinary =
-        new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+    final BufferedImage imageBinary = new BufferedImage(image.getWidth(), image.getHeight(),
+        BufferedImage.TYPE_BYTE_BINARY);
 
     final Graphics2D graphics = imageBinary.createGraphics();
 
@@ -315,8 +347,7 @@ public class CanvasController {
     }
 
     // We save the image to a file in the tmp folder.
-    final File imageToClassify =
-        new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
+    final File imageToClassify = new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
 
     // Save the image to a file.
     ImageIO.write(getCurrentSnapshot(), "bmp", imageToClassify);
@@ -364,43 +395,46 @@ public class CanvasController {
 
           try {
             // Loop through top 10 predictions
-            for (final Classifications.Classification classification :
-                model.getPredictions(getCurrentSnapshot(), 10)) {
+            if (drawn) {
 
-              String prediction = classification.getClassName().replace("_", " ");
+              for (final Classifications.Classification classification : model.getPredictions(getCurrentSnapshot(),
+                  10)) {
 
-              // Top 3 predictions are displayed in largest text
-              if (i <= 3) {
-                predictionList0
-                    .getItems()
-                    .add(
-                        i
-                            + ": "
-                            + prediction
-                            + " - "
-                            + String.format("%.1f%%", 100 * classification.getProbability()));
-                // Check if prediction is correct
-                if (randomWord.equals(prediction) && predictionList0.isVisible()) {
-                  resultLabel.setText("You win!");
-                  try {
-                    updateResult(Result.WIN);
-                  } catch (IOException e) {
-                    e.printStackTrace();
+                String prediction = classification.getClassName().replace("_", " ");
+
+                // Top 3 predictions are displayed in largest text
+                if (i <= 3) {
+                  predictionList0
+                      .getItems()
+                      .add(
+                          i
+                              + ": "
+                              + prediction
+                              + " - "
+                              + String.format("%.1f%%", 100 * classification.getProbability()));
+                  // Check if prediction is correct
+                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                    resultLabel.setText("You win!");
+                    try {
+                      updateResult(Result.WIN);
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                    finishGame();
                   }
-                  finishGame();
+                } else {
+                  predictionList1
+                      .getItems()
+                      .add(
+                          i
+                              + ": "
+                              + classification.getClassName().replace("_", " ")
+                              + " - "
+                              + String.format("%.1f%%", 100 * classification.getProbability()));
                 }
-              } else {
-                predictionList1
-                    .getItems()
-                    .add(
-                        i
-                            + ": "
-                            + classification.getClassName().replace("_", " ")
-                            + " - "
-                            + String.format("%.1f%%", 100 * classification.getProbability()));
-              }
 
-              i++;
+                i++;
+              }
             }
           } catch (TranslateException e) {
             throw new RuntimeException(e);
