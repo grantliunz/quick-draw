@@ -61,7 +61,7 @@ public class MenuController {
                   (StatsController) SceneManager.getUiController(AppUi.STATS);
               statsController.updateStats(user);
               profilesHbox.setVisible(false);
-              headerLabel.setText("Welcome" + " " + button.getText());
+              headerLabel.setText("Welcome" + " " + button.getText() + "!");
               startButton.setVisible(true);
               addProfileButton.setVisible(false);
               switchProfileButton.setVisible(true);
