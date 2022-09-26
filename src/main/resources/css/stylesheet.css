@@ -39,20 +39,28 @@
 }
 
 
-
 .drawing-canvas {
   -fx-border-color: #6F2DBD;
   -fx-border-width: 4px;
   -fx-background-color: white;
 }
 
-.list-cell{
+.list-cell {
   -fx-background-color: #B8D0EB;
   -fx-text-fill: #6F2DBD;
+
 }
+
 .top-3-list.list-cell {
   -fx-font-size: 27.0px;
+
 }
-.list-default{
+
+.top-10-list.list-cell {
+  -fx-font-size: 20.0px;
+
+}
+
+.list-default {
   -fx-font-size: 15px;
 }

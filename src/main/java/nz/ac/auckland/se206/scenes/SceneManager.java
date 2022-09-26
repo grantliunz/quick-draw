@@ -7,6 +7,13 @@ import javafx.scene.Parent;
 
 public class SceneManager {
 
+  public enum AppUi {
+    MENU,
+    CANVAS,
+    PROFILE,
+    STATS
+  }
+
   private static HashMap<AppUi, ViewData> sceneMap = new HashMap<>();
 
   public static void addUi(AppUi appUi, FXMLLoader loader) throws IOException {
@@ -19,12 +26,5 @@ public class SceneManager {
 
   public static Object getUiController(AppUi appUi) {
     return sceneMap.get(appUi).getController();
-  }
-
-  public enum AppUi {
-    MENU,
-    CANVAS,
-    PROFILE,
-    STATS
   }
 }

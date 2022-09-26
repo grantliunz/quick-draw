@@ -11,6 +11,12 @@ import java.util.Map;
 
 public class CategorySelector {
 
+  public enum Difficulty {
+    E,
+    M,
+    H
+  }
+
   private final Map<Difficulty, List<String>> difficulty2categories;
 
   public CategorySelector() throws Exception {
@@ -36,11 +42,5 @@ public class CategorySelector {
         CSVReader reader = new CSVReader(fr)) {
       return reader.readAll();
     }
-  }
-
-  public enum Difficulty {
-    E,
-    M,
-    H
   }
 }

@@ -23,7 +23,7 @@
       </Label>
       <Button fx:id="startButton" layoutX="433.0" layoutY="475.0" mnemonicParsing="false" onAction="#onSwitchToReady" text="Start">
          <font>
-            <Font size="39.0" />
+            <Font name="Segoe UI" size="39.0" />
          </font>
          <styleClass>
             <String fx:value="bg-purple" />
@@ -31,7 +31,7 @@
             <String fx:value="rounded" />
          </styleClass>
       </Button>
-      <Label fx:id="headerLabel" alignment="CENTER" layoutX="353.0" layoutY="218.0" prefHeight="17.0" prefWidth="294.0" styleClass="text-purple" text="Whos Playing?">
+      <Label fx:id="headerLabel" alignment="CENTER" layoutX="142.0" layoutY="198.0" prefHeight="123.0" prefWidth="764.0" styleClass="text-purple" text="Whos Playing?">
          <font>
             <Font name="Segoe UI Bold" size="36.0" />
          </font>

@@ -169,7 +169,7 @@ public class CanvasController {
     // Brush size
     final double size = 5.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/pencil.png"), 0, 1000));
+    canvas.setCursor(new ImageCursor(new Image("images/purplePencil.png"), 0, 1000));
 
     // This is the colour of the brush.
     graphic.setFill(Color.BLACK);
@@ -207,7 +207,7 @@ public class CanvasController {
     // brush size
     final double size = 10.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/eraser.png"), 4, 16));
+    canvas.setCursor(new ImageCursor(new Image("images/purpleEraser.png"), 4, 16));
 
     canvas.setOnMousePressed(
         e -> {
@@ -373,14 +373,7 @@ public class CanvasController {
 
                 // Top 3 predictions are displayed in largest text
                 if (i <= 3) {
-                  predictionList0
-                      .getItems()
-                      .add(
-                          i
-                              + ": "
-                              + prediction
-                              + " - "
-                              + String.format("%.1f%%", 100 * classification.getProbability()));
+                  predictionList0.getItems().add(i + ": " + prediction);
                   // Check if prediction is correct
                   if (randomWord.equals(prediction) && predictionList0.isVisible()) {
                     resultLabel.setText("You win!");
@@ -391,17 +384,10 @@ public class CanvasController {
                     }
                     finishGame();
                   }
+                  // Next 7 predictions are smaller text
                 } else {
-                  predictionList1
-                      .getItems()
-                      .add(
-                          i
-                              + ": "
-                              + classification.getClassName().replace("_", " ")
-                              + " - "
-                              + String.format("%.1f%%", 100 * classification.getProbability()));
+                  predictionList1.getItems().add(i + ": " + prediction);
                 }
-
                 i++;
               }
             }
