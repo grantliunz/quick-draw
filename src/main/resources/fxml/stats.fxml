@@ -32,21 +32,21 @@
       </Button>
       <HBox alignment="CENTER" layoutX="83.0" layoutY="244.0" prefHeight="368.0" prefWidth="834.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="380.0" prefWidth="374.0">
+            <VBox alignment="TOP_CENTER" prefHeight="368.0" prefWidth="429.0">
                <children>
-                  <Label styleClass="text-purple" text="Games Won">
+                  <Label alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="386.0" styleClass="text-purple" text="Games Won">
                      <font>
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Label>
-                  <HBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="374.0">
+                  <HBox alignment="TOP_CENTER" prefHeight="325.0" prefWidth="531.0">
                      <children>
-                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="353.0" prefWidth="152.0" styleClass="text-purple" text="Name" textAlignment="RIGHT">
+                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="325.0" prefWidth="378.0" styleClass="text-purple" text="Name" textAlignment="RIGHT">
                            <font>
                               <Font name="Segoe UI" size="27.0" />
                            </font>
                         </Label>
-                        <Label fx:id="winTimeListLabel" alignment="TOP_LEFT" prefHeight="370.0" prefWidth="147.0" styleClass="text-purple" text="Time">
+                        <Label fx:id="winTimeListLabel" alignment="TOP_LEFT" prefHeight="325.0" prefWidth="175.0" styleClass="text-purple" text="Time">
                            <font>
                               <Font name="Segoe UI" size="27.0" />
                            </font>
@@ -55,14 +55,14 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="380.0" prefWidth="350.0">
+            <VBox alignment="TOP_CENTER" prefHeight="368.0" prefWidth="520.0">
                <children>
                   <Label styleClass="text-purple" text="Games Lost">
                      <font>
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="367.0" prefWidth="344.0" styleClass="text-purple" text="Name&#10;" textAlignment="CENTER">
+                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="325.0" prefWidth="367.0" styleClass="text-purple" text="Name&#10;" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
