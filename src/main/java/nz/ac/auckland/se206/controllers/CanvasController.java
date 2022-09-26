@@ -81,7 +81,7 @@ public class CanvasController {
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
-
+  private boolean drawn;
   private int remainingTime;
 
   private String randomWord;
@@ -169,7 +169,7 @@ public class CanvasController {
     // Brush size
     final double size = 5.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/pencil.png"), 0, 20));
+    canvas.setCursor(new ImageCursor(new Image("images/pencil.png"), 0, 1000));
 
     // This is the colour of the brush.
     graphic.setFill(Color.BLACK);
@@ -180,15 +180,14 @@ public class CanvasController {
           predictionList0.setVisible(true);
           currentX = e.getX();
           currentY = e.getY();
-
           graphic.fillOval(e.getX() - size / 2, e.getY() - size / 2, size, size);
+          drawn = true;
         });
 
     canvas.setOnMouseDragged(
         e -> {
           final double x = e.getX() - size / 2;
           final double y = e.getY() - size / 2;
-
           // This is the colour of the brush.
           graphic.setFill(Color.BLACK);
           graphic.setLineWidth(size);
@@ -199,6 +198,7 @@ public class CanvasController {
           // update the coordinates
           currentX = x;
           currentY = y;
+          drawn = true;
         });
   }
 
@@ -248,7 +248,7 @@ public class CanvasController {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
-
+    drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
   }
 
@@ -256,6 +256,7 @@ public class CanvasController {
   @FXML
   private void onClear() {
     graphic.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    drawn = false;
   }
 
   /**
@@ -271,7 +272,6 @@ public class CanvasController {
     System.out.println("Top 5 predictions");
 
     final long start = System.currentTimeMillis();
-
     printPredictions(model.getPredictions(getCurrentSnapshot(), 5));
 
     System.out.println("prediction performed in " + (System.currentTimeMillis() - start) + " ms");
@@ -364,43 +364,46 @@ public class CanvasController {
 
           try {
             // Loop through top 10 predictions
-            for (final Classifications.Classification classification :
-                model.getPredictions(getCurrentSnapshot(), 10)) {
+            if (drawn) {
 
-              String prediction = classification.getClassName().replace("_", " ");
+              for (final Classifications.Classification classification :
+                  model.getPredictions(getCurrentSnapshot(), 10)) {
 
-              // Top 3 predictions are displayed in largest text
-              if (i <= 3) {
-                predictionList0
-                    .getItems()
-                    .add(
-                        i
-                            + ": "
-                            + prediction
-                            + " - "
-                            + String.format("%.1f%%", 100 * classification.getProbability()));
-                // Check if prediction is correct
-                if (randomWord.equals(prediction) && predictionList0.isVisible()) {
-                  resultLabel.setText("You win!");
-                  try {
-                    updateResult(Result.WIN);
-                  } catch (IOException e) {
-                    e.printStackTrace();
+                String prediction = classification.getClassName().replace("_", " ");
+
+                // Top 3 predictions are displayed in largest text
+                if (i <= 3) {
+                  predictionList0
+                      .getItems()
+                      .add(
+                          i
+                              + ": "
+                              + prediction
+                              + " - "
+                              + String.format("%.1f%%", 100 * classification.getProbability()));
+                  // Check if prediction is correct
+                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                    resultLabel.setText("You win!");
+                    try {
+                      updateResult(Result.WIN);
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                    finishGame();
                   }
-                  finishGame();
+                } else {
+                  predictionList1
+                      .getItems()
+                      .add(
+                          i
+                              + ": "
+                              + classification.getClassName().replace("_", " ")
+                              + " - "
+                              + String.format("%.1f%%", 100 * classification.getProbability()));
                 }
-              } else {
-                predictionList1
-                    .getItems()
-                    .add(
-                        i
-                            + ": "
-                            + classification.getClassName().replace("_", " ")
-                            + " - "
-                            + String.format("%.1f%%", 100 * classification.getProbability()));
-              }
 
-              i++;
+                i++;
+              }
             }
           } catch (TranslateException e) {
             throw new RuntimeException(e);
@@ -430,8 +433,7 @@ public class CanvasController {
             // Updated timer and predictions every second
             if (remainingTime > 0) {
               Platform.setImplicitExit(false);
-              Platform.runLater(
-                  () -> timerLabel.setText("Time remaining: " + remainingTime + " seconds"));
+              Platform.runLater(() -> timerLabel.setText(Integer.toString(remainingTime)));
               remainingTime--;
 
               try {

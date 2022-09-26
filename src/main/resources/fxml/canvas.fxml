@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
@@ -13,94 +14,164 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="720.0" prefWidth="1000.0" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CanvasController">
+<HBox prefHeight="777.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CanvasController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="630.0" spacing="20.0" stylesheets="@../css/stylesheet.css">
         <children>
-          <Label alignment="CENTER" layoutX="124.0" layoutY="14.0" prefHeight="23.0" prefWidth="331.0" text="Quick, Draw! SE206  Edition" textAlignment="CENTER">
+          <Label alignment="CENTER" layoutX="124.0" layoutY="14.0" prefHeight="61.0" prefWidth="390.0" styleClass="text-purple" text="Quick, Draw! SE206  Edition" textAlignment="CENTER">
             <font>
-              <Font size="18.0" />
+              <Font name="Bauhaus 93" size="29.0" />
             </font>
           </Label>
-            <Label fx:id="wordLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="229.0" text="Word">
+            <Label fx:id="wordLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="229.0" styleClass="text-purple" text="Word">
                <font>
-                  <Font size="19.0" />
+                  <Font name="Bauhaus 93" size="35.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" prefHeight="46.0" prefWidth="668.0">
                <children>
-                  <Label fx:id="timerLabel" prefHeight="25.0" prefWidth="212.0" text="Time remaining: 60 seconds">
+                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="36.0" styleClass="text-purple" text="60">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="248.0" prefWidth="636.0">
+            <HBox alignment="CENTER" prefHeight="316.0" prefWidth="590.0">
                <children>
-                  <Pane prefHeight="248.0" prefWidth="154.0">
+                  <Pane maxWidth="-Infinity" prefHeight="294.0" prefWidth="475.0" styleClass="drawing-canvas">
                      <children>
-                    <Button fx:id="clearButton" contentDisplay="RIGHT" disable="true" layoutX="65.0" layoutY="200.0" mnemonicParsing="false" onAction="#onClear" text="Clear" />
-                        <Button fx:id="eraserButton" contentDisplay="RIGHT" disable="true" layoutX="51.0" layoutY="124.0" mnemonicParsing="false" onAction="#onSwitchToEraser" text="Eraser">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/eraser.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic></Button>
-                        <Button fx:id="brushButton" contentDisplay="RIGHT" disable="true" layoutX="52.0" layoutY="43.0" mnemonicParsing="false" onAction="#onSwitchToBrush" text="Pencil">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/pencil.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic></Button>
-                     </children>
-                  </Pane>
-                  <Pane maxWidth="-Infinity" prefHeight="260.0" prefWidth="394.0" styleClass="drawing-canvas">
-                     <children>
-                      <Canvas fx:id="canvas" height="243.0" layoutY="3.0" styleClass="drawing-canvas" width="400.0">
+                      <Canvas fx:id="canvas" height="296.0" layoutY="4.0" styleClass="drawing-canvas" width="475.0">
                         <cursor>
                           <Cursor fx:constant="HAND" />
                         </cursor>
                       </Canvas>
-                        <Button fx:id="startDrawButton" layoutX="158.0" layoutY="109.0" mnemonicParsing="false" onAction="#onStartDraw" text="Let's Draw!!" />
+                        <Button fx:id="startDrawButton" layoutX="156.0" layoutY="121.0" mnemonicParsing="false" onAction="#onStartDraw" prefHeight="63.0" prefWidth="164.0" text="Let's Draw!!">
+                           <styleClass>
+                              <String fx:value="bg-purple" />
+                              <String fx:value="text-white" />
+                              <String fx:value="rounded" />
+                           </styleClass>
+                           <font>
+                              <Font size="22.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children>
             </HBox>
-            <Button fx:id="saveImageButton" mnemonicParsing="false" onAction="#onSaveImage" text="Save Image" />
-            <Label fx:id="resultLabel">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
+            <Pane prefHeight="90.0" prefWidth="590.0">
+               <children>
+                  <Button fx:id="saveImageButton" layoutX="158.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSaveImage" prefHeight="63.0" prefWidth="95.0" text="Save">
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="text-white" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="brushButton" contentDisplay="RIGHT" disable="true" layoutX="410.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSwitchToBrush" prefHeight="63.0" prefWidth="95.0">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pencil.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="eraserButton" contentDisplay="RIGHT" disable="true" layoutX="285.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSwitchToEraser" prefHeight="63.0" prefWidth="95.0">
+                     <graphic>
+                        <ImageView fitHeight="44.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/eraser.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Button>
+              <Button fx:id="clearButton" contentDisplay="RIGHT" disable="true" layoutX="36.0" layoutY="1.0" mnemonicParsing="false" onAction="#onClear" prefHeight="63.0" prefWidth="95.0">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/bin.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane prefHeight="81.0" prefWidth="590.0">
+               <children>
+                  <Button fx:id="menuButton" layoutY="-11.0" mnemonicParsing="false" onAction="#onDisplayMenu" prefHeight="75.0" prefWidth="95.0">
+                     <graphic>
+                        <ImageView fitHeight="59.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/home.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="newGameButton" layoutX="347.0" layoutY="-11.0" mnemonicParsing="false" onAction="#onNewGame" prefHeight="75.0" prefWidth="199.0" text="Start New Game">
+                     <font>
+                        <Font name="Bauhaus 93" size="23.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bg-purple" />
+                        <String fx:value="text-white" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </Pane>
       
         </children>
         <padding>
           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
       </VBox>
-      <Pane>
+      <Pane prefHeight="747.0" prefWidth="472.0" stylesheets="@../css/stylesheet.css">
          <HBox.margin>
             <Insets right="15.0" />
          </HBox.margin>
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="158.0" text="Predictions:">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="80.0" styleClass="text-purple" text="Predictions:">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Bauhaus 93" size="30.0" />
                </font>
             </Label>
-            <ListView fx:id="predictionList0" layoutX="14.0" layoutY="211.0" prefHeight="125.0" prefWidth="339.0" styleClass="top-3-list" />
-            <ListView fx:id="predictionList1" layoutX="14.0" layoutY="336.0" prefHeight="170.0" prefWidth="229.0" />
-            <Button fx:id="newGameButton" layoutX="144.0" layoutY="642.0" mnemonicParsing="false" onAction="#onNewGame" prefHeight="50.0" prefWidth="199.0" text="Start New Game">
+            <ListView fx:id="predictionList0" layoutX="9.0" layoutY="129.0" prefHeight="271.0" prefWidth="402.0" stylesheets="@../css/stylesheet.css">
+               <styleClass>
+                  <String fx:value="list-cell" />
+                  <String fx:value="bg-light-blue" />
+                  <String fx:value="top-3-list" />
+               </styleClass></ListView>
+            <ListView fx:id="predictionList1" layoutX="73.0" layoutY="312.0" prefHeight="218.0" prefWidth="269.0" stylesheets="@../css/stylesheet.css">
+               <styleClass>
+                  <String fx:value="bg-light-blue" />
+                  <String fx:value="list-cell" />
+                  <String fx:value="list-default" />
+               </styleClass></ListView>
+            <Label fx:id="resultLabel" alignment="CENTER" layoutX="8.0" layoutY="510.0" prefHeight="90.0" prefWidth="325.0" styleClass="text-purple">
                <font>
-                  <Font size="23.0" />
+                  <Font size="34.0" />
                </font>
-            </Button>
-            <Button fx:id="menuButton" layoutX="20.0" layoutY="655.0" mnemonicParsing="false" onAction="#onDisplayMenu" text="Back to Menu" />
+            </Label>
          </children>
       </Pane>
    </children>
