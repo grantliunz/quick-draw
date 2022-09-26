@@ -54,7 +54,7 @@ public class StatsController {
     StringBuilder sbTimes = new StringBuilder(gamesWon.size() + "\n");
     for (Data game : gamesWon) {
       sbWords.append(game.getWord()).append(" \n");
-      sbTimes.append("  | ").append(game.getTime()).append("s\n");
+      sbTimes.append(" | ").append(game.getTime()).append("s\n");
     }
     // Updates the UI
     winListLabel.setText(sbWords.toString());
