@@ -14,7 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,7 +37,6 @@ import javax.imageio.ImageIO;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
-import nz.ac.auckland.se206.user.Data;
 import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
@@ -123,11 +121,6 @@ public class CanvasController {
       userList.get(count).setGamesLost(gamesLost);
       mapper.writeValue(new File(".profiles/users.json"), userList);
     }
-  }
-
-  public void isUnique(String word) {
-    ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Data> wordList = user.getData();
   }
 
   /**
