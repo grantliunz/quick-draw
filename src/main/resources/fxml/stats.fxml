@@ -19,7 +19,7 @@
       </Label>
       <Button fx:id="menu" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="100.0" prefWidth="100.0">
          <graphic>
-            <ImageView fitHeight="74.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/home.png" />
                </image>
@@ -62,7 +62,7 @@
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="353.0" prefWidth="344.0" styleClass="text-purple" text="Name&#10;" textAlignment="CENTER">
+                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="367.0" prefWidth="344.0" styleClass="text-purple" text="Name&#10;" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
