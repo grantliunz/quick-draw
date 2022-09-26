@@ -48,19 +48,16 @@
 .list-cell {
   -fx-background-color: #B8D0EB;
   -fx-text-fill: #6F2DBD;
+  -fx-padding: 0px;
 
 }
 
 .top-3-list.list-cell {
-  -fx-font-size: 27.0px;
+  -fx-font-size: 30.0px;
 
 }
 
-.top-10-list.list-cell {
-  -fx-font-size: 20.0px;
-
-}
 
 .list-default {
-  -fx-font-size: 15px;
+  -fx-font-size: 22px;
 }

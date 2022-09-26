@@ -16,14 +16,14 @@
             <Font name="Bauhaus 93" size="79.0" />
          </font>
       </Label>
-      <TextField fx:id="name" layoutX="362.0" layoutY="328.0">
+      <TextField fx:id="name" layoutX="362.0" layoutY="328.0" promptText="Enter name here" styleClass="text-purple">
          <font>
-            <Font name="Bauhaus 93" size="25.0" />
+            <Font name="Segoe UI" size="25.0" />
          </font>
       </TextField>
-      <Button fx:id="add" layoutX="467.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="57.0" prefWidth="66.0" text="+">
+      <Button fx:id="add" layoutX="467.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="60.0" prefWidth="60.0" text="+">
          <font>
-            <Font size="29.0" />
+            <Font name="System Bold" size="40.0" />
          </font>
          <styleClass>
             <String fx:value="bg-light-purple" />

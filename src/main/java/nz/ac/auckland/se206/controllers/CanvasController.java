@@ -231,7 +231,7 @@ public class CanvasController {
     timer.cancel();
     // Stop timer
     canvas.setOnMouseDragged(null);
-    canvas.setOnMouseClicked(null);
+    canvas.setOnMousePressed(null);
     canvas.setCursor(Cursor.DEFAULT);
 
     // Disable drawing buttons and show end game buttons
