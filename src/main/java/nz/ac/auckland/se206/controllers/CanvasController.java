@@ -198,7 +198,7 @@ public class CanvasController {
     // Brush size
     final double size = 5.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/pencil.png"), 0, 20));
+    canvas.setCursor(new ImageCursor(new Image("images/pencil.png"), 0, 1000));
 
     // This is the colour of the brush.
     graphic.setFill(Color.BLACK);
@@ -465,7 +465,7 @@ public class CanvasController {
             if (remainingTime > 0) {
               Platform.setImplicitExit(false);
               Platform.runLater(
-                  () -> timerLabel.setText("Time remaining: " + remainingTime + " seconds"));
+                  () -> timerLabel.setText(Integer.toString(remainingTime)));
               remainingTime--;
 
               try {
