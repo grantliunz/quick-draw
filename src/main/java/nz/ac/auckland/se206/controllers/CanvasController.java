@@ -37,6 +37,7 @@ import javax.imageio.ImageIO;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
+import nz.ac.auckland.se206.speech.TextToSpeech;
 import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector;
@@ -88,6 +89,8 @@ public class CanvasController {
   // mouse coordinates
   private double currentX;
   private double currentY;
+
+  private TextToSpeech tts = new TextToSpeech();
 
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
@@ -143,12 +146,26 @@ public class CanvasController {
     remainingTime = MAX_TIME;
 
     // Hide end game buttons
-
     newGameButton.setVisible(false);
     menuButton.setVisible(false);
     saveImageButton.setVisible(false);
     predictionList0.setVisible(false);
     predictionList1.setVisible(false);
+  }
+
+  public void speak() {
+    javafx.concurrent.Task<Void> task =
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            // Uses Text to speech to speak given lines
+            tts.speak("Draw", randomWord);
+            return null;
+          }
+        };
+    // Delegates speaking task to new thread to prevent blocking of GUI
+    Thread thread = new Thread(task);
+    thread.start();
   }
 
   @FXML
@@ -250,6 +267,9 @@ public class CanvasController {
     Scene sceneButtonIsIn = button.getScene();
     drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    CanvasController controller =
+        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    controller.speak();
   }
 
   /** This method is called when the "Clear" button is pressed. */

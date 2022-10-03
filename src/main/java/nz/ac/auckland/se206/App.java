@@ -41,7 +41,6 @@ public class App extends Application {
   public void start(final Stage stage) throws Exception {
     // Loads all initial scenes
     SceneManager.addUi(SceneManager.AppUi.MENU, loadFxml("menu"));
-    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     SceneManager.addUi(SceneManager.AppUi.PROFILE, loadFxml("profile"));
     SceneManager.addUi(SceneManager.AppUi.STATS, loadFxml("stats"));
 

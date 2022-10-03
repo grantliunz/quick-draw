@@ -18,7 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
-import nz.ac.auckland.se206.speech.TextToSpeech;
 import nz.ac.auckland.se206.user.User;
 
 public class MenuController {
@@ -32,8 +31,6 @@ public class MenuController {
   @FXML private Button switchProfileButton;
   @FXML private Button displayStatsButton;
   private User chosenUser;
-
-  private TextToSpeech tts = new TextToSpeech();
 
   /**
    * This method is setup to display all the user profiles as buttons and assign actions to them
@@ -97,22 +94,7 @@ public class MenuController {
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(chosenUser);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
-
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            // Uses Text to speech to speak given lines
-            tts.speak(
-                "Welcome to speed sketchers",
-                "You will have sixty seconds to draw",
-                "Press the button on the canvas to start drawing");
-            return null;
-          }
-        };
-    // Delegates speaking task to new thread to prevent blocking of GUI
-    Thread thread = new Thread(task);
-    thread.start();
+    controller.speak();
   }
 
   /**
