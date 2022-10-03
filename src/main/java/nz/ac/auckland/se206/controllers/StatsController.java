@@ -45,6 +45,8 @@ public class StatsController {
     if (!gamesWon.isEmpty()) {
       Data bestGame = Collections.min(gamesWon, (a, b) -> (int) (a.getTime() - b.getTime()));
       bestGameLabel.setText("Best Game: " + bestGame.getWord() + " | " + bestGame.getTime() + "s");
+    } else {
+      bestGameLabel.setText("");
     }
   }
 
