@@ -57,6 +57,12 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
  */
 public class CanvasController {
 
+  public enum GameMode {
+    CLASSIC,
+    ZEN,
+    HIDDEN
+  }
+
   public static final int MAX_TIME = 60;
 
   private static User user;
@@ -91,6 +97,12 @@ public class CanvasController {
   private double currentY;
 
   private TextToSpeech tts = new TextToSpeech();
+
+  private GameMode gameMode;
+
+  public void setGameMode(GameMode gameMode) {
+    this.gameMode = gameMode;
+  }
 
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
