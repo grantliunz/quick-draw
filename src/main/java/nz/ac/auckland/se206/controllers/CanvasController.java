@@ -31,9 +31,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import nz.ac.auckland.se206.dict.DictionaryLookup;
+import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
@@ -152,6 +155,7 @@ public class CanvasController {
     // Select random word
     CategorySelector selector = new CategorySelector();
     randomWord = selector.getRandomWord(Difficulty.E);
+
     wordLabel.setText(randomWord);
 
     // Set up timer
@@ -427,6 +431,26 @@ public class CanvasController {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  public void searchDefinition() throws WordNotFoundException, IOException {
+    wordLabel.setFont(new Font(15));
+    wordLabel.setWrapText(true);
+    wordLabel.setText("Getting word definition...");
+    javafx.concurrent.Task<Void> task =
+        new javafx.concurrent.Task<Void>() {
+
+          @Override
+          protected Void call() throws Exception {
+            String definition = DictionaryLookup.searchWordInfo(randomWord);
+            Platform.runLater(() -> wordLabel.setText(definition));
+
+            return null;
+          }
+        };
+
+    Thread thread = new Thread(task);
+    thread.start();
   }
 
   private void setTimer() {

@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
+import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.User;
@@ -103,9 +104,10 @@ public class MenuController {
   }
 
   @FXML
-  private void onStartHidden(ActionEvent event) throws IOException {
+  private void onStartHidden(ActionEvent event) throws IOException, WordNotFoundException {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
+    controller.searchDefinition();
   }
 
   private CanvasController startGame(ActionEvent event) throws IOException {
