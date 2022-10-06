@@ -169,6 +169,10 @@ public class CanvasController {
     predictionList1.setVisible(false);
   }
 
+  public void setTimerLabel(String string) {
+    this.timerLabel.setText(string);
+  }
+
   public void speak() {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
@@ -192,9 +196,31 @@ public class CanvasController {
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
     onSwitchToBrush();
+    if (gameMode != GameMode.ZEN) {
+      setTimer();
+    } else {
+      timer = new Timer();
+      timer.scheduleAtFixedRate(
+          new TimerTask() {
+            public void run() {
 
-    setTimer();
+              try {
+                populatePredictionList();
+              } catch (TranslateException e) {
+                throw new RuntimeException(e);
+              }
+            }
+          },
+          1000,
+          1000);
+    }
     startDrawButton.setVisible(false);
+  }
+
+  public void startZen() {
+    timerLabel.setText("");
+    newGameButton.setVisible(true);
+    menuButton.setVisible(true);
   }
 
   @FXML
@@ -277,7 +303,7 @@ public class CanvasController {
   }
 
   @FXML
-  private void onNewGame(ActionEvent event) throws IOException {
+  private void onNewGame(ActionEvent event) throws IOException, WordNotFoundException {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -285,7 +311,15 @@ public class CanvasController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
-    controller.speak();
+    controller.setGameMode(this.gameMode);
+    if (gameMode == GameMode.ZEN) {
+      controller.startZen();
+      controller.speak();
+    } else if (gameMode == GameMode.HIDDEN) {
+      controller.searchDefinition();
+    } else {
+      controller.speak();
+    }
   }
 
   /** This method is called when the "Clear" button is pressed. */
@@ -418,7 +452,9 @@ public class CanvasController {
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
-                    finishGame();
+                    if (gameMode != GameMode.ZEN) {
+                      finishGame();
+                    }
                   }
                   // Next 7 predictions are smaller text
                 } else {
@@ -436,6 +472,7 @@ public class CanvasController {
   public void searchDefinition() throws WordNotFoundException, IOException {
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
+    startDrawButton.setDisable(true);
     wordLabel.setText("Getting word definition...");
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
@@ -443,7 +480,12 @@ public class CanvasController {
           @Override
           protected Void call() throws Exception {
             String definition = DictionaryLookup.searchWordInfo(randomWord);
-            Platform.runLater(() -> wordLabel.setText(definition));
+            Platform.runLater(
+                () -> {
+                  wordLabel.setText(definition);
+                  startDrawButton.setDisable(false);
+                });
+            ;
 
             return null;
           }
@@ -491,7 +533,6 @@ public class CanvasController {
                     try {
                       updateResult(Result.LOSS);
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     finishGame();

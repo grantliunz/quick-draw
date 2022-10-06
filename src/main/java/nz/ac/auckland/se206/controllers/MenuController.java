@@ -95,12 +95,15 @@ public class MenuController {
   private void onStartClassic(ActionEvent event) throws IOException {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.CLASSIC);
+    controller.speak();
   }
 
   @FXML
   private void onStartZen(ActionEvent event) throws IOException {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.ZEN);
+    controller.speak();
+    controller.startZen();
   }
 
   @FXML
@@ -121,7 +124,6 @@ public class MenuController {
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(chosenUser);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
-    controller.speak();
     return controller;
   }
 
