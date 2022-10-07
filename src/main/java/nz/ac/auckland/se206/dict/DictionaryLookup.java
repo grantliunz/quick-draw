@@ -1,13 +1,12 @@
 package nz.ac.auckland.se206.dict;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class DictionaryLookup {
 
@@ -22,21 +21,19 @@ public class DictionaryLookup {
 
     String jsonString = responseBody.string();
 
-    try {
-      JSONObject jsonObj = (JSONObject) new JSONTokener(jsonString).nextValue();
-      String title = jsonObj.getString("title");
-      String subMessage = jsonObj.getString("message");
-      throw new WordNotFoundException(query, title, subMessage);
-    } catch (ClassCastException e) {
-    }
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    JSONArray jArray = (JSONArray) new JSONTokener(jsonString).nextValue();
-    JSONObject jsonEntryObj = jArray.getJSONObject(0);
-    JSONArray jsonMeanings = jsonEntryObj.getJSONArray("meanings");
-    JSONObject jsonMeaningObj = jsonMeanings.getJSONObject(0);
-    JSONArray jsonDefinitions = jsonMeaningObj.getJSONArray("definitions");
-    JSONObject jsonDefinitionObj = jsonDefinitions.getJSONObject(0);
-    String definition = jsonDefinitionObj.getString("definition");
+    String definition =
+        objectMapper
+            .readValue(jsonString, ObjectNode[].class)[0]
+            .get("meanings")
+            .get(0)
+            .get("definitions")
+            .get(0)
+            .get("definition")
+            .asText();
+    System.out.println(definition);
+
     return definition;
   }
 }

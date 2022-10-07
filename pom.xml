@@ -135,11 +135,6 @@
       <artifactId>okhttp</artifactId>
       <version>4.10.0</version>
     </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20220320</version>
-    </dependency>
   </dependencies>
   <groupId>nz.ac.auckland.se206</groupId>
   <modelVersion>4.0.0</modelVersion>
