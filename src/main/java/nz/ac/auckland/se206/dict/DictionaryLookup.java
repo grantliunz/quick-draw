@@ -23,17 +23,17 @@ public class DictionaryLookup {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    String definition =
-        objectMapper
-            .readValue(jsonString, ObjectNode[].class)[0]
-            .get("meanings")
-            .get(0)
-            .get("definitions")
-            .get(0)
-            .get("definition")
-            .asText();
-    System.out.println(definition);
-
-    return definition;
+    try {
+      return objectMapper
+          .readValue(jsonString, ObjectNode[].class)[0]
+          .get("meanings")
+          .get(0)
+          .get("definitions")
+          .get(0)
+          .get("definition")
+          .asText();
+    } catch (Exception e) {
+      throw new WordNotFoundException(query, "Word not found", "Word not found");
+    }
   }
 }

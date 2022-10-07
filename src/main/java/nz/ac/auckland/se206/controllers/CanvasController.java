@@ -479,10 +479,20 @@ public class CanvasController {
 
           @Override
           protected Void call() throws Exception {
-            String definition = DictionaryLookup.searchWordInfo(randomWord);
+            String definition;
+            while (true) {
+              try {
+                definition = DictionaryLookup.searchWordInfo(randomWord);
+                break;
+              } catch (WordNotFoundException e) {
+                CategorySelector selector = new CategorySelector();
+                randomWord = selector.getRandomWord(Difficulty.E);
+              }
+            }
+            String finalDefinition = definition;
             Platform.runLater(
                 () -> {
-                  wordLabel.setText(definition);
+                  wordLabel.setText(finalDefinition);
                   startDrawButton.setDisable(false);
                 });
             ;
