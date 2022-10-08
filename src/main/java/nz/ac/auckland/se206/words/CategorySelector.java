@@ -32,10 +32,14 @@ public class CategorySelector {
   }
 
   public String getRandomWord(Difficulty difficulty) {
-    if (difficulty == Difficulty.E || difficulty == Difficulty.Ma) {
+    if (difficulty == Difficulty.E) {
       return difficulty2categories
           .get(difficulty)
           .get((int) (Math.random() * difficulty2categories.get(difficulty).size()));
+    } else if (difficulty == Difficulty.Ma) {
+      return difficulty2categories
+          .get(Difficulty.H)
+          .get((int) (Math.random() * difficulty2categories.get(Difficulty.H).size()));
     } else if (difficulty == Difficulty.M) {
       List<String> wordPool = difficulty2categories.get(difficulty);
       wordPool.addAll(difficulty2categories.get(Difficulty.E));

@@ -25,11 +25,14 @@ public class SettingsController {
   @FXML private ChoiceBox<Difficulty> words;
   @FXML private ChoiceBox<Difficulty> time;
   @FXML private ChoiceBox<Difficulty> confidence;
-  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H};
+  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma};
   User user;
 
   public void initialize() {
-    accuracy.getItems().addAll(difficulty);
+    for (int i = 0; i < 3; i++) {
+      accuracy.getItems().add(difficulty[i]);
+    }
+    // accuracy.getItems().addAll(difficulty);
     // accuracy.setValue(Difficulty.E);
     words.getItems().addAll(difficulty);
     // words.setValue(Difficulty.E);
