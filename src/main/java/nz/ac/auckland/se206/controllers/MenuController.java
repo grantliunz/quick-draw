@@ -1,6 +1,5 @@
 package nz.ac.auckland.se206.controllers;
 
-import static nz.ac.auckland.se206.App.loadFxml;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.User;
@@ -44,12 +46,12 @@ public class MenuController {
     List<Button> b = new ArrayList<>(); // stores buttons
     ObjectMapper mapper = new ObjectMapper();
     File db = new File(".profiles/users.json");
-
     if (db.length() != 0) {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
       for (User user : userList2) { // creates a button based on each user in userList
         Button button = new Button(user.getName());
-        // sets what a button should do upon being pressed NOTE: may be best to just move to a
+        // sets what a button should do upon being pressed NOTE: may be best to just
+        // move to a
         // helper function
         button.setOnAction(
             e -> {
@@ -72,9 +74,12 @@ public class MenuController {
     }
   }
 
+  protected void updateUser(User user) {
+    chosenUser = user;
+  }
+
   /** Called when the gui is loaded */
   public void initialize() throws Exception {
-
     startButton.setVisible(false); // set start button invis
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
@@ -89,12 +94,24 @@ public class MenuController {
     Scene sceneButtonIsIn = button.getScene();
 
     // Make a new canvas
-    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    // SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
+    // CanvasController controller =
+    // (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    // controller.setUser(chosenUser);
+    // sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    // controller.speak();
+    // CanvasController controller = (CanvasController)
+    // SceneManager.getUiController(SceneManager.AppUi.SETTINGS);
+    // SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("settings"));
+    // SettingsController controller = (SettingsController)
+    // SceneManager.getUiController(SceneManager.AppUi.SETTINGS);
+    FXMLLoader loader = App.loadFxml("settings");
+    Object root = loader.load();
+    SettingsController controller = loader.getController();
     controller.setUser(chosenUser);
-    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
-    controller.speak();
+    controller.savedSettings();
+    // sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.SETTINGS));
+    sceneButtonIsIn.setRoot((Parent) root);
   }
 
   /**

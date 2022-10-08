@@ -11,7 +11,8 @@ public class SceneManager {
     MENU,
     CANVAS,
     PROFILE,
-    STATS
+    STATS,
+    SETTINGS
   }
 
   private static HashMap<AppUi, ViewData> sceneMap = new HashMap<>();

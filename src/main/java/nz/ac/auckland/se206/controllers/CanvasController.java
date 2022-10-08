@@ -57,11 +57,11 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
  */
 public class CanvasController {
 
-  public static final int MAX_TIME = 60;
+  public static final int MAX_TIME = 10;
 
-  private static User user;
+  private User user;
 
-  public static void setUser(User passedUser) {
+  public void setUser(User passedUser) {
     user = passedUser;
   }
 
@@ -111,8 +111,8 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, 60 - remainingTime, Difficulty.E);
-    userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
+    user.addData(randomWord, result, 10 - remainingTime, Difficulty.E);
+    userList.get(count).addData(randomWord, result, 10 - remainingTime, Difficulty.E);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -364,13 +364,20 @@ public class CanvasController {
   }
 
   @FXML
-  private void onDisplayMenu(ActionEvent event) {
+  private void onDisplayMenu(ActionEvent event) throws IOException {
     // Updates UI back to the main menu
     StatsController statsController = (StatsController) SceneManager.getUiController(AppUi.STATS);
     statsController.updateStats(user);
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
+    // FXMLLoader loader = App.loadFxml("menu");
+    // MenuController controller = loader.getController();
+    MenuController controller =
+        (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
+    controller.updateUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
+    // Parent root = loader.load();
+    // sceneButtonIsIn.setRoot(root);
   }
 
   private void populatePredictionList() throws TranslateException {
