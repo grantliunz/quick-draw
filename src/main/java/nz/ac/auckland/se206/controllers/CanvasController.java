@@ -31,9 +31,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import nz.ac.auckland.se206.dict.DictionaryLookup;
+import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
@@ -56,6 +59,12 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
  * the canvas and brush sizes, make sure that the prediction works fine.
  */
 public class CanvasController {
+
+  public enum GameMode {
+    CLASSIC,
+    ZEN,
+    HIDDEN
+  }
 
   public static final int MAX_TIME = 60;
 
@@ -91,6 +100,12 @@ public class CanvasController {
   private double currentY;
 
   private TextToSpeech tts = new TextToSpeech();
+
+  private GameMode gameMode;
+
+  public void setGameMode(GameMode gameMode) {
+    this.gameMode = gameMode;
+  }
 
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
@@ -140,6 +155,7 @@ public class CanvasController {
     // Select random word
     CategorySelector selector = new CategorySelector();
     randomWord = selector.getRandomWord(Difficulty.E);
+
     wordLabel.setText(randomWord);
 
     // Set up timer
@@ -151,6 +167,10 @@ public class CanvasController {
     saveImageButton.setVisible(false);
     predictionList0.setVisible(false);
     predictionList1.setVisible(false);
+  }
+
+  public void setTimerLabel(String string) {
+    this.timerLabel.setText(string);
   }
 
   public void speak() {
@@ -176,9 +196,31 @@ public class CanvasController {
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
     onSwitchToBrush();
+    if (gameMode != GameMode.ZEN) {
+      setTimer();
+    } else {
+      timer = new Timer();
+      timer.scheduleAtFixedRate(
+          new TimerTask() {
+            public void run() {
 
-    setTimer();
+              try {
+                populatePredictionList();
+              } catch (TranslateException e) {
+                throw new RuntimeException(e);
+              }
+            }
+          },
+          1000,
+          1000);
+    }
     startDrawButton.setVisible(false);
+  }
+
+  public void startZen() {
+    timerLabel.setText("");
+    newGameButton.setVisible(true);
+    menuButton.setVisible(true);
   }
 
   @FXML
@@ -261,7 +303,7 @@ public class CanvasController {
   }
 
   @FXML
-  private void onNewGame(ActionEvent event) throws IOException {
+  private void onNewGame(ActionEvent event) throws IOException, WordNotFoundException {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -269,7 +311,15 @@ public class CanvasController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
-    controller.speak();
+    controller.setGameMode(this.gameMode);
+    if (gameMode == GameMode.ZEN) {
+      controller.startZen();
+      controller.speak();
+    } else if (gameMode == GameMode.HIDDEN) {
+      controller.searchDefinition();
+    } else {
+      controller.speak();
+    }
   }
 
   /** This method is called when the "Clear" button is pressed. */
@@ -402,7 +452,9 @@ public class CanvasController {
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
-                    finishGame();
+                    if (gameMode != GameMode.ZEN) {
+                      finishGame();
+                    }
                   }
                   // Next 7 predictions are smaller text
                 } else {
@@ -415,6 +467,42 @@ public class CanvasController {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  public void searchDefinition() throws WordNotFoundException, IOException {
+    wordLabel.setFont(new Font(15));
+    wordLabel.setWrapText(true);
+    startDrawButton.setDisable(true);
+    wordLabel.setText("Getting word definition...");
+    javafx.concurrent.Task<Void> task =
+        new javafx.concurrent.Task<Void>() {
+
+          @Override
+          protected Void call() throws Exception {
+            String definition;
+            while (true) {
+              try {
+                definition = DictionaryLookup.searchWordInfo(randomWord);
+                break;
+              } catch (WordNotFoundException e) {
+                CategorySelector selector = new CategorySelector();
+                randomWord = selector.getRandomWord(Difficulty.E);
+              }
+            }
+            String finalDefinition = definition;
+            Platform.runLater(
+                () -> {
+                  wordLabel.setText(finalDefinition);
+                  startDrawButton.setDisable(false);
+                });
+            ;
+
+            return null;
+          }
+        };
+
+    Thread thread = new Thread(task);
+    thread.start();
   }
 
   private void setTimer() {
@@ -455,7 +543,6 @@ public class CanvasController {
                     try {
                       updateResult(Result.LOSS);
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     finishGame();
