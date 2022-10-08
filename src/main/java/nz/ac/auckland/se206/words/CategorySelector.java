@@ -47,7 +47,6 @@ public class CategorySelector {
       wordPool.addAll(difficulty2categories.get(Difficulty.M));
       return wordPool.get((int) (Math.random() * wordPool.size()));
     }
-
   }
 
   // return difficulty2categories
