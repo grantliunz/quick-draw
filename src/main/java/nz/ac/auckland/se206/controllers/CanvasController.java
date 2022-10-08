@@ -57,7 +57,7 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
  */
 public class CanvasController {
 
-  public static final int MAX_TIME = 10;
+  public static int MAX_TIME;
 
   private User user;
   private Difficulty accuracyDiffculty;
@@ -65,15 +65,6 @@ public class CanvasController {
   private Difficulty timeDiffculty;
   private Difficulty confidenceDiffculty;
   private int winningNum;
-
-  public void setUser(User passedUser) {
-    user = passedUser;
-    accuracyDiffculty = user.getDifficulty().get(0);
-    setAccuracy(accuracyDiffculty);
-    wordsDiffculty = user.getDifficulty().get(1);
-    timeDiffculty = user.getDifficulty().get(2);
-    confidenceDiffculty = user.getDifficulty().get(3);
-  }
 
   @FXML private Canvas canvas;
   @FXML private Label wordLabel;
@@ -102,6 +93,30 @@ public class CanvasController {
 
   private TextToSpeech tts = new TextToSpeech();
 
+  public void setUser(User passedUser) {
+    user = passedUser;
+    accuracyDiffculty = user.getDifficulty().get(0);
+    setAccuracy(accuracyDiffculty);
+    wordsDiffculty = user.getDifficulty().get(1);
+    timeDiffculty = user.getDifficulty().get(2);
+    setTimerDiff(timeDiffculty);
+    confidenceDiffculty = user.getDifficulty().get(3);
+  }
+
+  private void setTimerDiff(Difficulty difficulty) {
+    if (difficulty == Difficulty.Ma) {
+      MAX_TIME = 15;
+    } else if (difficulty == Difficulty.H) {
+      MAX_TIME = 30;
+    } else if (difficulty == Difficulty.M) {
+      MAX_TIME = 45;
+    } else {
+      MAX_TIME = 60;
+    }
+    timerLabel.setText(Integer.toString(MAX_TIME));
+    remainingTime = MAX_TIME;
+  }
+
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
@@ -121,8 +136,8 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, 10 - remainingTime, Difficulty.E);
-    userList.get(count).addData(randomWord, result, 10 - remainingTime, Difficulty.E);
+    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
+    userList.get(count).addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -153,7 +168,6 @@ public class CanvasController {
     wordLabel.setText(randomWord);
 
     // Set up timer
-    remainingTime = MAX_TIME;
 
     // Hide end game buttons
     newGameButton.setVisible(false);

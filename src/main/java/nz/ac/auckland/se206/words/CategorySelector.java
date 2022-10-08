@@ -14,7 +14,8 @@ public class CategorySelector {
   public enum Difficulty {
     E,
     M,
-    H
+    H,
+    Ma
   }
 
   private final Map<Difficulty, List<String>> difficulty2categories;
