@@ -60,9 +60,19 @@ public class CanvasController {
   public static final int MAX_TIME = 10;
 
   private User user;
+  private Difficulty accuracyDiffculty;
+  private Difficulty wordsDiffculty;
+  private Difficulty timeDiffculty;
+  private Difficulty confidenceDiffculty;
+  private int winningNum;
 
   public void setUser(User passedUser) {
     user = passedUser;
+    accuracyDiffculty = user.getDifficulty().get(0);
+    setAccuracy(accuracyDiffculty);
+    wordsDiffculty = user.getDifficulty().get(1);
+    timeDiffculty = user.getDifficulty().get(2);
+    confidenceDiffculty = user.getDifficulty().get(3);
   }
 
   @FXML private Canvas canvas;
@@ -399,7 +409,7 @@ public class CanvasController {
                 String prediction = classification.getClassName().replace("_", " ");
 
                 // Top 3 predictions are displayed in largest text
-                if (i <= 3) {
+                if (i <= winningNum) {
                   predictionList0.getItems().add(i + ": " + prediction);
                   // Check if prediction is correct
                   if (randomWord.equals(prediction) && predictionList0.isVisible()) {
@@ -422,6 +432,16 @@ public class CanvasController {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  private void setAccuracy(Difficulty difficulty) {
+    if (difficulty == Difficulty.H) {
+      winningNum = 1;
+    } else if (difficulty == Difficulty.M) {
+      winningNum = 2;
+    } else if (difficulty == Difficulty.E) {
+      winningNum = 3;
+    }
   }
 
   private void setTimer() {
