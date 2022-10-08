@@ -113,15 +113,22 @@ public class CanvasController {
   private int confLevel;
   private TextToSpeech tts = new TextToSpeech();
 
-  public void setUser(User passedUser) {
+  public void setUser(User passedUser) throws Exception {
     user = passedUser;
     accuracyDiffculty = user.getDifficulty().get(0);
     setAccuracy(accuracyDiffculty);
     wordsDiffculty = user.getDifficulty().get(1);
+    displayWord();
     timeDiffculty = user.getDifficulty().get(2);
     setTimerDiff(timeDiffculty);
     confidenceDiffculty = user.getDifficulty().get(3);
     setConf(confidenceDiffculty);
+  }
+
+  private void displayWord() throws Exception {
+    CategorySelector selector = new CategorySelector();
+    randomWord = selector.getRandomWord(wordsDiffculty);
+    wordLabel.setText(randomWord);
   }
 
   private void setConf(Difficulty difficulty) {
@@ -198,9 +205,9 @@ public class CanvasController {
     model = new DoodlePrediction();
 
     // Select random word
-    CategorySelector selector = new CategorySelector();
-    randomWord = selector.getRandomWord(Difficulty.E);
-    wordLabel.setText(randomWord);
+    // CategorySelector selector = new CategorySelector();
+    // randomWord = selector.getRandomWord(wordsDiffculty);
+    // wordLabel.setText(randomWord);
 
     // Set up timer
 
@@ -319,7 +326,7 @@ public class CanvasController {
   }
 
   @FXML
-  private void onNewGame(ActionEvent event) throws IOException {
+  private void onNewGame(ActionEvent event) throws Exception {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();

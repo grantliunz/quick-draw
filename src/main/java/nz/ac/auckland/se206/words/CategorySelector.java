@@ -32,10 +32,27 @@ public class CategorySelector {
   }
 
   public String getRandomWord(Difficulty difficulty) {
-    return difficulty2categories
-        .get(difficulty)
-        .get((int) (Math.random() * difficulty2categories.get(difficulty).size()));
+    if (difficulty == Difficulty.E || difficulty == Difficulty.Ma) {
+      return difficulty2categories
+          .get(difficulty)
+          .get((int) (Math.random() * difficulty2categories.get(difficulty).size()));
+    } else if (difficulty == Difficulty.M) {
+      List<String> wordPool = difficulty2categories.get(difficulty);
+      wordPool.addAll(difficulty2categories.get(Difficulty.E));
+      return wordPool.get((int) (Math.random() * wordPool.size()));
+    } else {
+      System.out.println(difficulty);
+      List<String> wordPool = difficulty2categories.get(difficulty);
+      wordPool.addAll(difficulty2categories.get(Difficulty.E));
+      wordPool.addAll(difficulty2categories.get(Difficulty.M));
+      return wordPool.get((int) (Math.random() * wordPool.size()));
+    }
+
   }
+
+  // return difficulty2categories
+  // .get(difficulty)
+  // .get((int) (Math.random() * difficulty2categories.get(difficulty).size()));
 
   private List<String[]> getLines() throws Exception {
     File file = new File(CategorySelector.class.getResource("/category_difficulty.csv").toURI());
