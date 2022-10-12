@@ -61,3 +61,24 @@
 .list-default {
   -fx-font-size: 22px;
 }
+
+/*Background color of the whole context menu*/
+.choice-box .context-menu { 
+    -fx-background-color: #6F2DBD;
+    -fx-pref-width: 150;
+  }
+/*Focused item background color in the list*/
+.choice-box .menu-item:focused { -fx-background-color: #B298DC; }
+/*Text color of non-focused items in the list*/
+.choice-box .menu-item > .label { -fx-text-fill: white; }
+/*Text color of focused item in the list*/
+.choice-box .menu-item:focused > .label { -fx-text-fill: #6F2DBD; }
+
+/*Background color of the control itself*/
+.choice-box {
+  -fx-background-color: #6F2DBD;
+  -fx-mark-color: #B298DC; /* arrow color*/
+}
+
+/* elected item text color on the control itself */
+.choice-box > .label { -fx-text-fill: white; }
