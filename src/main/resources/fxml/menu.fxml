@@ -64,7 +64,7 @@
             <String fx:value="bg-purple" />
             <String fx:value="rounded" />
          </styleClass></Button>
-      <Button fx:id="classicButton" layoutX="425.0" layoutY="385.0" mnemonicParsing="false" onAction="#onStartClassic" text="Classic">
+      <Button fx:id="startButton" layoutX="442.0" layoutY="379.0" mnemonicParsing="false" onAction="#onStart" text="Start">
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
@@ -83,25 +83,5 @@
             <String fx:value="header-text" />
          </styleClass>
       </Label>
-      <Button fx:id="zenButton" layoutX="255.0" layoutY="385.0" mnemonicParsing="false" onAction="#onStartZen" text="Zen">
-         <font>
-            <Font name="Segoe UI" size="39.0" />
-         </font>
-         <styleClass>
-            <String fx:value="bg-purple" />
-            <String fx:value="text-white" />
-            <String fx:value="rounded" />
-         </styleClass>
-      </Button>
-      <Button fx:id="hiddenButton" layoutX="627.0" layoutY="385.0" mnemonicParsing="false" onAction="#onStartHidden" text="Hidden">
-         <font>
-            <Font name="Segoe UI" size="39.0" />
-         </font>
-         <styleClass>
-            <String fx:value="bg-purple" />
-            <String fx:value="text-white" />
-            <String fx:value="rounded" />
-         </styleClass>
-      </Button>
    </children>
 </Pane>
