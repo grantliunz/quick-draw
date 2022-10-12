@@ -22,7 +22,7 @@
             <Font name="Bauhaus 93" size="58.0" />
           </font>
         </Label>
-        <Label fx:id="wordLabel" alignment="TOP_LEFT" layoutX="80.0" layoutY="136.0" prefHeight="43.0" prefWidth="273.0" styleClass="text-purple" text="Word">
+        <Label fx:id="wordLabel" alignment="BOTTOM_LEFT" layoutX="80.0" layoutY="79.0" prefHeight="100.0" prefWidth="411.0" styleClass="text-purple" text="Word">
           <font>
             <Font name="Segoe UI Bold" size="35.0" />
           </font>

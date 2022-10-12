@@ -31,9 +31,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import nz.ac.auckland.se206.dict.DictionaryLookup;
+import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
@@ -44,18 +47,31 @@ import nz.ac.auckland.se206.words.CategorySelector;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 /**
- * This is the controller of the canvas. You are free to modify this class and the corresponding
- * FXML file as you see fit. For example, you might no longer need the "Predict" button because the
+ * This is the controller of the canvas. You are free to modify this class and
+ * the corresponding
+ * FXML file as you see fit. For example, you might no longer need the "Predict"
+ * button because the
  * DL model should be automatically queried in the background every second.
  *
- * <p>!! IMPORTANT !!
+ * <p>
+ * !! IMPORTANT !!
  *
- * <p>Although we added the scale of the image, you need to be careful when changing the size of the
- * drawable canvas and the brush size. If you make the brush too big or too small with respect to
- * the canvas size, the ML model will not work correctly. So be careful. If you make some changes in
+ * <p>
+ * Although we added the scale of the image, you need to be careful when
+ * changing the size of the
+ * drawable canvas and the brush size. If you make the brush too big or too
+ * small with respect to
+ * the canvas size, the ML model will not work correctly. So be careful. If you
+ * make some changes in
  * the canvas and brush sizes, make sure that the prediction works fine.
  */
 public class CanvasController {
+
+  public enum GameMode {
+    CLASSIC,
+    ZEN,
+    HIDDEN
+  }
 
   public static int MAX_TIME;
 
@@ -66,20 +82,33 @@ public class CanvasController {
   private Difficulty confidenceDiffculty;
   private int winningNum;
 
-  @FXML private Canvas canvas;
-  @FXML private Label wordLabel;
-  @FXML private Label timerLabel;
-  @FXML private Button startDrawButton;
-  @FXML private ListView<String> predictionList0;
-  @FXML private ListView<String> predictionList1;
-  @FXML private Label resultLabel;
-  @FXML private Button brushButton;
-  @FXML private Button eraserButton;
-  @FXML private Button clearButton;
-  @FXML private Button newGameButton;
+  @FXML
+  private Canvas canvas;
+  @FXML
+  private Label wordLabel;
+  @FXML
+  private Label timerLabel;
+  @FXML
+  private Button startDrawButton;
+  @FXML
+  private ListView<String> predictionList0;
+  @FXML
+  private ListView<String> predictionList1;
+  @FXML
+  private Label resultLabel;
+  @FXML
+  private Button brushButton;
+  @FXML
+  private Button eraserButton;
+  @FXML
+  private Button clearButton;
+  @FXML
+  private Button newGameButton;
 
-  @FXML private Button menuButton;
-  @FXML private Button saveImageButton;
+  @FXML
+  private Button menuButton;
+  @FXML
+  private Button saveImageButton;
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
@@ -137,13 +166,19 @@ public class CanvasController {
     remainingTime = MAX_TIME;
   }
 
+  private GameMode gameMode;
+
+  public void setGameMode(GameMode gameMode) {
+    this.gameMode = gameMode;
+  }
+
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     User temp = null;
     int count = 0;
     // Accesses the current user
@@ -172,11 +207,13 @@ public class CanvasController {
   }
 
   /**
-   * JavaFX calls this method once the GUI elements are loaded. In our case we create a listener for
+   * JavaFX calls this method once the GUI elements are loaded. In our case we
+   * create a listener for
    * the drawing, and we load the ML model.
    *
-   * @throws ModelException If there is an error in reading the input/output of the DL model.
-   * @throws IOException If the model cannot be found on the file system.
+   * @throws ModelException If there is an error in reading the input/output of
+   *                        the DL model.
+   * @throws IOException    If the model cannot be found on the file system.
    */
   public void initialize() throws Exception {
     graphic = canvas.getGraphicsContext2D();
@@ -197,16 +234,19 @@ public class CanvasController {
     predictionList1.setVisible(false);
   }
 
+  public void setTimerLabel(String string) {
+    this.timerLabel.setText(string);
+  }
+
   public void speak() {
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            // Uses Text to speech to speak given lines
-            tts.speak("Draw", randomWord);
-            return null;
-          }
-        };
+    javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
+      @Override
+      protected Void call() throws Exception {
+        // Uses Text to speech to speak given lines
+        tts.speak("Draw", randomWord);
+        return null;
+      }
+    };
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();
@@ -220,9 +260,31 @@ public class CanvasController {
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
     onSwitchToBrush();
+    if (gameMode != GameMode.ZEN) {
+      setTimer();
+    } else {
+      timer = new Timer();
+      timer.scheduleAtFixedRate(
+          new TimerTask() {
+            public void run() {
 
-    setTimer();
+              try {
+                populatePredictionList();
+              } catch (TranslateException e) {
+                throw new RuntimeException(e);
+              }
+            }
+          },
+          1000,
+          1000);
+    }
     startDrawButton.setVisible(false);
+  }
+
+  public void startZen() {
+    timerLabel.setText("");
+    newGameButton.setVisible(true);
+    menuButton.setVisible(true);
   }
 
   @FXML
@@ -305,16 +367,23 @@ public class CanvasController {
   }
 
   @FXML
-  private void onNewGame(ActionEvent event) throws Exception {
+  private void onNewGame(ActionEvent event) throws Exception, WordNotFoundException {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    CanvasController controller = (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(user);
-    controller.speak();
+    controller.setGameMode(this.gameMode);
+    if (gameMode == GameMode.ZEN) {
+      controller.startZen();
+      controller.speak();
+    } else if (gameMode == GameMode.HIDDEN) {
+      controller.searchDefinition();
+    } else {
+      controller.speak();
+    }
   }
 
   /** This method is called when the "Clear" button is pressed. */
@@ -325,11 +394,14 @@ public class CanvasController {
   }
 
   /**
-   * This method executes when the user clicks the "Predict" button. It gets the current drawing,
-   * queries the DL model and prints on the console the top 5 predictions of the DL model and the
+   * This method executes when the user clicks the "Predict" button. It gets the
+   * current drawing,
+   * queries the DL model and prints on the console the top 5 predictions of the
+   * DL model and the
    * elapsed time of the prediction in milliseconds.
    *
-   * @throws TranslateException If there is an error in reading the input/output of the DL model.
+   * @throws TranslateException If there is an error in reading the input/output
+   *                            of the DL model.
    */
   @FXML
   private void onPredict() throws TranslateException {
@@ -352,8 +424,8 @@ public class CanvasController {
     final BufferedImage image = SwingFXUtils.fromFXImage(snapshot, null);
 
     // Convert into a binary image.
-    final BufferedImage imageBinary =
-        new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+    final BufferedImage imageBinary = new BufferedImage(image.getWidth(), image.getHeight(),
+        BufferedImage.TYPE_BYTE_BINARY);
 
     final Graphics2D graphics = imageBinary.createGraphics();
 
@@ -380,8 +452,7 @@ public class CanvasController {
     }
 
     // We save the image to a file in the tmp folder.
-    final File imageToClassify =
-        new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
+    final File imageToClassify = new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
 
     // Save the image to a file.
     ImageIO.write(getCurrentSnapshot(), "bmp", imageToClassify);
@@ -417,8 +488,7 @@ public class CanvasController {
     Scene sceneButtonIsIn = button.getScene();
     // FXMLLoader loader = App.loadFxml("menu");
     // MenuController controller = loader.getController();
-    MenuController controller =
-        (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
+    MenuController controller = (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.updateUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
     // Parent root = loader.load();
@@ -437,8 +507,8 @@ public class CanvasController {
           try {
             // Loop through top 10 predictions
             if (drawn) {
-              for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 10)) {
+              for (final Classifications.Classification classification : model.getPredictions(getCurrentSnapshot(),
+                  10)) {
 
                 String prediction = classification.getClassName().replace("_", " ");
 
@@ -455,7 +525,9 @@ public class CanvasController {
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
-                    finishGame();
+                    if (gameMode != GameMode.ZEN) {
+                      finishGame();
+                    }
                   }
                   // Next 7 predictions are smaller text
                 } else {
@@ -478,6 +550,41 @@ public class CanvasController {
     } else if (difficulty == Difficulty.E) {
       winningNum = 3;
     }
+  }
+
+  public void searchDefinition() throws WordNotFoundException, IOException {
+    wordLabel.setFont(new Font(15));
+    wordLabel.setWrapText(true);
+    startDrawButton.setDisable(true);
+    wordLabel.setText("Getting word definition...");
+    javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
+
+      @Override
+      protected Void call() throws Exception {
+        String definition;
+        while (true) {
+          try {
+            definition = DictionaryLookup.searchWordInfo(randomWord);
+            break;
+          } catch (WordNotFoundException e) {
+            CategorySelector selector = new CategorySelector();
+            randomWord = selector.getRandomWord(Difficulty.E);
+          }
+        }
+        String finalDefinition = definition;
+        Platform.runLater(
+            () -> {
+              wordLabel.setText(finalDefinition);
+              startDrawButton.setDisable(false);
+            });
+        ;
+
+        return null;
+      }
+    };
+
+    Thread thread = new Thread(task);
+    thread.start();
   }
 
   private void setTimer() {
@@ -518,7 +625,6 @@ public class CanvasController {
                     try {
                       updateResult(Result.LOSS);
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     finishGame();
