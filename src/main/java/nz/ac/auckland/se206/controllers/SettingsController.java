@@ -13,19 +13,31 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class SettingsController {
-  @FXML private Button startButton;
-  @FXML private ChoiceBox<Difficulty> accuracy;
-  @FXML private ChoiceBox<Difficulty> words;
-  @FXML private ChoiceBox<Difficulty> time;
-  @FXML private ChoiceBox<Difficulty> confidence;
-  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma};
+  // @FXML private Button startButton;
+  @FXML
+  private ChoiceBox<Difficulty> accuracy;
+  @FXML
+  private ChoiceBox<Difficulty> words;
+  @FXML
+  private ChoiceBox<Difficulty> time;
+  @FXML
+  private ChoiceBox<Difficulty> confidence;
+  @FXML
+  private Button zenButton;
+  @FXML
+  private Button classicButton;
+  @FXML
+  private Button hiddenButton;
+  private Difficulty[] difficulty = { Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma };
   User user;
 
   public void initialize() {
@@ -66,19 +78,51 @@ public class SettingsController {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    CanvasController controller = (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     controller.speak();
+  }
+
+  @FXML
+  private void onStartClassic(ActionEvent event) throws Exception {
+    CanvasController controller = startGame(event);
+    controller.setGameMode(GameMode.CLASSIC);
+    controller.speak();
+  }
+
+  @FXML
+  private void onStartZen(ActionEvent event) throws Exception {
+    CanvasController controller = startGame(event);
+    controller.setGameMode(GameMode.ZEN);
+    controller.speak();
+    controller.startZen();
+  }
+
+  @FXML
+  private void onStartHidden(ActionEvent event) throws Exception {
+    CanvasController controller = startGame(event);
+    controller.setGameMode(GameMode.HIDDEN);
+    controller.searchDefinition();
+  }
+
+  private CanvasController startGame(ActionEvent event) throws Exception {
+    updateSettings();
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
+    CanvasController controller = (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    controller.setUser(user);
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    return controller;
   }
 
   public void updateSettings() throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     int count = 0;
     for (User u : userList) {
       if (user.getName().equals(u.getName())) {
