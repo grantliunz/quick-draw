@@ -1,19 +1,24 @@
 
 .bg-light-blue {
-  -fx-background-color: #B8D0EB;
+  -fx-background-color: #A7D2CB;
 }
 
-.bg-purple {
-  -fx-background-color: #6F2DBD;
+.bg-Biege {
+  -fx-background-color: #F2D388;
 }
 
-.bg-light-purple {
-  -fx-background-color: #B298DC;
+.bg-light-Biege {
+  -fx-background-color: #FFE9A0;
 
 }
 
-.text-purple {
-  -fx-text-fill: #6F2DBD;
+.text-Burgundy {
+  -fx-text-fill: #874C62;
+
+}
+.outline.label .text {
+  -fx-stroke: #ffff;
+  -fx-stroke-width: 1px;
 }
 
 .text-white {
@@ -26,7 +31,7 @@
 
 
 .select-profile-button {
-  -fx-background-color: #6F2DBD;
+  -fx-background-color: #F2D388;
   -fx-text-fill: white;
   -fx-font-size: 30px;
   -fx-background-radius: 10px;
@@ -36,19 +41,31 @@
 
 .rounded {
   -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-border-color: #ffff;
 }
 
 
 .drawing-canvas {
-  -fx-border-color: #6F2DBD;
+  -fx-border-color: #F2D388;
   -fx-border-width: 4px;
   -fx-background-color: white;
 }
 
 .list-cell {
-  -fx-background-color: #B8D0EB;
-  -fx-text-fill: #6F2DBD;
+  -fx-background-color: transparent;
+
+  -fx-text-fill: #874C62;
   -fx-padding: 0px;
+
+}
+.pane{
+  -fx-background-color: #fff;
+  -fx-border-color: #F2D388;
+  -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-border-width: 4px;
+
 
 }
 

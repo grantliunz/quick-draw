@@ -12,23 +12,14 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.MenuController">
    <children>
-      <Label alignment="CENTER" layoutX="82.0" prefHeight="117.0" prefWidth="852.0" stylesheets="@../css/stylesheet.css" text="Speedy Sketchers presents:">
-         <font>
-            <Font name="Bauhaus 93" size="38.0" />
-         </font>
-         <styleClass>
-            <String fx:value="text-purple" />
-            <String fx:value="header-text" />
-         </styleClass>
-      </Label>
-      <Label fx:id="headerLabel" alignment="CENTER" layoutX="142.0" layoutY="198.0" prefHeight="123.0" prefWidth="764.0" styleClass="text-purple" text="Whos Playing?">
-         <font>
-            <Font name="Segoe UI Bold" size="36.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="976.0" fitWidth="1484.0" layoutX="-112.0" layoutY="-148.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/pngegg%20(1).png" />
+         </image>
+      </ImageView>
       <Button fx:id="addProfileButton" layoutX="477.0" layoutY="453.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="60.0" prefWidth="60.0" text="+" textAlignment="CENTER">
          <styleClass>
-            <String fx:value="bg-light-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="new-profile" />
             <String fx:value="rounded" />
@@ -36,13 +27,9 @@
          <font>
             <Font name="System Bold" size="40.0" />
          </font></Button>
-      <HBox fx:id="profilesHbox" alignment="CENTER" layoutX="56.0" layoutY="285.0" prefHeight="100.0" prefWidth="903.0" spacing="10.0">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding></HBox>
       <Button fx:id="switchProfileButton" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onSwitchProfile" prefHeight="100.0" prefWidth="100.0">
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
          </styleClass>
          <graphic>
@@ -61,7 +48,7 @@
             </ImageView>
          </graphic>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
          </styleClass></Button>
       <Button fx:id="classicButton" layoutX="425.0" layoutY="385.0" mnemonicParsing="false" onAction="#onStartClassic" text="Classic">
@@ -69,26 +56,17 @@
             <Font name="Segoe UI" size="39.0" />
          </font>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="rounded" />
          </styleClass>
       </Button>
-      <Label alignment="CENTER" layoutX="41.0" layoutY="81.0" prefHeight="117.0" prefWidth="918.0" stylesheets="@../css/stylesheet.css" text="Quick, Draw! SE206  Edition">
-         <font>
-            <Font name="Bauhaus 93" size="65.0" />
-         </font>
-         <styleClass>
-            <String fx:value="text-purple" />
-            <String fx:value="header-text" />
-         </styleClass>
-      </Label>
       <Button fx:id="zenButton" layoutX="255.0" layoutY="385.0" mnemonicParsing="false" onAction="#onStartZen" text="Zen">
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="rounded" />
          </styleClass>
@@ -98,10 +76,37 @@
             <Font name="Segoe UI" size="39.0" />
          </font>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="rounded" />
          </styleClass>
       </Button>
+      <HBox layoutX="314.0" layoutY="115.0" prefHeight="100.0" prefWidth="390.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="100.0" prefWidth="454.0" stylesheets="@../css/stylesheet.css" text="Quick Draw!">
+               <font>
+                  <Font name="Bauhaus 93" size="65.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text-Burgundy" />
+                  <String fx:value="outline" />
+                  <String fx:value="header-text" />
+               </styleClass>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="headerLabel" alignment="CENTER" layoutX="374.0" layoutY="206.0" prefHeight="126.0" prefWidth="300.0" text="Whos Playing?">
+         <font>
+            <Font name="Segoe UI Bold" size="36.0" />
+         </font>
+         <styleClass>
+            <String fx:value="text-Burgundy" />
+            <String fx:value="outline" />
+         </styleClass>
+      </Label>
+      <HBox fx:id="profilesHbox" alignment="CENTER" layoutX="369.0" layoutY="358.0" prefHeight="54.0" prefWidth="280.0" spacing="10.0">
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding></HBox>
    </children>
 </Pane>

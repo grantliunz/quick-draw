@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -85,7 +86,9 @@ public class CanvasController {
   @FXML private Button eraserButton;
   @FXML private Button clearButton;
   @FXML private Button newGameButton;
-
+  @FXML private ImageView fire;
+  @FXML private ImageView hotFace;
+  @FXML private ImageView coldFace;
   @FXML private Button menuButton;
   @FXML private Button saveImageButton;
   private GraphicsContext graphic;
@@ -98,7 +101,7 @@ public class CanvasController {
   // mouse coordinates
   private double currentX;
   private double currentY;
-
+  private int wordPos;
   private TextToSpeech tts = new TextToSpeech();
 
   private GameMode gameMode;
@@ -151,7 +154,7 @@ public class CanvasController {
   public void initialize() throws Exception {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
-
+    wordPos = 0;
     // Select random word
     CategorySelector selector = new CategorySelector();
     randomWord = selector.getRandomWord(Difficulty.E);
@@ -300,6 +303,7 @@ public class CanvasController {
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
     saveImageButton.setVisible(true);
+    wordPos = 0;
   }
 
   @FXML
@@ -435,7 +439,9 @@ public class CanvasController {
           try {
             // Loop through top 10 predictions
             if (drawn) {
-
+              boolean isPredicted = false;
+              hotFace.setVisible(false);
+              coldFace.setVisible(false);
               for (final Classifications.Classification classification :
                   model.getPredictions(getCurrentSnapshot(), 10)) {
 
@@ -447,6 +453,9 @@ public class CanvasController {
                   // Check if prediction is correct
                   if (randomWord.equals(prediction) && predictionList0.isVisible()) {
                     resultLabel.setText("You win!");
+                    isPredicted = true;
+                    fire.setVisible(true);
+                    fire.setFitWidth((10 - i) * 10);
                     try {
                       updateResult(Result.WIN);
                     } catch (IOException e) {
@@ -459,8 +468,25 @@ public class CanvasController {
                   // Next 7 predictions are smaller text
                 } else {
                   predictionList1.getItems().add(i + ": " + prediction);
+                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                    isPredicted = true;
+                    if (i < wordPos) {
+                      hotFace.setVisible(true);
+
+                    } else if (i > wordPos) {
+                      coldFace.setVisible(true);
+                    }
+                    fire.setVisible(true);
+                    fire.setFitWidth((10 - i) * 10);
+                    wordPos = i;
+                  }
                 }
                 i++;
+              }
+              if (!isPredicted) {
+                fire.setVisible(false);
+                hotFace.setVisible(false);
+                coldFace.setVisible(false);
               }
             }
           } catch (TranslateException e) {
