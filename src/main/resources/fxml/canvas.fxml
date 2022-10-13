@@ -9,8 +9,11 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <HBox prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CanvasController">
@@ -129,6 +132,18 @@
           <Font name="Segoe UI" size="53.0" />
         </font>
       </Label>
+            <GridPane fx:id="colorGrid" layoutX="15.0" layoutY="296.0" prefHeight="139.0" prefWidth="68.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="51.600006103515625" minWidth="10.0" prefWidth="34.399993896484375" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.40000610351562" minWidth="10.0" prefWidth="34.40000610351562" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="34.19998779296875" minHeight="10.0" prefHeight="34.19998779296875" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="41.60001220703125" minHeight="10.0" prefHeight="34.20001220703126" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="59.79999389648437" minHeight="10.0" prefHeight="33.19998779296874" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="83.19999389648439" minHeight="10.0" prefHeight="38.8" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
          </children>
       </Pane>
     <Pane prefHeight="720.0" prefWidth="421.0" stylesheets="@../css/stylesheet.css">
