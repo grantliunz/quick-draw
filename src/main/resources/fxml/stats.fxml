@@ -12,10 +12,19 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.StatsController">
    <children>
-      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="60.0" prefHeight="110.0" prefWidth="980.0" styleClass="text-purple" text="Stats" textAlignment="CENTER">
+      <ImageView fitHeight="1009.0" fitWidth="1118.0" layoutX="-79.0" layoutY="-136.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/pngegg%20(1).png" />
+         </image>
+      </ImageView>
+      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="60.0" prefHeight="110.0" prefWidth="980.0" text="Stats" textAlignment="CENTER">
          <font>
             <Font name="Bauhaus 93" size="96.0" />
          </font>
+         <styleClass>
+            <String fx:value="text-Burgundy" />
+            <String fx:value="outline" />
+         </styleClass>
       </Label>
       <Button fx:id="menu" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="100.0" prefWidth="100.0">
          <graphic>
@@ -26,30 +35,42 @@
             </ImageView>
          </graphic>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
          </styleClass>
       </Button>
-      <HBox alignment="CENTER" layoutX="83.0" layoutY="244.0" prefHeight="368.0" prefWidth="834.0">
+      <HBox alignment="CENTER" layoutX="92.0" layoutY="238.0" prefHeight="368.0" prefWidth="816.0">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="368.0" prefWidth="429.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="386.0" styleClass="text-purple" text="Games Won">
+                  <Label alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="386.0" text="Games Won">
                      <font>
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
+                     <styleClass>
+                        <String fx:value="text-Burgundy" />
+                        <String fx:value="outline" />
+                     </styleClass>
                   </Label>
                   <HBox alignment="TOP_CENTER" prefHeight="325.0" prefWidth="531.0">
                      <children>
-                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="325.0" prefWidth="378.0" styleClass="text-purple" text="Name" textAlignment="RIGHT">
+                        <Label fx:id="winListLabel" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="325.0" prefWidth="378.0" text="Name" textAlignment="RIGHT">
                            <font>
                               <Font name="Segoe UI" size="27.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="outline" />
+                           </styleClass>
                         </Label>
-                        <Label fx:id="winTimeListLabel" alignment="TOP_LEFT" prefHeight="325.0" prefWidth="175.0" styleClass="text-purple" text="Time">
+                        <Label fx:id="winTimeListLabel" alignment="TOP_LEFT" prefHeight="325.0" prefWidth="175.0" text="Time">
                            <font>
                               <Font name="Segoe UI" size="27.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="outline" />
+                           </styleClass>
                         </Label>
                      </children>
                   </HBox>
@@ -57,15 +78,23 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="368.0" prefWidth="520.0">
                <children>
-                  <Label styleClass="text-purple" text="Games Lost">
+                  <Label text="Games Lost">
                      <font>
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
+                     <styleClass>
+                        <String fx:value="text-Burgundy" />
+                        <String fx:value="outline" />
+                     </styleClass>
                   </Label>
-                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="325.0" prefWidth="367.0" styleClass="text-purple" text="Name&#10;" textAlignment="CENTER">
+                  <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="325.0" prefWidth="367.0" text="Name&#10;" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
+                     <styleClass>
+                        <String fx:value="text-Burgundy" />
+                        <String fx:value="outline" />
+                     </styleClass>
                   </Label>
                </children>
             </VBox>

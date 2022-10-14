@@ -12,15 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import nz.ac.auckland.se206.App;
-import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
-import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.User;
@@ -29,27 +24,20 @@ public class MenuController {
 
   public static List<User> userList = new ArrayList<>();
 
-  @FXML
-  private Button startButton;
+  @FXML private Button startButton;
   // @FXML
   // private Button zenButton;
   // @FXML
   // private Button hiddenButton;
-  @FXML
-  private HBox profilesHbox; // This box contains all the user profile buttons
-  @FXML
-  private Label headerLabel;
-  @FXML
-  private Button addProfileButton;
-  @FXML
-  private Button switchProfileButton;
-  @FXML
-  private Button displayStatsButton;
+  @FXML private HBox profilesHbox; // This box contains all the user profile buttons
+  @FXML private Label headerLabel;
+  @FXML private Button addProfileButton;
+  @FXML private Button switchProfileButton;
+  @FXML private Button displayStatsButton;
   private User chosenUser;
 
   /**
-   * This method is setup to display all the user profiles as buttons and assign
-   * actions to them
+   * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
    *
    * @throws IOException
@@ -61,8 +49,7 @@ public class MenuController {
     ObjectMapper mapper = new ObjectMapper();
     File db = new File(".profiles/users.json");
     if (db.length() != 0) {
-      List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {
-      });
+      List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
       for (User user : userList2) { // creates a button based on each user in userList
         Button button = new Button(user.getName());
         // sets what a button should do upon being pressed NOTE: may be best to just
@@ -71,7 +58,8 @@ public class MenuController {
         button.setOnAction(
             e -> {
               chosenUser = user;
-              StatsController statsController = (StatsController) SceneManager.getUiController(AppUi.STATS);
+              StatsController statsController =
+                  (StatsController) SceneManager.getUiController(AppUi.STATS);
               statsController.updateStats(user);
               profilesHbox.setVisible(false);
               headerLabel.setText("Welcome" + " " + button.getText() + "!");
@@ -141,7 +129,8 @@ public class MenuController {
 
     // Make a new canvas
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("settings"));
-    SettingsController controller = (SettingsController) SceneManager.getUiController(SceneManager.AppUi.SETTINGS);
+    SettingsController controller =
+        (SettingsController) SceneManager.getUiController(SceneManager.AppUi.SETTINGS);
     controller.setUser(chosenUser);
     controller.savedSettings();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.SETTINGS));
@@ -149,8 +138,7 @@ public class MenuController {
   }
 
   /**
-   * Upon clicking the + button to add a profile this method is called to switch
-   * to the profile
+   * Upon clicking the + button to add a profile this method is called to switch to the profile
    * creation menu
    *
    * @param event
@@ -163,8 +151,7 @@ public class MenuController {
   }
 
   /**
-   * This method is called when the user wants to switch profiles which takes them
-   * back to the
+   * This method is called when the user wants to switch profiles which takes them back to the
    * initial profile select menu
    *
    * @param event
