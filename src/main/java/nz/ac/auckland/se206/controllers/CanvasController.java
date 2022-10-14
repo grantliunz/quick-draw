@@ -331,6 +331,7 @@ public class CanvasController {
   private void onClear() {
     graphic.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     drawn = false;
+    fire.setVisible(false);
   }
 
   /**
@@ -443,7 +444,7 @@ public class CanvasController {
               hotFace.setVisible(false);
               coldFace.setVisible(false);
               for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 10)) {
+                  model.getPredictions(getCurrentSnapshot(), 20)) {
 
                 String prediction = classification.getClassName().replace("_", " ");
 
@@ -466,8 +467,13 @@ public class CanvasController {
                     }
                   }
                   // Next 7 predictions are smaller text
+                  else if ((i > 10) && (!randomWord.equals(prediction))) {
+                    continue;
+                  }
                 } else {
-                  predictionList1.getItems().add(i + ": " + prediction);
+                  if (i < 11) {
+                    predictionList1.getItems().add(i + ": " + prediction);
+                  }
                   if (randomWord.equals(prediction) && predictionList0.isVisible()) {
                     isPredicted = true;
                     if (i < wordPos) {
@@ -477,7 +483,7 @@ public class CanvasController {
                       coldFace.setVisible(true);
                     }
                     fire.setVisible(true);
-                    fire.setFitWidth((10 - i) * 10);
+                    fire.setFitWidth((20 - i) * 10);
                     wordPos = i;
                   }
                 }
