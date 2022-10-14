@@ -132,7 +132,7 @@
           <Font name="Segoe UI" size="53.0" />
         </font>
       </Label>
-            <GridPane fx:id="colorGrid" layoutX="15.0" layoutY="296.0" prefHeight="139.0" prefWidth="68.0">
+            <GridPane fx:id="colorGrid" layoutX="10.0" layoutY="296.0" prefHeight="139.0" prefWidth="68.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="51.600006103515625" minWidth="10.0" prefWidth="34.399993896484375" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.40000610351562" minWidth="10.0" prefWidth="34.40000610351562" />

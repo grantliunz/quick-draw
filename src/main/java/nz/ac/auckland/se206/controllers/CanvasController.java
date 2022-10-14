@@ -21,7 +21,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -219,6 +218,7 @@ public class CanvasController {
     saveImageButton.setVisible(false);
     predictionList0.setVisible(false);
     predictionList1.setVisible(false);
+    colorGrid.setVisible(false);
 
     createPenColors();
     currentColor = Color.BLACK;
@@ -250,6 +250,9 @@ public class CanvasController {
     brushButton.setDisable(false);
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
+    if (gameMode == GameMode.ZEN) {
+      saveImageButton.setVisible(true);
+    }
     onSwitchToBrush();
     if (gameMode != GameMode.ZEN) {
       setTimer();
@@ -276,6 +279,7 @@ public class CanvasController {
     timerLabel.setText("");
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
+    colorGrid.setVisible(true);
   }
 
   @FXML
@@ -582,13 +586,13 @@ public class CanvasController {
   }
 
   private void createPenColors() {
-    colorGrid.setHgap(0);
-    colorGrid.setVgap(0);
-    colorGrid.setPadding(new Insets(0, 0, 0, 0));
+    colorGrid.setHgap(2);
+    colorGrid.setVgap(2);
     for (int i = 0; i < PEN_COLORS.length; i++) {
       String color = PEN_COLORS[i];
       Button button = new Button();
       button.setStyle("-fx-background-color: " + color);
+      button.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
       button.setOnAction(
           event -> {
             currentColor = Color.web(color);
