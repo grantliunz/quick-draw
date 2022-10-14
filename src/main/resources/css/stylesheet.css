@@ -1,19 +1,24 @@
 
 .bg-light-blue {
-  -fx-background-color: #B8D0EB;
+  -fx-background-color: #A7D2CB;
 }
 
-.bg-purple {
-  -fx-background-color: #6F2DBD;
+.bg-Biege {
+  -fx-background-color: #F2D388;
 }
 
-.bg-light-purple {
-  -fx-background-color: #B298DC;
+.bg-light-Biege {
+  -fx-background-color: #FFE9A0;
 
 }
 
-.text-purple {
-  -fx-text-fill: #6F2DBD;
+.text-Burgundy {
+  -fx-text-fill: #874C62;
+
+}
+.outline.label .text {
+  -fx-stroke: #ffff;
+  -fx-stroke-width: 1px;
 }
 
 .text-white {
@@ -26,29 +31,43 @@
 
 
 .select-profile-button {
-  -fx-background-color: #6F2DBD;
+  -fx-background-color: #F2D388;
   -fx-text-fill: white;
   -fx-font-size: 30px;
   -fx-background-radius: 10px;
+  -fx-stroke: #ffff;
+  -fx-stroke-width: 1px;
 
 
 }
 
 .rounded {
   -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-border-color: #ffff;
 }
 
 
 .drawing-canvas {
-  -fx-border-color: #6F2DBD;
+  -fx-border-color: #F2D388;
   -fx-border-width: 4px;
   -fx-background-color: white;
 }
 
 .list-cell {
-  -fx-background-color: #B8D0EB;
-  -fx-text-fill: #6F2DBD;
+  -fx-background-color: transparent;
+
+  -fx-text-fill: #874C62;
   -fx-padding: 0px;
+
+}
+.pane{
+  -fx-background-color: #fff;
+  -fx-border-color: #F2D388;
+  -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-border-width: 4px;
+
 
 }
 
@@ -56,7 +75,9 @@
   -fx-font-size: 30.0px;
 
 }
-
+.button:pressed{
+-fx-background-color: #d6bb78;
+}
 
 .list-default {
   -fx-font-size: 22px;
@@ -64,20 +85,20 @@
 
 /*Background color of the whole context menu*/
 .choice-box .context-menu { 
-    -fx-background-color: #6F2DBD;
+    -fx-background-color: #F2D388;
     -fx-pref-width: 150;
   }
 /*Focused item background color in the list*/
-.choice-box .menu-item:focused { -fx-background-color: #B298DC; }
+.choice-box .menu-item:focused { -fx-background-color: #d6bb78; }
 /*Text color of non-focused items in the list*/
 .choice-box .menu-item > .label { -fx-text-fill: white; }
 /*Text color of focused item in the list*/
-.choice-box .menu-item:focused > .label { -fx-text-fill: #6F2DBD; }
+.choice-box .menu-item:focused > .label { -fx-text-fill:  white; }
 
 /*Background color of the control itself*/
 .choice-box {
-  -fx-background-color: #6F2DBD;
-  -fx-mark-color: #B298DC; /* arrow color*/
+  -fx-background-color:  #F2D388;
+  -fx-mark-color: #FFE9A0; /* arrow color*/
 }
 
 /* elected item text color on the control itself */

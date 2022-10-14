@@ -11,10 +11,19 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ProfileController">
    <children>
-      <Label layoutX="181.0" layoutY="130.0" styleClass="text-purple" text="Whats your name?">
+      <ImageView fitHeight="989.0" fitWidth="1090.0" layoutX="-49.0" layoutY="-114.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/pngegg%20(1).png" />
+         </image>
+      </ImageView>
+      <Label layoutX="181.0" layoutY="130.0" text="Whats your name?">
          <font>
             <Font name="Bauhaus 93" size="79.0" />
          </font>
+         <styleClass>
+            <String fx:value="text-Burgundy" />
+            <String fx:value="outline" />
+         </styleClass>
       </Label>
       <TextField fx:id="name" layoutX="362.0" layoutY="328.0" promptText="Enter name here" styleClass="text-purple">
          <font>
@@ -26,7 +35,7 @@
             <Font name="System Bold" size="40.0" />
          </font>
          <styleClass>
-            <String fx:value="bg-light-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="new-profile" />
             <String fx:value="rounded" />
@@ -43,9 +52,14 @@
             </ImageView>
          </graphic>
          <styleClass>
-            <String fx:value="bg-purple" />
+            <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
          </styleClass>
       </Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="836.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/transparent-cartoon-koala-snout-bored-freetoedit-sticker-by-lee5dadaccc9ec6f8.2719892115716630526504.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

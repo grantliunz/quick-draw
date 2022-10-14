@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -97,6 +98,10 @@ public class CanvasController {
 
   private Color currentColor;
 
+  @FXML private ImageView fire;
+  @FXML private ImageView hotFace;
+  @FXML private ImageView coldFace;
+
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
@@ -107,7 +112,9 @@ public class CanvasController {
   // mouse coordinates
   private double currentX;
   private double currentY;
+  private int wordPos;
   private int confLevel;
+
   private TextToSpeech tts = new TextToSpeech();
 
   public void setUser(User passedUser) throws Exception {
@@ -204,7 +211,7 @@ public class CanvasController {
   public void initialize() throws Exception {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
-
+    wordPos = 0;
     // Select random word
     // CategorySelector selector = new CategorySelector();
     // randomWord = selector.getRandomWord(wordsDiffculty);
@@ -361,6 +368,7 @@ public class CanvasController {
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
     saveImageButton.setVisible(true);
+    wordPos = 0;
   }
 
   @FXML
@@ -389,6 +397,7 @@ public class CanvasController {
   private void onClear() {
     graphic.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     drawn = false;
+    fire.setVisible(false);
   }
 
   /**
@@ -504,9 +513,11 @@ public class CanvasController {
           try {
             // Loop through top 10 predictions
             if (drawn) {
+              boolean isPredicted = false;
+              hotFace.setVisible(false);
+              coldFace.setVisible(false);
               for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 10)) {
-
+                  model.getPredictions(getCurrentSnapshot(), 20)) {
                 String prediction = classification.getClassName().replace("_", " ");
 
                 // Top 3 predictions are displayed in largest text
@@ -517,6 +528,9 @@ public class CanvasController {
                       && predictionList0.isVisible()
                       && confLevel <= classification.getProbability() * 100) {
                     resultLabel.setText("You win!");
+                    isPredicted = true;
+                    fire.setVisible(true);
+                    fire.setFitWidth((10 - i) * 10);
                     try {
                       updateResult(Result.WIN);
                     } catch (IOException e) {
@@ -527,10 +541,32 @@ public class CanvasController {
                     }
                   }
                   // Next 7 predictions are smaller text
+                  else if ((i > 10) && (!randomWord.equals(prediction))) {
+                    continue;
+                  }
                 } else {
-                  predictionList1.getItems().add(i + ": " + prediction);
+                  if (i < 11) {
+                    predictionList1.getItems().add(i + ": " + prediction);
+                  }
+                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                    isPredicted = true;
+                    if (i < wordPos) {
+                      hotFace.setVisible(true);
+
+                    } else if (i > wordPos) {
+                      coldFace.setVisible(true);
+                    }
+                    fire.setVisible(true);
+                    fire.setFitWidth((20 - i) * 10);
+                    wordPos = i;
+                  }
                 }
                 i++;
+              }
+              if (!isPredicted) {
+                fire.setVisible(false);
+                hotFace.setVisible(false);
+                coldFace.setVisible(false);
               }
             }
           } catch (TranslateException e) {
