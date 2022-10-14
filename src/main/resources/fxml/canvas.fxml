@@ -149,10 +149,10 @@
                   </Button>
                   <Label fx:id="resultLabel" alignment="CENTER" layoutX="164.0" layoutY="606.0" prefHeight="90.0" prefWidth="560.0">
                      <font>
-                        <Font name="Segoe UI" size="53.0" />
+                        <Font name="Segoe UI Bold" size="53.0" />
                      </font>
                      <styleClass>
-                        <String fx:value="text-purple" />
+                        <String fx:value="text-Burgundy" />
                         <String fx:value="outline" />
                      </styleClass>
                   </Label>

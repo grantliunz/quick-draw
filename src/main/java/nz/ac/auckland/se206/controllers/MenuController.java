@@ -16,8 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
-import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.scenes.SceneManager.AppUi;
 import nz.ac.auckland.se206.user.User;
@@ -26,9 +24,11 @@ public class MenuController {
 
   public static List<User> userList = new ArrayList<>();
 
-  @FXML private Button classicButton;
-  @FXML private Button zenButton;
-  @FXML private Button hiddenButton;
+  @FXML private Button startButton;
+  // @FXML
+  // private Button zenButton;
+  // @FXML
+  // private Button hiddenButton;
   @FXML private HBox profilesHbox; // This box contains all the user profile buttons
   @FXML private Label headerLabel;
   @FXML private Button addProfileButton;
@@ -48,12 +48,12 @@ public class MenuController {
     List<Button> b = new ArrayList<>(); // stores buttons
     ObjectMapper mapper = new ObjectMapper();
     File db = new File(".profiles/users.json");
-
     if (db.length() != 0) {
       List<User> userList2 = mapper.readValue(db, new TypeReference<List<User>>() {});
       for (User user : userList2) { // creates a button based on each user in userList
         Button button = new Button(user.getName());
-        // sets what a button should do upon being pressed NOTE: may be best to just move to a
+        // sets what a button should do upon being pressed NOTE: may be best to just
+        // move to a
         // helper function
         button.setOnAction(
             e -> {
@@ -63,9 +63,9 @@ public class MenuController {
               statsController.updateStats(user);
               profilesHbox.setVisible(false);
               headerLabel.setText("Welcome" + " " + button.getText() + "!");
-              classicButton.setVisible(true);
-              zenButton.setVisible(true);
-              hiddenButton.setVisible(true);
+              startButton.setVisible(true);
+              // zenButton.setVisible(true);
+              // hiddenButton.setVisible(true);
 
               addProfileButton.setVisible(false);
               switchProfileButton.setVisible(true);
@@ -79,51 +79,61 @@ public class MenuController {
     }
   }
 
+  protected void updateUser(User user) {
+    chosenUser = user;
+  }
+
   /** Called when the gui is loaded */
   public void initialize() throws Exception {
 
-    classicButton.setVisible(false); // set start button invis
-    zenButton.setVisible(false); // set start button invis
-    hiddenButton.setVisible(false); //
+    startButton.setVisible(false); // set start button invis
+    // zenButton.setVisible(false); // set start button invis
+    // hiddenButton.setVisible(false); //
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
     profilesHbox.setVisible(true);
     view(); // display current profiles
   }
 
-  @FXML
-  private void onStartClassic(ActionEvent event) throws IOException {
-    CanvasController controller = startGame(event);
-    controller.setGameMode(GameMode.CLASSIC);
-    controller.speak();
-  }
+  // @FXML
+  // private void onStartClassic(ActionEvent event) throws Exception {
+  // CanvasController controller = startGame(event);
+  // controller.setGameMode(GameMode.CLASSIC);
+  // controller.speak();
+  // }
+
+  // @FXML
+  // private void onStartZen(ActionEvent event) throws Exception {
+  // CanvasController controller = startGame(event);
+  // controller.setGameMode(GameMode.ZEN);
+  // controller.speak();
+  // controller.startZen();
+  // }
+
+  // @FXML
+  // private void onStartHidden(ActionEvent event) throws Exception {
+  // CanvasController controller = startGame(event);
+  // controller.setGameMode(GameMode.HIDDEN);
+  // controller.searchDefinition();
+  // }
 
   @FXML
-  private void onStartZen(ActionEvent event) throws IOException {
-    CanvasController controller = startGame(event);
-    controller.setGameMode(GameMode.ZEN);
-    controller.speak();
-    controller.startZen();
+  private void onStart(ActionEvent event) throws Exception {
+    startGame(event);
   }
 
-  @FXML
-  private void onStartHidden(ActionEvent event) throws IOException, WordNotFoundException {
-    CanvasController controller = startGame(event);
-    controller.setGameMode(GameMode.HIDDEN);
-    controller.searchDefinition();
-  }
-
-  private CanvasController startGame(ActionEvent event) throws IOException {
+  private SettingsController startGame(ActionEvent event) throws Exception {
     // Changes scene
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
 
     // Make a new canvas
-    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("settings"));
+    SettingsController controller =
+        (SettingsController) SceneManager.getUiController(SceneManager.AppUi.SETTINGS);
     controller.setUser(chosenUser);
-    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    controller.savedSettings();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.SETTINGS));
     return controller;
   }
 
@@ -151,9 +161,9 @@ public class MenuController {
     headerLabel.setText("Who's Playing?");
     // Update buttons
     profilesHbox.setVisible(true);
-    classicButton.setVisible(false);
-    zenButton.setVisible(false);
-    hiddenButton.setVisible(false);
+    startButton.setVisible(false);
+    // zenButton.setVisible(false);
+    // hiddenButton.setVisible(false);
     addProfileButton.setVisible(true);
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);

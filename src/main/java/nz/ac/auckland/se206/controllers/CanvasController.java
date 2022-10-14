@@ -67,13 +67,14 @@ public class CanvasController {
     HIDDEN
   }
 
-  public static final int MAX_TIME = 60;
+  public static int MAX_TIME;
 
-  private static User user;
-
-  public static void setUser(User passedUser) {
-    user = passedUser;
-  }
+  private User user;
+  private Difficulty accuracyDiffculty;
+  private Difficulty wordsDiffculty;
+  private Difficulty timeDiffculty;
+  private Difficulty confidenceDiffculty;
+  private int winningNum;
 
   @FXML private Canvas canvas;
   @FXML private Label wordLabel;
@@ -86,11 +87,13 @@ public class CanvasController {
   @FXML private Button eraserButton;
   @FXML private Button clearButton;
   @FXML private Button newGameButton;
+
   @FXML private ImageView fire;
   @FXML private ImageView hotFace;
   @FXML private ImageView coldFace;
   @FXML private Button menuButton;
   @FXML private Button saveImageButton;
+
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
@@ -102,7 +105,53 @@ public class CanvasController {
   private double currentX;
   private double currentY;
   private int wordPos;
+  private int confLevel;
+
   private TextToSpeech tts = new TextToSpeech();
+
+  public void setUser(User passedUser) throws Exception {
+    user = passedUser;
+    accuracyDiffculty = user.getDifficulty().get(0);
+    setAccuracy(accuracyDiffculty);
+    wordsDiffculty = user.getDifficulty().get(1);
+    displayWord();
+    timeDiffculty = user.getDifficulty().get(2);
+    setTimerDiff(timeDiffculty);
+    confidenceDiffculty = user.getDifficulty().get(3);
+    setConf(confidenceDiffculty);
+  }
+
+  private void displayWord() throws Exception {
+    CategorySelector selector = new CategorySelector();
+    randomWord = selector.getRandomWord(wordsDiffculty);
+    wordLabel.setText(randomWord);
+  }
+
+  private void setConf(Difficulty difficulty) {
+    if (difficulty == Difficulty.Ma) {
+      confLevel = 50;
+    } else if (difficulty == Difficulty.H) {
+      confLevel = 25;
+    } else if (difficulty == Difficulty.M) {
+      confLevel = 10;
+    } else {
+      confLevel = 1;
+    }
+  }
+
+  private void setTimerDiff(Difficulty difficulty) {
+    if (difficulty == Difficulty.Ma) {
+      MAX_TIME = 15;
+    } else if (difficulty == Difficulty.H) {
+      MAX_TIME = 30;
+    } else if (difficulty == Difficulty.M) {
+      MAX_TIME = 45;
+    } else {
+      MAX_TIME = 60;
+    }
+    timerLabel.setText(Integer.toString(MAX_TIME));
+    remainingTime = MAX_TIME;
+  }
 
   private GameMode gameMode;
 
@@ -129,8 +178,8 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, 60 - remainingTime, Difficulty.E);
-    userList.get(count).addData(randomWord, result, 60 - remainingTime, Difficulty.E);
+    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
+    userList.get(count).addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -156,13 +205,11 @@ public class CanvasController {
     model = new DoodlePrediction();
     wordPos = 0;
     // Select random word
-    CategorySelector selector = new CategorySelector();
-    randomWord = selector.getRandomWord(Difficulty.E);
-
-    wordLabel.setText(randomWord);
+    // CategorySelector selector = new CategorySelector();
+    // randomWord = selector.getRandomWord(wordsDiffculty);
+    // wordLabel.setText(randomWord);
 
     // Set up timer
-    remainingTime = MAX_TIME;
 
     // Hide end game buttons
     newGameButton.setVisible(false);
@@ -307,7 +354,7 @@ public class CanvasController {
   }
 
   @FXML
-  private void onNewGame(ActionEvent event) throws IOException, WordNotFoundException {
+  private void onNewGame(ActionEvent event) throws Exception, WordNotFoundException {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -315,6 +362,7 @@ public class CanvasController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    controller.setUser(user);
     controller.setGameMode(this.gameMode);
     if (gameMode == GameMode.ZEN) {
       controller.startZen();
@@ -419,13 +467,20 @@ public class CanvasController {
   }
 
   @FXML
-  private void onDisplayMenu(ActionEvent event) {
+  private void onDisplayMenu(ActionEvent event) throws IOException {
     // Updates UI back to the main menu
     StatsController statsController = (StatsController) SceneManager.getUiController(AppUi.STATS);
     statsController.updateStats(user);
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
+    // FXMLLoader loader = App.loadFxml("menu");
+    // MenuController controller = loader.getController();
+    MenuController controller =
+        (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
+    controller.updateUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
+    // Parent root = loader.load();
+    // sceneButtonIsIn.setRoot(root);
   }
 
   private void populatePredictionList() throws TranslateException {
@@ -440,6 +495,7 @@ public class CanvasController {
           try {
             // Loop through top 10 predictions
             if (drawn) {
+
               boolean isPredicted = false;
               hotFace.setVisible(false);
               coldFace.setVisible(false);
@@ -449,10 +505,12 @@ public class CanvasController {
                 String prediction = classification.getClassName().replace("_", " ");
 
                 // Top 3 predictions are displayed in largest text
-                if (i <= 3) {
+                if (i <= winningNum) {
                   predictionList0.getItems().add(i + ": " + prediction);
                   // Check if prediction is correct
-                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                  if (randomWord.equals(prediction)
+                      && predictionList0.isVisible()
+                      && confLevel <= classification.getProbability() * 100) {
                     resultLabel.setText("You win!");
                     isPredicted = true;
                     fire.setVisible(true);
@@ -499,6 +557,16 @@ public class CanvasController {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  private void setAccuracy(Difficulty difficulty) {
+    if (difficulty == Difficulty.H) {
+      winningNum = 1;
+    } else if (difficulty == Difficulty.M) {
+      winningNum = 2;
+    } else if (difficulty == Difficulty.E) {
+      winningNum = 3;
+    }
   }
 
   public void searchDefinition() throws WordNotFoundException, IOException {
