@@ -22,6 +22,9 @@ public class StatsController {
 
   @FXML private Label bestGameLabel;
 
+  @FXML private Label gamesWonLabel;
+  @FXML private Label gamesLostLabel;
+
   @FXML
   private void onReturn(ActionEvent event) {
     Button button = (Button) event.getSource();
@@ -52,8 +55,9 @@ public class StatsController {
 
   private void populateWinLists(ArrayList<Data> gamesWon) {
     // Creates a string of words won
-    StringBuilder sbWords = new StringBuilder("\n");
-    StringBuilder sbTimes = new StringBuilder(gamesWon.size() + "\n");
+    StringBuilder sbWords = new StringBuilder();
+    StringBuilder sbTimes = new StringBuilder();
+    gamesWonLabel.setText("Games Won: " + gamesWon.size());
     for (Data game : gamesWon) {
       sbWords.append(game.getWord()).append(" \n");
       sbTimes.append(" | ").append(game.getTime()).append("s\n");
@@ -66,7 +70,7 @@ public class StatsController {
 
   private void populateLossList(ArrayList<Data> gamesLost) {
     StringBuilder sbWords = new StringBuilder();
-    sbWords.append(gamesLost.size()).append("\n");
+    gamesLostLabel.setText("Games Lost: " + gamesLost.size());
     for (Data game : gamesLost) {
       sbWords.append(game.getWord()).append(" \n");
     }
