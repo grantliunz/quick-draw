@@ -18,9 +18,12 @@ import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
-  @FXML private Button homeButton;
-  @FXML private Label leaderboard;
-  @FXML private Label leaderboardScore;
+  @FXML
+  private Button homeButton;
+  @FXML
+  private Label leaderboard;
+  @FXML
+  private Label leaderboardScore;
 
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
@@ -46,11 +49,10 @@ public class LeaderboardController {
     // goes through the sorted array and sets the users and their scores
     for (User u : sortedList) {
       sbUser.append(u.getName()).append(" \n");
-      sbScore.append(" | ").append(u.getScore()).append(" points\n");
+      sbScore.append(u.getScore()).append(" points\n");
     }
     // Updates the UI
     leaderboard.setText(sbUser.toString());
-    leaderboard.setAlignment(Pos.TOP_RIGHT);
     leaderboardScore.setText(sbScore.toString());
   }
 
@@ -58,8 +60,8 @@ public class LeaderboardController {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     return userList;
   }
 
@@ -93,8 +95,8 @@ public class LeaderboardController {
   /**
    * this method is a sub function of the mergesort algorithm
    *
-   * @param l left part of the array
-   * @param r right part of the array
+   * @param l        left part of the array
+   * @param r        right part of the array
    * @param userList list of users read by json
    * @return
    */
