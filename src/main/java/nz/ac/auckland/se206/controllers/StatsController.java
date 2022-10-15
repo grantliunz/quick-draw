@@ -44,6 +44,11 @@ public class StatsController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
   }
 
+  /**
+   * updates the stats of the user chosen and updates labels
+   *
+   * @param user
+   */
   public void updateStats(User user) {
     // Changes the header to show user name
     headerLabel.setText(user.getName() + "'s Stats");

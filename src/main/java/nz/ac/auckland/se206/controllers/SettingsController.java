@@ -29,8 +29,9 @@ public class SettingsController {
   private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
   private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
 
-  User user;
+  private User user;
 
+  /** this method adds all the difficulties of the user settings */
   public void initialize() {
     for (int i = 0; i < 3; i++) {
       accuracyChoiceBox.getItems().add(difficultyNames.get(i));
@@ -40,12 +41,15 @@ public class SettingsController {
     confidenceChoiceBox.getItems().addAll(difficultyNames);
   }
 
+  /** this methods checks for saved settings and updates the labels accordingly */
   public void savedSettings() {
+    // checking whether user settings have data or not
     if (user.getDifficulty().size() == 0) {
       accuracyChoiceBox.setValue("Easy");
       wordsChoiceBox.setValue("Easy");
       timeChoiceBox.setValue("Easy");
       confidenceChoiceBox.setValue("Easy");
+      // given it does the settings are retrieved to be shown
     } else {
       accuracyChoiceBox.setValue(
           difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(0))));
@@ -60,19 +64,6 @@ public class SettingsController {
 
   public void setUser(User u) {
     user = u;
-  }
-
-  @FXML
-  public void onStart(ActionEvent event) throws Exception {
-    updateSettings();
-    Button button = (Button) event.getSource();
-    Scene sceneButtonIsIn = button.getScene();
-    SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
-    controller.setUser(user);
-    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
-    controller.speak();
   }
 
   @FXML
@@ -94,7 +85,7 @@ public class SettingsController {
   private void onStartHidden(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
-    controller.searchDefinition();
+    controller.startHidden();
   }
 
   @FXML
@@ -105,6 +96,7 @@ public class SettingsController {
   }
 
   private CanvasController startGame(ActionEvent event) throws Exception {
+    // updates settings so canvas changes functionality accordingly
     updateSettings();
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -116,6 +108,11 @@ public class SettingsController {
     return controller;
   }
 
+  /**
+   * updates the settings chosen by the user before going to canvas
+   *
+   * @throws IOException
+   */
   public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
@@ -123,12 +120,14 @@ public class SettingsController {
     List<User> userList =
         mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     int count = 0;
+    // finds the user from the user list to update settings list
     for (User u : userList) {
       if (user.getName().equals(u.getName())) {
         break;
       }
       count++;
     }
+    // sets the difficulty settings for user and writes to json file
     ArrayList<Difficulty> userDifficulty = new ArrayList<>();
     userDifficulty.add(difficultyList.get(difficultyNames.indexOf(accuracyChoiceBox.getValue())));
     userDifficulty.add(difficultyList.get(difficultyNames.indexOf(wordsChoiceBox.getValue())));

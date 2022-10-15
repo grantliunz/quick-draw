@@ -71,7 +71,24 @@ public class CanvasController {
   public static int MAX_TIME;
 
   public static String[] PEN_COLORS =
-      new String[] {"black", "red", "blue", "green", "yellow", "orange", "purple", "pink"};
+      new String[] {
+        "white",
+        "black",
+        "lightgray",
+        "gray",
+        "brown",
+        "red",
+        "orange",
+        "yellow",
+        "lime",
+        "green",
+        "cyan",
+        "blue",
+        "violet",
+        "indigo",
+        "magenta",
+        "pink",
+      };
 
   private User user;
   private Difficulty accuracyDiffculty;
@@ -84,8 +101,8 @@ public class CanvasController {
   @FXML private Label wordLabel;
   @FXML private Label timerLabel;
   @FXML private Button startDrawButton;
-  @FXML private ListView<String> predictionList0;
-  @FXML private ListView<String> predictionList1;
+  @FXML private ListView<String> predictionList;
+
   @FXML private Label resultLabel;
   @FXML private Button brushButton;
   @FXML private Button eraserButton;
@@ -102,6 +119,11 @@ public class CanvasController {
   @FXML private ImageView hotFace;
   @FXML private ImageView coldFace;
 
+  @FXML private Label hintLabel;
+  @FXML private Button hintButton;
+
+  @FXML private Label gamemodeLabel;
+
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
@@ -117,9 +139,20 @@ public class CanvasController {
 
   private TextToSpeech tts = new TextToSpeech();
 
+  private GameMode gameMode;
+
+  /**
+   * sets the user and the settings for the game
+   *
+   * @param passedUser user that is playing game
+   * @throws Exception in cases retrieving sends an error
+   */
   public void setUser(User passedUser) throws Exception {
+    // sets the user picked in the menu
     user = passedUser;
+    // using the difficulty array values set at the start
     accuracyDiffculty = user.getDifficulty().get(0);
+    // calls the required method to implement settings
     setAccuracy(accuracyDiffculty);
     wordsDiffculty = user.getDifficulty().get(1);
     displayWord();
@@ -136,6 +169,7 @@ public class CanvasController {
   }
 
   private void setConf(Difficulty difficulty) {
+    // depending on the difficulty confidence level is set
     if (difficulty == Difficulty.Ma) {
       confLevel = 50;
     } else if (difficulty == Difficulty.H) {
@@ -148,6 +182,7 @@ public class CanvasController {
   }
 
   private void setTimerDiff(Difficulty difficulty) {
+    // depending on difficulty timer value is set
     if (difficulty == Difficulty.Ma) {
       MAX_TIME = 15;
     } else if (difficulty == Difficulty.H) {
@@ -157,16 +192,23 @@ public class CanvasController {
     } else {
       MAX_TIME = 60;
     }
+    // sets the timer value for the user to see
     timerLabel.setText(Integer.toString(MAX_TIME));
     remainingTime = MAX_TIME;
   }
-
-  private GameMode gameMode;
 
   public void setGameMode(GameMode gameMode) {
     this.gameMode = gameMode;
   }
 
+  /**
+   * this methods updates the result and all other stats after game is finished
+   *
+   * @param result enum for whether won or lost
+   * @throws StreamReadException thrown if writing has a problem
+   * @throws DatabindException thrown if writing has a problem
+   * @throws IOException thrown if writing has a problem
+   */
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
@@ -246,15 +288,22 @@ public class CanvasController {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
     wordPos = 0;
+
     // Set up timer
 
     // Hide end game buttons
     newGameButton.setVisible(false);
     menuButton.setVisible(false);
     saveImageButton.setVisible(false);
-    predictionList0.setVisible(false);
-    predictionList1.setVisible(false);
+    predictionList.setVisible(false);
     colorGrid.setVisible(false);
+    hintButton.setVisible(false);
+    hintLabel.setText("");
+    gamemodeLabel.setText("Classic");
+    resultLabel.setText("");
+    fire.setVisible(false);
+    hotFace.setVisible(false);
+    coldFace.setVisible(false);
 
     createPenColors();
     currentColor = Color.BLACK;
@@ -264,6 +313,7 @@ public class CanvasController {
     this.timerLabel.setText(string);
   }
 
+  /** this is for tts implementation where word prompted is said */
   public void speak() {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
@@ -288,8 +338,11 @@ public class CanvasController {
     clearButton.setDisable(false);
     if (gameMode == GameMode.ZEN) {
       saveImageButton.setVisible(true);
+    } else if (gameMode == GameMode.HIDDEN) {
+      hintButton.setVisible(true);
     }
     onSwitchToBrush();
+    // given game mode is zen there is no timer
     if (gameMode != GameMode.ZEN) {
       setTimer();
     } else {
@@ -308,14 +361,17 @@ public class CanvasController {
           1000,
           1000);
     }
+    // lets the user draw
     startDrawButton.setVisible(false);
   }
 
+  /** sets the corresponding labels to zen mode requirements */
   public void startZen() {
     timerLabel.setText("");
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
     colorGrid.setVisible(true);
+    gamemodeLabel.setText("Zen Mode");
   }
 
   @FXML
@@ -330,8 +386,7 @@ public class CanvasController {
 
     canvas.setOnMousePressed(
         e -> {
-          predictionList1.setVisible(true);
-          predictionList0.setVisible(true);
+          predictionList.setVisible(true);
           currentX = e.getX();
           currentY = e.getY();
           graphic.fillOval(e.getX() - size / 2, e.getY() - size / 2, size, size);
@@ -390,6 +445,11 @@ public class CanvasController {
     canvas.setOnMousePressed(null);
     canvas.setCursor(Cursor.DEFAULT);
 
+    if (gameMode == GameMode.HIDDEN) {
+      hintLabel.setText(randomWord);
+      hintButton.setVisible(false);
+    }
+
     // Disable drawing buttons and show end game buttons
     brushButton.setDisable(true);
     eraserButton.setDisable(true);
@@ -407,15 +467,18 @@ public class CanvasController {
     Scene sceneButtonIsIn = button.getScene();
     drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    // controller set so that methods are accessible
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    // sets user for canvas and the gamemode
     controller.setUser(user);
     controller.setGameMode(this.gameMode);
+    // depending on game mode picked game functionality is different
     if (gameMode == GameMode.ZEN) {
       controller.startZen();
       controller.speak();
     } else if (gameMode == GameMode.HIDDEN) {
-      controller.searchDefinition();
+      controller.startHidden();
     } else {
       controller.speak();
     }
@@ -531,8 +594,7 @@ public class CanvasController {
     Platform.runLater(
         () -> {
           // Clear previous list
-          predictionList0.getItems().clear();
-          predictionList1.getItems().clear();
+          predictionList.getItems().clear();
 
           int i = 1;
 
@@ -540,18 +602,18 @@ public class CanvasController {
             // Loop through top 10 predictions
             if (drawn) {
               boolean isPredicted = false;
-              hotFace.setVisible(false);
-              coldFace.setVisible(false);
               for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 20)) {
-                String prediction = classification.getClassName().replace("_", " ");
+                  model.getPredictions(getCurrentSnapshot(), 40)) {
 
+                String prediction = classification.getClassName().replace("_", " ");
                 // Top 3 predictions are displayed in largest text
+                if (i <= 10) {
+                  predictionList.getItems().add(prediction);
+                }
                 if (i <= winningNum) {
-                  predictionList0.getItems().add(i + ": " + prediction);
                   // Check if prediction is correct
                   if (randomWord.equals(prediction)
-                      && predictionList0.isVisible()
+                      && predictionList.isVisible()
                       && confLevel <= classification.getProbability() * 100) {
                     resultLabel.setText("You win!");
                     isPredicted = true;
@@ -571,16 +633,15 @@ public class CanvasController {
                     continue;
                   }
                 } else {
-                  if (i < 11) {
-                    predictionList1.getItems().add(i + ": " + prediction);
-                  }
-                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                  if (randomWord.equals(prediction) && predictionList.isVisible()) {
                     isPredicted = true;
                     if (i < wordPos) {
                       hotFace.setVisible(true);
+                      coldFace.setVisible(false);
 
                     } else if (i > wordPos) {
                       coldFace.setVisible(true);
+                      hotFace.setVisible(false);
                     }
                     fire.setVisible(true);
                     fire.setFitWidth((20 - i) * 10);
@@ -594,6 +655,10 @@ public class CanvasController {
                 hotFace.setVisible(false);
                 coldFace.setVisible(false);
               }
+            } else {
+              fire.setVisible(false);
+              hotFace.setVisible(false);
+              coldFace.setVisible(false);
             }
           } catch (TranslateException e) {
             throw new RuntimeException(e);
@@ -602,6 +667,7 @@ public class CanvasController {
   }
 
   private void setAccuracy(Difficulty difficulty) {
+    // depending on user difficulty winning predicition becomes stricter
     if (difficulty == Difficulty.H) {
       winningNum = 1;
     } else if (difficulty == Difficulty.M) {
@@ -611,17 +677,26 @@ public class CanvasController {
     }
   }
 
-  public void searchDefinition() throws WordNotFoundException, IOException {
+  /**
+   * searches for the defintion of the random word chosen
+   *
+   * @throws WordNotFoundException if word is not found
+   * @throws IOException file error is thrown
+   */
+  public void startHidden() throws WordNotFoundException, IOException {
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
     startDrawButton.setDisable(true);
+    gamemodeLabel.setText("Hidden Mode");
     wordLabel.setText("Getting word definition...");
+    // runs a background task for no freezing
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
 
           @Override
           protected Void call() throws Exception {
             String definition;
+            // finds the defintion of word in background task
             while (true) {
               try {
                 definition = DictionaryLookup.searchWordInfo(randomWord);
@@ -632,6 +707,7 @@ public class CanvasController {
               }
             }
             String finalDefinition = definition;
+            // when defintion found word is shown on gui
             Platform.runLater(
                 () -> {
                   wordLabel.setText(finalDefinition);
@@ -642,7 +718,7 @@ public class CanvasController {
             return null;
           }
         };
-
+    // starts the thread
     Thread thread = new Thread(task);
     thread.start();
   }
@@ -662,6 +738,13 @@ public class CanvasController {
           });
       colorGrid.add(button, i % 2, i / 2);
     }
+  }
+
+  @FXML
+  private void onShowHint() {
+    hintButton.setVisible(false);
+
+    hintLabel.setText(randomWord.charAt(0) + "_".repeat(randomWord.length() - 1));
   }
 
   private void setTimer() {
@@ -690,6 +773,7 @@ public class CanvasController {
               remainingTime--;
 
               try {
+                // updates the predicition as long as timer is active
                 populatePredictionList();
               } catch (TranslateException e) {
                 throw new RuntimeException(e);
@@ -706,7 +790,6 @@ public class CanvasController {
                     }
                     finishGame();
                   });
-              finishGame();
             }
           }
         },
