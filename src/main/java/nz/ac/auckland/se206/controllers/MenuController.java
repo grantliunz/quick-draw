@@ -25,10 +25,7 @@ public class MenuController {
   public static List<User> userList = new ArrayList<>();
 
   @FXML private Button startButton;
-  // @FXML
-  // private Button zenButton;
-  // @FXML
-  // private Button hiddenButton;
+
   @FXML private HBox profilesHbox; // This box contains all the user profile buttons
   @FXML private Label headerLabel;
   @FXML private Button addProfileButton;
@@ -64,8 +61,6 @@ public class MenuController {
               profilesHbox.setVisible(false);
               headerLabel.setText("Welcome" + " " + button.getText() + "!");
               startButton.setVisible(true);
-              // zenButton.setVisible(true);
-              // hiddenButton.setVisible(true);
 
               addProfileButton.setVisible(false);
               switchProfileButton.setVisible(true);
@@ -88,34 +83,12 @@ public class MenuController {
 
     startButton.setVisible(false); // set start button invis
     // zenButton.setVisible(false); // set start button invis
-    // hiddenButton.setVisible(false); //
+
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
     profilesHbox.setVisible(true);
     view(); // display current profiles
   }
-
-  // @FXML
-  // private void onStartClassic(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.CLASSIC);
-  // controller.speak();
-  // }
-
-  // @FXML
-  // private void onStartZen(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.ZEN);
-  // controller.speak();
-  // controller.startZen();
-  // }
-
-  // @FXML
-  // private void onStartHidden(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.HIDDEN);
-  // controller.searchDefinition();
-  // }
 
   @FXML
   private void onStart(ActionEvent event) throws Exception {
@@ -162,8 +135,7 @@ public class MenuController {
     // Update buttons
     profilesHbox.setVisible(true);
     startButton.setVisible(false);
-    // zenButton.setVisible(false);
-    // hiddenButton.setVisible(false);
+
     addProfileButton.setVisible(true);
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);

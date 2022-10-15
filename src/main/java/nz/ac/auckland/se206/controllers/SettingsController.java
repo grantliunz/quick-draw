@@ -2,15 +2,13 @@ package nz.ac.auckland.se206.controllers;
 
 import static nz.ac.auckland.se206.App.loadFxml;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -23,44 +21,23 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class SettingsController {
 
-  // @FXML private Button startButton;
   @FXML private ChoiceBox<String> accuracyChoiceBox;
   @FXML private ChoiceBox<String> wordsChoiceBox;
   @FXML private ChoiceBox<String> timeChoiceBox;
   @FXML private ChoiceBox<String> confidenceChoiceBox;
-  @FXML private Button zenButton;
-  @FXML private Button classicButton;
-  @FXML private Button hiddenButton;
-  //  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma};
 
-  private final Map<String, Difficulty> difficulties =
-      Map.of(
-          "Easy", Difficulty.E,
-          "Medium", Difficulty.M,
-          "Hard", Difficulty.H,
-          "Master", Difficulty.Ma);
-
-  private final Map<Difficulty, String> difficultyNames =
-      Map.of(
-          Difficulty.E, "Easy",
-          Difficulty.M, "Medium",
-          Difficulty.H, "Hard",
-          Difficulty.Ma, "Master");
+  private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
+  private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
 
   User user;
 
   public void initialize() {
     for (int i = 0; i < 3; i++) {
-      accuracyChoiceBox.getItems().add(difficulties.keySet().toArray()[i].toString());
+      accuracyChoiceBox.getItems().add(difficultyNames.get(i));
     }
-    // accuracy.getItems().addAll(difficulty);
-    // accuracy.setValue(Difficulty.E);
-    wordsChoiceBox.getItems().addAll(difficulties.keySet());
-    // words.setValue(Difficulty.E);
-    timeChoiceBox.getItems().addAll(difficulties.keySet());
-    // time.setValue(Difficulty.E);
-    confidenceChoiceBox.getItems().addAll(difficulties.keySet());
-    // confidence.setValue(Difficulty.E);
+    wordsChoiceBox.getItems().addAll(difficultyNames);
+    timeChoiceBox.getItems().addAll(difficultyNames);
+    confidenceChoiceBox.getItems().addAll(difficultyNames);
   }
 
   public void savedSettings() {
@@ -70,10 +47,14 @@ public class SettingsController {
       timeChoiceBox.setValue("Easy");
       confidenceChoiceBox.setValue("Easy");
     } else {
-      accuracyChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(0)));
-      wordsChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(1)));
-      timeChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(2)));
-      confidenceChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(3)));
+      accuracyChoiceBox.setValue(
+          difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(0))));
+      wordsChoiceBox.setValue(
+          difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(1))));
+      timeChoiceBox.setValue(
+          difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(2))));
+      confidenceChoiceBox.setValue(
+          difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(3))));
     }
   }
 
@@ -116,6 +97,13 @@ public class SettingsController {
     controller.searchDefinition();
   }
 
+  @FXML
+  private void onReturn(ActionEvent event) {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
+  }
+
   private CanvasController startGame(ActionEvent event) throws Exception {
     updateSettings();
     Button button = (Button) event.getSource();
@@ -128,7 +116,7 @@ public class SettingsController {
     return controller;
   }
 
-  public void updateSettings() throws StreamReadException, DatabindException, IOException {
+  public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
@@ -142,10 +130,10 @@ public class SettingsController {
       count++;
     }
     ArrayList<Difficulty> userDifficulty = new ArrayList<>();
-    userDifficulty.add(difficulties.get(accuracyChoiceBox.getValue()));
-    userDifficulty.add(difficulties.get(wordsChoiceBox.getValue()));
-    userDifficulty.add(difficulties.get(timeChoiceBox.getValue()));
-    userDifficulty.add(difficulties.get(confidenceChoiceBox.getValue()));
+    userDifficulty.add(difficultyList.get(difficultyNames.indexOf(accuracyChoiceBox.getValue())));
+    userDifficulty.add(difficultyList.get(difficultyNames.indexOf(wordsChoiceBox.getValue())));
+    userDifficulty.add(difficultyList.get(difficultyNames.indexOf(timeChoiceBox.getValue())));
+    userDifficulty.add(difficultyList.get(difficultyNames.indexOf(confidenceChoiceBox.getValue())));
     userList.get(count).setDifficulty(userDifficulty);
     mapper.writeValue(new File(".profiles/users.json"), userList);
     user = userList.get(count);
