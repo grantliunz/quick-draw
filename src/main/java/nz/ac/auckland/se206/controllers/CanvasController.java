@@ -236,6 +236,7 @@ public class CanvasController {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
     wordPos = 0;
+
     // Set up timer
 
     // Hide end game buttons
@@ -248,6 +249,9 @@ public class CanvasController {
     hintLabel.setText("");
     gamemodeLabel.setText("Classic");
     resultLabel.setText("");
+    fire.setVisible(false);
+    hotFace.setVisible(false);
+    coldFace.setVisible(false);
 
     createPenColors();
     currentColor = Color.BLACK;
@@ -539,10 +543,8 @@ public class CanvasController {
             // Loop through top 10 predictions
             if (drawn) {
               boolean isPredicted = false;
-              hotFace.setVisible(false);
-              coldFace.setVisible(false);
               for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 20)) {
+                  model.getPredictions(getCurrentSnapshot(), 40)) {
                 String prediction = classification.getClassName().replace("_", " ");
                 // Top 3 predictions are displayed in largest text
                 if (i <= 10) {
@@ -575,9 +577,11 @@ public class CanvasController {
                     isPredicted = true;
                     if (i < wordPos) {
                       hotFace.setVisible(true);
+                      coldFace.setVisible(false);
 
                     } else if (i > wordPos) {
                       coldFace.setVisible(true);
+                      hotFace.setVisible(false);
                     }
                     fire.setVisible(true);
                     fire.setFitWidth((20 - i) * 10);
@@ -591,6 +595,10 @@ public class CanvasController {
                 hotFace.setVisible(false);
                 coldFace.setVisible(false);
               }
+            } else {
+              fire.setVisible(false);
+              hotFace.setVisible(false);
+              coldFace.setVisible(false);
             }
           } catch (TranslateException e) {
             throw new RuntimeException(e);

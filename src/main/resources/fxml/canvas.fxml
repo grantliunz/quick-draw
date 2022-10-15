@@ -196,7 +196,7 @@
                 </ListView>
               </children>
             </Pane>
-            <ImageView fx:id="coldFace" fitHeight="84.0" fitWidth="86.0" layoutX="323.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="coldFace" fitHeight="75.0" fitWidth="71.0" layoutX="203.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../images/cold-face-emoji-by-twitter.png" />
               </image>
@@ -211,7 +211,7 @@
                 <String fx:value="rounded" />
               </styleClass>
             </Button>
-            <ImageView fx:id="hotFace" fitHeight="75.0" fitWidth="71.0" layoutX="195.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="hotFace" fitHeight="75.0" fitWidth="71.0" layoutX="203.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../images/1f975.png" />
               </image>
