@@ -30,6 +30,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * this is to update the result of the user's game result
+   *
    * @param result the result to set
    */
   public void setResult(Result result) {
@@ -41,6 +43,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * sets the difficult of teh user's word data
+   *
    * @param difficulty the difficulty to set
    */
   public void setDifficulty(Difficulty difficulty) {
@@ -63,6 +67,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * given the word recieved by user it is updated to instance
+   *
    * @param word the word to set
    */
   public void setWord(String word) {

@@ -139,9 +139,20 @@ public class CanvasController {
 
   private TextToSpeech tts = new TextToSpeech();
 
+  private GameMode gameMode;
+
+  /**
+   * sets the user and the settings for the game
+   *
+   * @param passedUser user that is playing game
+   * @throws Exception in cases retrieving sends an error
+   */
   public void setUser(User passedUser) throws Exception {
+    // sets the user picked in the menu
     user = passedUser;
+    // using the difficulty array values set at the start
     accuracyDiffculty = user.getDifficulty().get(0);
+    // calls the required method to implement settings
     setAccuracy(accuracyDiffculty);
     wordsDiffculty = user.getDifficulty().get(1);
     displayWord();
@@ -158,6 +169,7 @@ public class CanvasController {
   }
 
   private void setConf(Difficulty difficulty) {
+    // depending on the difficulty confidence level is set
     if (difficulty == Difficulty.Ma) {
       confLevel = 50;
     } else if (difficulty == Difficulty.H) {
@@ -170,6 +182,7 @@ public class CanvasController {
   }
 
   private void setTimerDiff(Difficulty difficulty) {
+    // depending on difficulty timer value is set
     if (difficulty == Difficulty.Ma) {
       MAX_TIME = 15;
     } else if (difficulty == Difficulty.H) {
@@ -179,16 +192,23 @@ public class CanvasController {
     } else {
       MAX_TIME = 60;
     }
+    // sets the timer value for the user to see
     timerLabel.setText(Integer.toString(MAX_TIME));
     remainingTime = MAX_TIME;
   }
-
-  private GameMode gameMode;
 
   public void setGameMode(GameMode gameMode) {
     this.gameMode = gameMode;
   }
 
+  /**
+   * this methods updates the result and all other stats after game is finished
+   *
+   * @param result enum for whether won or lost
+   * @throws StreamReadException thrown if writing has a problem
+   * @throws DatabindException thrown if writing has a problem
+   * @throws IOException thrown if writing has a problem
+   */
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
@@ -261,6 +281,7 @@ public class CanvasController {
     this.timerLabel.setText(string);
   }
 
+  /** this is for tts implementation where word prompted is said */
   public void speak() {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
@@ -289,6 +310,7 @@ public class CanvasController {
       hintButton.setVisible(true);
     }
     onSwitchToBrush();
+    // given game mode is zen there is no timer
     if (gameMode != GameMode.ZEN) {
       setTimer();
     } else {
@@ -307,9 +329,11 @@ public class CanvasController {
           1000,
           1000);
     }
+    // lets the user draw
     startDrawButton.setVisible(false);
   }
 
+  /** sets the corresponding labels to zen mode requirements */
   public void startZen() {
     timerLabel.setText("");
     newGameButton.setVisible(true);
@@ -411,10 +435,13 @@ public class CanvasController {
     Scene sceneButtonIsIn = button.getScene();
     drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
+    // controller set so that methods are accessible
     CanvasController controller =
         (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    // sets user for canvas and the gamemode
     controller.setUser(user);
     controller.setGameMode(this.gameMode);
+    // depending on game mode picked game functionality is different
     if (gameMode == GameMode.ZEN) {
       controller.startZen();
       controller.speak();
@@ -545,6 +572,7 @@ public class CanvasController {
               boolean isPredicted = false;
               for (final Classifications.Classification classification :
                   model.getPredictions(getCurrentSnapshot(), 40)) {
+
                 String prediction = classification.getClassName().replace("_", " ");
                 // Top 3 predictions are displayed in largest text
                 if (i <= 10) {
@@ -607,6 +635,7 @@ public class CanvasController {
   }
 
   private void setAccuracy(Difficulty difficulty) {
+    // depending on user difficulty winning predicition becomes stricter
     if (difficulty == Difficulty.H) {
       winningNum = 1;
     } else if (difficulty == Difficulty.M) {
@@ -616,18 +645,26 @@ public class CanvasController {
     }
   }
 
+  /**
+   * searches for the defintion of the random word chosen
+   *
+   * @throws WordNotFoundException if word is not found
+   * @throws IOException file error is thrown
+   */
   public void startHidden() throws WordNotFoundException, IOException {
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
     startDrawButton.setDisable(true);
     gamemodeLabel.setText("Hidden Mode");
     wordLabel.setText("Getting word definition...");
+    // runs a background task for no freezing
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
 
           @Override
           protected Void call() throws Exception {
             String definition;
+            // finds the defintion of word in background task
             while (true) {
               try {
                 definition = DictionaryLookup.searchWordInfo(randomWord);
@@ -638,6 +675,7 @@ public class CanvasController {
               }
             }
             String finalDefinition = definition;
+            // when defintion found word is shown on gui
             Platform.runLater(
                 () -> {
                   wordLabel.setText(finalDefinition);
@@ -648,7 +686,7 @@ public class CanvasController {
             return null;
           }
         };
-
+    // starts the thread
     Thread thread = new Thread(task);
     thread.start();
   }
@@ -703,6 +741,7 @@ public class CanvasController {
               remainingTime--;
 
               try {
+                // updates the predicition as long as timer is active
                 populatePredictionList();
               } catch (TranslateException e) {
                 throw new RuntimeException(e);

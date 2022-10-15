@@ -37,9 +37,9 @@ public class MenuController {
    * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
    *
-   * @throws IOException
-   * @throws DatabindException
-   * @throws StreamReadException
+   * @throws IOExceptionerror thrown in case json has issues
+   * @throws DatabindException error thrown in case json has issues
+   * @throws StreamReadException error thrown in case json has issues
    */
   protected void view() throws StreamReadException, DatabindException, IOException {
     List<Button> b = new ArrayList<>(); // stores buttons
@@ -127,7 +127,7 @@ public class MenuController {
    * This method is called when the user wants to switch profiles which takes them back to the
    * initial profile select menu
    *
-   * @param event
+   * @param event event of the button being pressed
    */
   @FXML
   private void onSwitchProfile(ActionEvent event) {
