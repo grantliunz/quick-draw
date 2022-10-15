@@ -1,13 +1,20 @@
 package nz.ac.auckland.se206.controllers;
 
+import static nz.ac.auckland.se206.util.BadgeUtil.unlockBadges;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.Data;
 import nz.ac.auckland.se206.user.Data.Result;
@@ -24,6 +31,8 @@ public class StatsController {
 
   @FXML private Label gamesWonLabel;
   @FXML private Label gamesLostLabel;
+
+  @FXML private GridPane badgeGrid;
 
   @FXML
   private void onReturn(ActionEvent event) {
@@ -51,6 +60,9 @@ public class StatsController {
     } else {
       bestGameLabel.setText("");
     }
+
+    boolean[] badges = unlockBadges(user);
+    hideBadges(badges);
   }
 
   private void populateWinLists(ArrayList<Data> gamesWon) {
@@ -77,7 +89,26 @@ public class StatsController {
     lossListLabel.setText(sbWords.toString());
   }
 
-  private ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {
+  private void hideBadges(boolean[] badges) {
+    Node[][] gridPaneArray = new Node[2][4];
+    ObservableList<Node> children = badgeGrid.getChildren();
+    for (int i = 0; i < children.size(); i++) {
+      Node node = children.get(i);
+      if (node instanceof ImageView) {
+        ImageView imageView = (ImageView) node;
+        Image image;
+        if (!badges[i]) {
+          image = new Image("/images/badges/locked.png");
+        } else {
+          image = new Image("/images/badges/badge" + i + ".png");
+        }
+        imageView.setImage(image);
+      }
+    }
+    for (int i = 0; i < badges.length; i++) {}
+  }
+
+  public static ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {
     ArrayList<Data> wonGames = new ArrayList<>(allGames);
     wonGames.removeIf(data -> !data.getResult().equals(result));
     return wonGames;

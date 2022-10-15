@@ -178,8 +178,10 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
-    userList.get(count).addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
+    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+    userList
+        .get(count)
+        .addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
 
     // Updates the score of the user
     if (result == Result.WIN) {
