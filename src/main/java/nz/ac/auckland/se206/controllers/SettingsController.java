@@ -25,11 +25,23 @@ public class SettingsController {
   @FXML private ChoiceBox<String> wordsChoiceBox;
   @FXML private ChoiceBox<String> timeChoiceBox;
   @FXML private ChoiceBox<String> confidenceChoiceBox;
+  @FXML private Button trial;
 
   private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
   private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
 
   User user;
+
+  @FXML
+  private void trial(ActionEvent event) throws IOException {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    SceneManager.addUi(SceneManager.AppUi.LEADERBOARD, loadFxml("leaderboard"));
+    LeaderboardController controller =
+        (LeaderboardController) SceneManager.getUiController(SceneManager.AppUi.LEADERBOARD);
+    controller.updateLeaderboard();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.LEADERBOARD));
+  }
 
   public void initialize() {
     for (int i = 0; i < 3; i++) {

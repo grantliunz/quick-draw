@@ -194,12 +194,44 @@ public class CanvasController {
     // Updates the score of the user
     if (result == Result.WIN) {
       int gamesWon = temp.getGamesWon() + 1;
+      int score = userList.get(count).getScore();
+      userList.get(count).setScore(getScore() + score);
       userList.get(count).setGamesWon(gamesWon);
       mapper.writeValue(new File(".profiles/users.json"), userList);
     } else {
       int gamesLost = temp.getGamesLost() + 1;
       userList.get(count).setGamesLost(gamesLost);
       mapper.writeValue(new File(".profiles/users.json"), userList);
+    }
+  }
+
+  private int getScore() {
+    if (gameMode == GameMode.CLASSIC) {
+      return getSpecScore(accuracyDiffculty)
+          + getSpecScore(timeDiffculty)
+          + getSpecScore(wordsDiffculty)
+          + getSpecScore(confidenceDiffculty);
+    } else if (gameMode == GameMode.ZEN) {
+      return getSpecScore(wordsDiffculty)
+          + getSpecScore(confidenceDiffculty)
+          + getSpecScore(accuracyDiffculty);
+    } else {
+      return getSpecScore(accuracyDiffculty)
+          + getSpecScore(timeDiffculty)
+          + getSpecScore(wordsDiffculty)
+          + getSpecScore(confidenceDiffculty);
+    }
+  }
+
+  private int getSpecScore(Difficulty difficulty) {
+    if (difficulty == Difficulty.Ma) {
+      return 4;
+    } else if (difficulty == Difficulty.H) {
+      return 3;
+    } else if (difficulty == Difficulty.M) {
+      return 2;
+    } else {
+      return 1;
     }
   }
 

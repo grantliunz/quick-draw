@@ -12,7 +12,8 @@ public class SceneManager {
     CANVAS,
     PROFILE,
     STATS,
-    SETTINGS
+    SETTINGS,
+    LEADERBOARD
   }
 
   private static HashMap<AppUi, ViewData> sceneMap = new HashMap<>();
