@@ -36,9 +36,13 @@ public class SettingsController {
     for (int i = 0; i < 3; i++) {
       accuracyChoiceBox.getItems().add(difficultyNames.get(i));
     }
+    accuracyChoiceBox.setStyle("-fx-font-size: 20px;");
     wordsChoiceBox.getItems().addAll(difficultyNames);
+    wordsChoiceBox.setStyle("-fx-font-size: 20px;");
     timeChoiceBox.getItems().addAll(difficultyNames);
+    timeChoiceBox.setStyle("-fx-font-size: 20px;");
     confidenceChoiceBox.getItems().addAll(difficultyNames);
+    confidenceChoiceBox.setStyle("-fx-font-size: 20px;");
   }
 
   /** this methods checks for saved settings and updates the labels accordingly */
