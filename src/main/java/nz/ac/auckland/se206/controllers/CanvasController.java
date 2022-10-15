@@ -32,11 +32,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+
+
+import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.dict.DictionaryLookup;
 import nz.ac.auckland.se206.dict.WordNotFoundException;
 import nz.ac.auckland.se206.ml.DoodlePrediction;
@@ -114,6 +119,7 @@ public class CanvasController {
   private double currentY;
   private int wordPos;
   private int confLevel;
+  private static MediaPlayer player;
 
   private TextToSpeech tts = new TextToSpeech();
 
@@ -235,7 +241,7 @@ public class CanvasController {
     this.timerLabel.setText(string);
   }
 
-  public void speak() {
+  public void speakWord() {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
           @Override
@@ -250,9 +256,24 @@ public class CanvasController {
     thread.start();
   }
 
+  public void speak(String toSpeak){
+    javafx.concurrent.Task<Void> task =
+            new javafx.concurrent.Task<Void>() {
+              @Override
+              protected Void call() throws Exception {
+                // Uses Text to speech to speak given lines
+                tts.speak(toSpeak);
+                return null;
+              }
+            };
+    // Delegates speaking task to new thread to prevent blocking of GUI
+    Thread thread = new Thread(task);
+    thread.start();
+  }
+
   @FXML
   private void onStartDraw() {
-
+    speakWord();
     // Enables drawing controls
     brushButton.setDisable(false);
     eraserButton.setDisable(false);
@@ -384,11 +405,9 @@ public class CanvasController {
     controller.setGameMode(this.gameMode);
     if (gameMode == GameMode.ZEN) {
       controller.startZen();
-      controller.speak();
+
     } else if (gameMode == GameMode.HIDDEN) {
       controller.searchDefinition();
-    } else {
-      controller.speak();
     }
   }
 
@@ -527,6 +546,7 @@ public class CanvasController {
                   if (randomWord.equals(prediction)
                       && predictionList0.isVisible()
                       && confLevel <= classification.getProbability() * 100) {
+                    playSound("/sounds/mixkit-cartoon-positive-sound-2255.mp3");
                     resultLabel.setText("You win!");
                     isPredicted = true;
                     fire.setVisible(true);
@@ -656,8 +676,22 @@ public class CanvasController {
     timer.scheduleAtFixedRate(
         new TimerTask() {
           public void run() {
-
+if(remainingTime == 15){
+playSound("/sounds/mixkit-tick-tock-clock-timer-1045.mp3");
+}
             // Updated timer and predictions every second
+            if(remainingTime == 30){
+              speak("30 seconds remaining");
+            }
+            if(remainingTime == 3){
+              speak("3");
+            }
+            if(remainingTime == 2){
+              speak("2");
+            }
+            if(remainingTime == 1){
+              speak("1");
+            }
             if (remainingTime > 0) {
               Platform.setImplicitExit(false);
               Platform.runLater(() -> timerLabel.setText(Integer.toString(remainingTime)));
@@ -686,5 +720,20 @@ public class CanvasController {
         },
         1000,
         1000);
+  }
+  public static void playSound(String s){
+    javafx.concurrent.Task<Void> task =
+            new javafx.concurrent.Task<Void>() {
+              @Override
+              protected Void call() throws Exception {
+                Media sound = new Media(App.class.getResource(s).toURI().toString());
+                 player = new MediaPlayer(sound);
+                player.play();
+                return null;
+              }
+            };
+    // Delegates speaking task to new thread to prevent blocking of GUI
+    Thread thread = new Thread(task);
+    thread.start();
   }
 }
