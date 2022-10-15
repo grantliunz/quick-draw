@@ -289,6 +289,7 @@ public class CanvasController {
       saveImageButton.setVisible(true);
     }
     onSwitchToBrush();
+    // given game mode is zen there is no timer
     if (gameMode != GameMode.ZEN) {
       setTimer();
     } else {
@@ -307,6 +308,7 @@ public class CanvasController {
           1000,
           1000);
     }
+    // lets the user draw
     startDrawButton.setVisible(false);
   }
 
@@ -604,6 +606,7 @@ public class CanvasController {
   }
 
   private void setAccuracy(Difficulty difficulty) {
+    // depending on user difficulty winning predicition becomes stricter
     if (difficulty == Difficulty.H) {
       winningNum = 1;
     } else if (difficulty == Difficulty.M) {
@@ -614,15 +617,18 @@ public class CanvasController {
   }
 
   public void searchDefinition() throws WordNotFoundException, IOException {
+    // sets the style for the labels
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
     startDrawButton.setDisable(true);
     wordLabel.setText("Getting word definition...");
+    // runs a background task for no freezing
     javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
 
       @Override
       protected Void call() throws Exception {
         String definition;
+        // finds the defintion of word in background task
         while (true) {
           try {
             definition = DictionaryLookup.searchWordInfo(randomWord);
@@ -633,6 +639,7 @@ public class CanvasController {
           }
         }
         String finalDefinition = definition;
+        // when defintion found word is shown on gui
         Platform.runLater(
             () -> {
               wordLabel.setText(finalDefinition);
@@ -643,7 +650,7 @@ public class CanvasController {
         return null;
       }
     };
-
+    // starts the thread
     Thread thread = new Thread(task);
     thread.start();
   }
@@ -691,6 +698,7 @@ public class CanvasController {
               remainingTime--;
 
               try {
+                // updates the predicition as long as timer is active
                 populatePredictionList();
               } catch (TranslateException e) {
                 throw new RuntimeException(e);
