@@ -10,6 +10,18 @@ import nz.ac.auckland.se206.user.User;
 
 public class BadgeUtil {
 
+  public static final String[] BADGE_DESCRIPTIONS =
+      new String[] {
+        "Win a game in 10 \n seconds or under",
+        "Win a game in 5 \n seconds or under",
+        "Win 10 games",
+        "Win 50 games",
+        "Win 5 games in a row",
+        "Win a game with all \n the hardest settings",
+        "Unlock Zen mode",
+        "Win a game with every word"
+      };
+
   public static boolean[] unlockBadges(User user) {
     boolean[] badges = new boolean[8];
     ArrayList<Data> gameData = user.getData();

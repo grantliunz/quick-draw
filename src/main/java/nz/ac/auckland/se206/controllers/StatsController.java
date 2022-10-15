@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
+import static nz.ac.auckland.se206.util.BadgeUtil.BADGE_DESCRIPTIONS;
 import static nz.ac.auckland.se206.util.BadgeUtil.unlockBadges;
 
 import java.util.ArrayList;
@@ -7,11 +8,13 @@ import java.util.Collections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -90,22 +93,37 @@ public class StatsController {
   }
 
   private void hideBadges(boolean[] badges) {
-    Node[][] gridPaneArray = new Node[2][4];
     ObservableList<Node> children = badgeGrid.getChildren();
     for (int i = 0; i < children.size(); i++) {
       Node node = children.get(i);
-      if (node instanceof ImageView) {
-        ImageView imageView = (ImageView) node;
+      if (node instanceof ImageView imageView) {
         Image image;
+        Tooltip t;
         if (!badges[i]) {
           image = new Image("/images/badges/locked.png");
+          t = new Tooltip("LOCKED:\n " + BADGE_DESCRIPTIONS[i]);
         } else {
           image = new Image("/images/badges/badge" + i + ".png");
+          t = new Tooltip(BADGE_DESCRIPTIONS[i]);
         }
         imageView.setImage(image);
+        imageView.setPickOnBounds(true);
+        t.setShowDelay(javafx.util.Duration.millis(0));
+        t.setStyle("-fx-font-size: 20");
+        int finalI = i;
+        t.setOnShowing(
+            s -> {
+              Bounds bounds = imageView.localToScreen(imageView.getBoundsInLocal());
+              t.setX(bounds.getMinX());
+              if (finalI < 4) {
+                t.setY(bounds.getMaxY());
+              } else {
+                t.setY(bounds.getMinY() - t.getHeight());
+              }
+            });
+        Tooltip.install(imageView, t);
       }
     }
-    for (int i = 0; i < badges.length; i++) {}
   }
 
   public static ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {
