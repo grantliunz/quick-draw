@@ -25,17 +25,25 @@ import nz.ac.auckland.se206.user.User;
 
 public class StatsController {
 
-  @FXML private Label headerLabel;
-  @FXML private Label winListLabel;
-  @FXML private Label winTimeListLabel;
-  @FXML private Label lossListLabel;
+  @FXML
+  private Label headerLabel;
+  @FXML
+  private Label winListLabel;
+  @FXML
+  private Label winTimeListLabel;
+  @FXML
+  private Label lossListLabel;
 
-  @FXML private Label bestGameLabel;
+  @FXML
+  private Label bestGameLabel;
 
-  @FXML private Label gamesWonLabel;
-  @FXML private Label gamesLostLabel;
+  @FXML
+  private Label gamesWonLabel;
+  @FXML
+  private Label gamesLostLabel;
 
-  @FXML private GridPane badgeGrid;
+  @FXML
+  private GridPane badgeGrid;
 
   @FXML
   private void onReturn(ActionEvent event) {
@@ -44,6 +52,11 @@ public class StatsController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
   }
 
+  /**
+   * updates the stats of the user chosen and updates labels
+   * 
+   * @param user
+   */
   public void updateStats(User user) {
     // Changes the header to show user name
     headerLabel.setText(user.getName() + "'s Stats");

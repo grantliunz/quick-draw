@@ -12,6 +12,14 @@ public class DictionaryLookup {
 
   private static final String API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
+  /**
+   * this method returns the defintion of the random word chosen using an api
+   * 
+   * @param query
+   * @return String this is the definition of the random word
+   * @throws IOException
+   * @throws WordNotFoundException
+   */
   public static String searchWordInfo(String query) throws IOException, WordNotFoundException {
 
     OkHttpClient client = new OkHttpClient();

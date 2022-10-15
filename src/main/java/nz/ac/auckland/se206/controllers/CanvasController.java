@@ -141,6 +141,14 @@ public class CanvasController {
 
   private TextToSpeech tts = new TextToSpeech();
 
+  private GameMode gameMode;
+
+  /**
+   * sets the user and the settings for the game
+   * 
+   * @param passedUser user that is playing game
+   * @throws Exception in cases retrieving sends an error
+   */
   public void setUser(User passedUser) throws Exception {
     // sets the user picked in the menu
     user = passedUser;
@@ -191,12 +199,18 @@ public class CanvasController {
     remainingTime = MAX_TIME;
   }
 
-  private GameMode gameMode;
-
   public void setGameMode(GameMode gameMode) {
     this.gameMode = gameMode;
   }
 
+  /**
+   * this methods updates the result and all other stats after game is finished
+   * 
+   * @param result enum for whether won or lost
+   * @throws StreamReadException thrown if writing has a problem
+   * @throws DatabindException   thrown if writing has a problem
+   * @throws IOException         thrown if writing has a problem
+   */
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
@@ -264,6 +278,9 @@ public class CanvasController {
     this.timerLabel.setText(string);
   }
 
+  /**
+   * this is for tts implementation where word prompted is said
+   */
   public void speak() {
     javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
       @Override
@@ -312,6 +329,9 @@ public class CanvasController {
     startDrawButton.setVisible(false);
   }
 
+  /**
+   * sets the corresponding labels to zen mode requirements
+   */
   public void startZen() {
     timerLabel.setText("");
     newGameButton.setVisible(true);
@@ -616,6 +636,12 @@ public class CanvasController {
     }
   }
 
+  /**
+   * searches for the defintion of the random word chosen
+   * 
+   * @throws WordNotFoundException if word is not found
+   * @throws IOException           file error is thrown
+   */
   public void searchDefinition() throws WordNotFoundException, IOException {
     // sets the style for the labels
     wordLabel.setFont(new Font(15));

@@ -20,6 +20,9 @@ public class CategorySelector {
 
   private final Map<Difficulty, List<String>> difficulty2categories;
 
+  /**
+   * depending on the category of the csv file the array list is updated
+   */
   public CategorySelector() throws Exception {
     difficulty2categories = new HashMap<>();
     for (Difficulty difficulty : Difficulty.values()) {
@@ -31,12 +34,20 @@ public class CategorySelector {
     }
   }
 
+  /**
+   * method picks a random word for csv file depneding on difficulty passed
+   * 
+   * @param difficulty
+   * @return String this is the word randomly picked
+   */
   public String getRandomWord(Difficulty difficulty) {
+    // depending on the difficulty the word returned changes
     if (difficulty == Difficulty.E) {
       return difficulty2categories
           .get(difficulty)
           .get((int) (Math.random() * difficulty2categories.get(difficulty).size()));
     } else if (difficulty == Difficulty.Ma) {
+      // only hard words chosen when difficulty is master
       return difficulty2categories
           .get(Difficulty.H)
           .get((int) (Math.random() * difficulty2categories.get(Difficulty.H).size()));
@@ -44,6 +55,7 @@ public class CategorySelector {
       List<String> wordPool = difficulty2categories.get(difficulty);
       wordPool.addAll(difficulty2categories.get(Difficulty.E));
       return wordPool.get((int) (Math.random() * wordPool.size()));
+      // all words are chosen when difficulty is hard
     } else {
       System.out.println(difficulty);
       List<String> wordPool = difficulty2categories.get(difficulty);

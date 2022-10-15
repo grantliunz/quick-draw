@@ -33,8 +33,11 @@ public class SettingsController {
   private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
   private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
 
-  User user;
+  private User user;
 
+  /**
+   * this method adds all the difficulties of the user settings
+   */
   public void initialize() {
     for (int i = 0; i < 3; i++) {
       accuracyChoiceBox.getItems().add(difficultyNames.get(i));
@@ -44,6 +47,9 @@ public class SettingsController {
     confidenceChoiceBox.getItems().addAll(difficultyNames);
   }
 
+  /**
+   * this methods checks for saved settings and updates the labels accordingly
+   */
   public void savedSettings() {
     // checking whether user settings have data or not
     if (user.getDifficulty().size() == 0) {
@@ -109,6 +115,11 @@ public class SettingsController {
     return controller;
   }
 
+  /**
+   * updates the settings chosen by the user before going to canvas
+   * 
+   * @throws IOException
+   */
   public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
