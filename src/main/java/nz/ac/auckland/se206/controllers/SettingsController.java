@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -21,42 +22,58 @@ import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class SettingsController {
+
   // @FXML private Button startButton;
-  @FXML private ChoiceBox<Difficulty> accuracy;
-  @FXML private ChoiceBox<Difficulty> words;
-  @FXML private ChoiceBox<Difficulty> time;
-  @FXML private ChoiceBox<Difficulty> confidence;
+  @FXML private ChoiceBox<String> accuracyChoiceBox;
+  @FXML private ChoiceBox<String> wordsChoiceBox;
+  @FXML private ChoiceBox<String> timeChoiceBox;
+  @FXML private ChoiceBox<String> confidenceChoiceBox;
   @FXML private Button zenButton;
   @FXML private Button classicButton;
   @FXML private Button hiddenButton;
-  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma};
+  //  private Difficulty[] difficulty = {Difficulty.E, Difficulty.M, Difficulty.H, Difficulty.Ma};
+
+  private final Map<String, Difficulty> difficulties =
+      Map.of(
+          "Easy", Difficulty.E,
+          "Medium", Difficulty.M,
+          "Hard", Difficulty.H,
+          "Master", Difficulty.Ma);
+
+  private final Map<Difficulty, String> difficultyNames =
+      Map.of(
+          Difficulty.E, "Easy",
+          Difficulty.M, "Medium",
+          Difficulty.H, "Hard",
+          Difficulty.Ma, "Master");
+
   User user;
 
   public void initialize() {
     for (int i = 0; i < 3; i++) {
-      accuracy.getItems().add(difficulty[i]);
+      accuracyChoiceBox.getItems().add(difficulties.keySet().toArray()[i].toString());
     }
     // accuracy.getItems().addAll(difficulty);
     // accuracy.setValue(Difficulty.E);
-    words.getItems().addAll(difficulty);
+    wordsChoiceBox.getItems().addAll(difficulties.keySet());
     // words.setValue(Difficulty.E);
-    time.getItems().addAll(difficulty);
+    timeChoiceBox.getItems().addAll(difficulties.keySet());
     // time.setValue(Difficulty.E);
-    confidence.getItems().addAll(difficulty);
+    confidenceChoiceBox.getItems().addAll(difficulties.keySet());
     // confidence.setValue(Difficulty.E);
   }
 
   public void savedSettings() {
     if (user.getDifficulty().size() == 0) {
-      accuracy.setValue(Difficulty.E);
-      words.setValue(Difficulty.E);
-      time.setValue(Difficulty.E);
-      confidence.setValue(Difficulty.E);
+      accuracyChoiceBox.setValue("Easy");
+      wordsChoiceBox.setValue("Easy");
+      timeChoiceBox.setValue("Easy");
+      confidenceChoiceBox.setValue("Easy");
     } else {
-      accuracy.setValue(user.getDifficulty().get(0));
-      words.setValue(user.getDifficulty().get(1));
-      time.setValue(user.getDifficulty().get(2));
-      confidence.setValue(user.getDifficulty().get(3));
+      accuracyChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(0)));
+      wordsChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(1)));
+      timeChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(2)));
+      confidenceChoiceBox.setValue(difficultyNames.get(user.getDifficulty().get(3)));
     }
   }
 
@@ -125,10 +142,10 @@ public class SettingsController {
       count++;
     }
     ArrayList<Difficulty> userDifficulty = new ArrayList<>();
-    userDifficulty.add(accuracy.getValue());
-    userDifficulty.add(words.getValue());
-    userDifficulty.add(time.getValue());
-    userDifficulty.add(confidence.getValue());
+    userDifficulty.add(difficulties.get(accuracyChoiceBox.getValue()));
+    userDifficulty.add(difficulties.get(wordsChoiceBox.getValue()));
+    userDifficulty.add(difficulties.get(timeChoiceBox.getValue()));
+    userDifficulty.add(difficulties.get(confidenceChoiceBox.getValue()));
     userList.get(count).setDifficulty(userDifficulty);
     mapper.writeValue(new File(".profiles/users.json"), userList);
     user = userList.get(count);
