@@ -17,7 +17,7 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.StatsController">
    <children>
-      <ImageView fitHeight="1009.0" fitWidth="1118.0" layoutX="-95.0" layoutY="-132.0" opacity="0.11" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1009.0" fitWidth="1118.0" layoutX="-95.0" layoutY="-132.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/pngegg%20(1).png" />
          </image>
@@ -46,14 +46,10 @@
       </Button>
       <VBox alignment="TOP_CENTER" layoutX="123.0" layoutY="110.0" prefHeight="330.0" prefWidth="388.0">
          <children>
-            <Label fx:id="gamesWonLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="335.0" text="Games Won">
+            <Label fx:id="gamesWonLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="335.0" styleClass="text-Burgundy" text="Games Won">
                <font>
                   <Font name="Segoe UI Bold" size="36.0" />
                </font>
-               <styleClass>
-                  <String fx:value="text-Burgundy" />
-                  <String fx:value="outline" />
-               </styleClass>
             </Label>
             <Label fx:id="bestGameLabel" alignment="CENTER" prefHeight="45.0" prefWidth="388.0" text="FastestWord">
                <font>
@@ -104,27 +100,19 @@
       </VBox>
       <VBox alignment="TOP_CENTER" layoutX="123.0" layoutY="455.0" prefHeight="247.0" prefWidth="388.0">
          <children>
-            <Label fx:id="gamesLostLabel" alignment="CENTER" prefHeight="43.0" prefWidth="310.0" text="Games Lost">
+            <Label fx:id="gamesLostLabel" alignment="CENTER" prefHeight="43.0" prefWidth="310.0" styleClass="text-Burgundy" text="Games Lost">
                <font>
                   <Font name="Segoe UI Bold" size="36.0" />
                </font>
-               <styleClass>
-                  <String fx:value="text-Burgundy" />
-                  <String fx:value="outline" />
-               </styleClass>
             </Label>
             <ScrollPane prefHeight="200.0" prefWidth="200.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="388.0" styleClass="bg-light-Biege">
                      <children>
-                        <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="325.0" prefWidth="367.0" text="Name&#10;" textAlignment="CENTER">
+                        <Label fx:id="lossListLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="325.0" prefWidth="367.0" styleClass="text-Burgundy" text="Name&#10;" textAlignment="CENTER">
                            <font>
                               <Font size="27.0" />
                            </font>
-                           <styleClass>
-                              <String fx:value="text-Burgundy" />
-                              <String fx:value="outline" />
-                           </styleClass>
                         </Label>
                      </children>
                   </AnchorPane>

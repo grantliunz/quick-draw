@@ -20,9 +20,7 @@ public class CategorySelector {
 
   private final Map<Difficulty, List<String>> difficulty2categories;
 
-  /**
-   * depending on the category of the csv file the array list is updated
-   */
+  /** depending on the category of the csv file the array list is updated */
   public CategorySelector() throws Exception {
     difficulty2categories = new HashMap<>();
     for (Difficulty difficulty : Difficulty.values()) {
@@ -36,7 +34,7 @@ public class CategorySelector {
 
   /**
    * method picks a random word for csv file depneding on difficulty passed
-   * 
+   *
    * @param difficulty
    * @return String this is the word randomly picked
    */

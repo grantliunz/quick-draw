@@ -14,7 +14,7 @@ public class DictionaryLookup {
 
   /**
    * this method returns the defintion of the random word chosen using an api
-   * 
+   *
    * @param query
    * @return String this is the definition of the random word
    * @throws IOException

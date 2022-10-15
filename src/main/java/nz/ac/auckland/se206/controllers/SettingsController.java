@@ -21,23 +21,17 @@ import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class SettingsController {
 
-  @FXML
-  private ChoiceBox<String> accuracyChoiceBox;
-  @FXML
-  private ChoiceBox<String> wordsChoiceBox;
-  @FXML
-  private ChoiceBox<String> timeChoiceBox;
-  @FXML
-  private ChoiceBox<String> confidenceChoiceBox;
+  @FXML private ChoiceBox<String> accuracyChoiceBox;
+  @FXML private ChoiceBox<String> wordsChoiceBox;
+  @FXML private ChoiceBox<String> timeChoiceBox;
+  @FXML private ChoiceBox<String> confidenceChoiceBox;
 
   private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
   private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
 
   private User user;
 
-  /**
-   * this method adds all the difficulties of the user settings
-   */
+  /** this method adds all the difficulties of the user settings */
   public void initialize() {
     for (int i = 0; i < 3; i++) {
       accuracyChoiceBox.getItems().add(difficultyNames.get(i));
@@ -47,9 +41,7 @@ public class SettingsController {
     confidenceChoiceBox.getItems().addAll(difficultyNames);
   }
 
-  /**
-   * this methods checks for saved settings and updates the labels accordingly
-   */
+  /** this methods checks for saved settings and updates the labels accordingly */
   public void savedSettings() {
     // checking whether user settings have data or not
     if (user.getDifficulty().size() == 0) {
@@ -93,7 +85,7 @@ public class SettingsController {
   private void onStartHidden(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
-    controller.searchDefinition();
+    controller.startHidden();
   }
 
   @FXML
@@ -109,7 +101,8 @@ public class SettingsController {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
-    CanvasController controller = (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    CanvasController controller =
+        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     controller.setUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     return controller;
@@ -117,15 +110,15 @@ public class SettingsController {
 
   /**
    * updates the settings chosen by the user before going to canvas
-   * 
+   *
    * @throws IOException
    */
   public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
-    });
+    List<User> userList =
+        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     int count = 0;
     // finds the user from the user list to update settings list
     for (User u : userList) {
