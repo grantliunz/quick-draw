@@ -26,10 +26,10 @@
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font></Button>
-      <ChoiceBox fx:id="accuracy" layoutX="125.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-Biege" stylesheets="@../css/stylesheet.css" />
-      <ChoiceBox fx:id="words" layoutX="350.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" stylesheets="@../css/stylesheet.css" />
-      <ChoiceBox fx:id="time" layoutX="572.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" />
-      <ChoiceBox fx:id="confidence" layoutX="801.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" />
+      <ChoiceBox fx:id="accuracyChoiceBox" layoutX="125.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-Biege" stylesheets="@../css/stylesheet.css" />
+      <ChoiceBox fx:id="wordsChoiceBox" layoutX="350.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" stylesheets="@../css/stylesheet.css" />
+      <ChoiceBox fx:id="timeChoiceBox" layoutX="572.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" />
+      <ChoiceBox fx:id="confidenceChoiceBox" layoutX="794.0" layoutY="265.0" prefWidth="150.0" styleClass="bg-light-Biege" />
       <Button fx:id="zenButton" layoutX="165.0" layoutY="527.0" mnemonicParsing="false" onAction="#onStartZen" prefHeight="74.0" prefWidth="183.0" text="Zen">
          <styleClass>
             <String fx:value="bg-Biege" />
@@ -99,5 +99,19 @@
             <String fx:value="text-Burgundy" />
          </styleClass>
       </Label>
+      <Button fx:id="menuButton" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="100.0" prefWidth="100.0">
+         <graphic>
+            <ImageView fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <styleClass>
+            <String fx:value="bg-Biege" />
+            <String fx:value="rounded" />
+            <String fx:value="outline" />
+         </styleClass>
+      </Button>
    </children>
 </Pane>

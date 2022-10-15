@@ -186,8 +186,10 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
-    userList.get(count).addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E);
+    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+    userList
+        .get(count)
+        .addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -212,11 +214,6 @@ public class CanvasController {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
     wordPos = 0;
-    // Select random word
-    // CategorySelector selector = new CategorySelector();
-    // randomWord = selector.getRandomWord(wordsDiffculty);
-    // wordLabel.setText(randomWord);
-
     // Set up timer
 
     // Hide end game buttons
@@ -491,14 +488,11 @@ public class CanvasController {
     statsController.updateStats(user);
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
-    // FXMLLoader loader = App.loadFxml("menu");
-    // MenuController controller = loader.getController();
+
     MenuController controller =
         (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.updateUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
-    // Parent root = loader.load();
-    // sceneButtonIsIn.setRoot(root);
   }
 
   private void populatePredictionList() throws TranslateException {
