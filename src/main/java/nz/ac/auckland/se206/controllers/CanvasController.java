@@ -102,6 +102,9 @@ public class CanvasController {
   @FXML private ImageView hotFace;
   @FXML private ImageView coldFace;
 
+  @FXML private Label hintLabel;
+  @FXML private Button hintButton;
+
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
@@ -223,6 +226,8 @@ public class CanvasController {
     predictionList0.setVisible(false);
     predictionList1.setVisible(false);
     colorGrid.setVisible(false);
+    hintButton.setVisible(false);
+    hintLabel.setText("");
 
     createPenColors();
     currentColor = Color.BLACK;
@@ -357,6 +362,11 @@ public class CanvasController {
     canvas.setOnMouseDragged(null);
     canvas.setOnMousePressed(null);
     canvas.setCursor(Cursor.DEFAULT);
+
+    if (gameMode == GameMode.HIDDEN) {
+      hintLabel.setText(randomWord);
+      hintButton.setVisible(false);
+    }
 
     // Disable drawing buttons and show end game buttons
     brushButton.setDisable(true);
@@ -580,6 +590,7 @@ public class CanvasController {
   }
 
   public void searchDefinition() throws WordNotFoundException, IOException {
+    hintButton.setVisible(true);
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
     startDrawButton.setDisable(true);
@@ -632,6 +643,13 @@ public class CanvasController {
     }
   }
 
+  @FXML
+  private void onShowHint() {
+    hintButton.setVisible(false);
+
+    hintLabel.setText(randomWord.charAt(0) + "_".repeat(randomWord.length() - 1));
+  }
+
   private void setTimer() {
     /*
      * Adapted from:
@@ -674,7 +692,6 @@ public class CanvasController {
                     }
                     finishGame();
                   });
-              finishGame();
             }
           }
         },
