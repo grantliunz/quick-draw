@@ -88,7 +88,7 @@
          <padding>
             <Insets left="10.0" right="10.0" />
          </padding></HBox>
-      <Button fx:id="leaderboard" alignment="CENTER" layoutX="374.0" layoutY="619.0" mnemonicParsing="false" onAction="#switchToLeaderboard" text="Leaderboard">
+      <Button fx:id="leaderboardButton" alignment="CENTER" layoutX="374.0" layoutY="619.0" mnemonicParsing="false" onAction="#onSwitchToLeaderboard" text="Leaderboard">
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
