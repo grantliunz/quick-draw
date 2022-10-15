@@ -31,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -69,6 +70,9 @@ public class CanvasController {
 
   public static int MAX_TIME;
 
+  public static String[] PEN_COLORS =
+      new String[] {"black", "red", "blue", "green", "yellow", "orange", "purple", "pink"};
+
   private User user;
   private Difficulty accuracyDiffculty;
   private Difficulty wordsDiffculty;
@@ -88,11 +92,15 @@ public class CanvasController {
   @FXML private Button clearButton;
   @FXML private Button newGameButton;
 
+  @FXML private Button menuButton;
+  @FXML private Button saveImageButton;
+  @FXML private GridPane colorGrid;
+
+  private Color currentColor;
+
   @FXML private ImageView fire;
   @FXML private ImageView hotFace;
   @FXML private ImageView coldFace;
-  @FXML private Button menuButton;
-  @FXML private Button saveImageButton;
 
   private GraphicsContext graphic;
   private DoodlePrediction model;
@@ -219,6 +227,10 @@ public class CanvasController {
     saveImageButton.setVisible(false);
     predictionList0.setVisible(false);
     predictionList1.setVisible(false);
+    colorGrid.setVisible(false);
+
+    createPenColors();
+    currentColor = Color.BLACK;
   }
 
   public void setTimerLabel(String string) {
@@ -247,6 +259,9 @@ public class CanvasController {
     brushButton.setDisable(false);
     eraserButton.setDisable(false);
     clearButton.setDisable(false);
+    if (gameMode == GameMode.ZEN) {
+      saveImageButton.setVisible(true);
+    }
     onSwitchToBrush();
     if (gameMode != GameMode.ZEN) {
       setTimer();
@@ -273,6 +288,7 @@ public class CanvasController {
     timerLabel.setText("");
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
+    colorGrid.setVisible(true);
   }
 
   @FXML
@@ -283,7 +299,7 @@ public class CanvasController {
     canvas.setCursor(new ImageCursor(new Image("images/purplePencil.png"), 0, 1000));
 
     // This is the colour of the brush.
-    graphic.setFill(Color.BLACK);
+    graphic.setFill(currentColor);
 
     canvas.setOnMousePressed(
         e -> {
@@ -300,10 +316,12 @@ public class CanvasController {
           final double x = e.getX() - size / 2;
           final double y = e.getY() - size / 2;
           // This is the colour of the brush.
-          graphic.setFill(Color.BLACK);
+          graphic.setFill(currentColor);
           graphic.setLineWidth(size);
 
           // Create a line that goes from the point (currentX, currentY) and (x,y)
+          graphic.setStroke(currentColor);
+
           graphic.strokeLine(currentX, currentY, x, y);
 
           // update the coordinates
@@ -497,13 +515,11 @@ public class CanvasController {
           try {
             // Loop through top 10 predictions
             if (drawn) {
-
               boolean isPredicted = false;
               hotFace.setVisible(false);
               coldFace.setVisible(false);
               for (final Classifications.Classification classification :
                   model.getPredictions(getCurrentSnapshot(), 20)) {
-
                 String prediction = classification.getClassName().replace("_", " ");
 
                 // Top 3 predictions are displayed in largest text
@@ -605,6 +621,23 @@ public class CanvasController {
 
     Thread thread = new Thread(task);
     thread.start();
+  }
+
+  private void createPenColors() {
+    colorGrid.setHgap(2);
+    colorGrid.setVgap(2);
+    for (int i = 0; i < PEN_COLORS.length; i++) {
+      String color = PEN_COLORS[i];
+      Button button = new Button();
+      button.setStyle("-fx-background-color: " + color);
+      button.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+      button.setOnAction(
+          event -> {
+            currentColor = Color.web(color);
+            onSwitchToBrush();
+          });
+      colorGrid.add(button, i % 2, i / 2);
+    }
   }
 
   private void setTimer() {
