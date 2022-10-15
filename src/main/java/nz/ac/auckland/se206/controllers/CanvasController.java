@@ -627,9 +627,7 @@ public class CanvasController {
                     if (gameMode != GameMode.ZEN) {
                       finishGame();
                     }
-                  }
-                  // Next 7 predictions are smaller text
-                  else if ((i > 10) && (!randomWord.equals(prediction))) {
+                  } else if ((i > 10) && (!randomWord.equals(prediction))) {
                     continue;
                   }
                 } else {
