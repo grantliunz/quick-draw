@@ -11,6 +11,7 @@ public class User implements Serializable {
   private String name;
   private int gamesWon = 0;
   private int gamesLost = 0;
+  private int score = 0;
   private ArrayList<Data> stats = new ArrayList<>();
   private ArrayList<Difficulty> difficulty = new ArrayList<>();
 
@@ -26,6 +27,14 @@ public class User implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getScore() {
+    return this.score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   public int getGamesWon() {

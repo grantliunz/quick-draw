@@ -44,6 +44,7 @@ public class App extends Application {
     SceneManager.addUi(SceneManager.AppUi.PROFILE, loadFxml("profile"));
     SceneManager.addUi(SceneManager.AppUi.STATS, loadFxml("stats"));
     SceneManager.addUi(SceneManager.AppUi.SETTINGS, loadFxml("settings"));
+    SceneManager.addUi(SceneManager.AppUi.LEADERBOARD, loadFxml("leaderboard"));
 
     // Creates a profiles directory
     File dir = new File(".profiles");
