@@ -71,7 +71,24 @@ public class CanvasController {
   public static int MAX_TIME;
 
   public static String[] PEN_COLORS =
-      new String[] {"black", "red", "blue", "green", "yellow", "orange", "purple", "pink"};
+      new String[] {
+        "white",
+        "black",
+        "lightgray",
+        "gray",
+        "brown",
+        "red",
+        "orange",
+        "yellow",
+        "lime",
+        "green",
+        "cyan",
+        "blue",
+        "violet",
+        "indigo",
+        "magenta",
+        "pink",
+      };
 
   private User user;
   private Difficulty accuracyDiffculty;
@@ -84,8 +101,8 @@ public class CanvasController {
   @FXML private Label wordLabel;
   @FXML private Label timerLabel;
   @FXML private Button startDrawButton;
-  @FXML private ListView<String> predictionList0;
-  @FXML private ListView<String> predictionList1;
+  @FXML private ListView<String> predictionList;
+
   @FXML private Label resultLabel;
   @FXML private Button brushButton;
   @FXML private Button eraserButton;
@@ -104,6 +121,8 @@ public class CanvasController {
 
   @FXML private Label hintLabel;
   @FXML private Button hintButton;
+
+  @FXML private Label gamemodeLabel;
 
   private GraphicsContext graphic;
   private DoodlePrediction model;
@@ -223,11 +242,12 @@ public class CanvasController {
     newGameButton.setVisible(false);
     menuButton.setVisible(false);
     saveImageButton.setVisible(false);
-    predictionList0.setVisible(false);
-    predictionList1.setVisible(false);
+    predictionList.setVisible(false);
     colorGrid.setVisible(false);
     hintButton.setVisible(false);
     hintLabel.setText("");
+    gamemodeLabel.setText("Classic");
+    resultLabel.setText("");
 
     createPenColors();
     currentColor = Color.BLACK;
@@ -261,6 +281,8 @@ public class CanvasController {
     clearButton.setDisable(false);
     if (gameMode == GameMode.ZEN) {
       saveImageButton.setVisible(true);
+    } else if (gameMode == GameMode.HIDDEN) {
+      hintButton.setVisible(true);
     }
     onSwitchToBrush();
     if (gameMode != GameMode.ZEN) {
@@ -289,6 +311,7 @@ public class CanvasController {
     newGameButton.setVisible(true);
     menuButton.setVisible(true);
     colorGrid.setVisible(true);
+    gamemodeLabel.setText("Zen Mode");
   }
 
   @FXML
@@ -303,8 +326,7 @@ public class CanvasController {
 
     canvas.setOnMousePressed(
         e -> {
-          predictionList1.setVisible(true);
-          predictionList0.setVisible(true);
+          predictionList.setVisible(true);
           currentX = e.getX();
           currentY = e.getY();
           graphic.fillOval(e.getX() - size / 2, e.getY() - size / 2, size, size);
@@ -393,7 +415,7 @@ public class CanvasController {
       controller.startZen();
       controller.speak();
     } else if (gameMode == GameMode.HIDDEN) {
-      controller.searchDefinition();
+      controller.startHidden();
     } else {
       controller.speak();
     }
@@ -509,8 +531,7 @@ public class CanvasController {
     Platform.runLater(
         () -> {
           // Clear previous list
-          predictionList0.getItems().clear();
-          predictionList1.getItems().clear();
+          predictionList.getItems().clear();
 
           int i = 1;
 
@@ -523,13 +544,14 @@ public class CanvasController {
               for (final Classifications.Classification classification :
                   model.getPredictions(getCurrentSnapshot(), 20)) {
                 String prediction = classification.getClassName().replace("_", " ");
-
                 // Top 3 predictions are displayed in largest text
+                if (i <= 10) {
+                  predictionList.getItems().add(prediction);
+                }
                 if (i <= winningNum) {
-                  predictionList0.getItems().add(i + ": " + prediction);
                   // Check if prediction is correct
                   if (randomWord.equals(prediction)
-                      && predictionList0.isVisible()
+                      && predictionList.isVisible()
                       && confLevel <= classification.getProbability() * 100) {
                     resultLabel.setText("You win!");
                     isPredicted = true;
@@ -549,10 +571,7 @@ public class CanvasController {
                     continue;
                   }
                 } else {
-                  if (i < 11) {
-                    predictionList1.getItems().add(i + ": " + prediction);
-                  }
-                  if (randomWord.equals(prediction) && predictionList0.isVisible()) {
+                  if (randomWord.equals(prediction) && predictionList.isVisible()) {
                     isPredicted = true;
                     if (i < wordPos) {
                       hotFace.setVisible(true);
@@ -589,11 +608,11 @@ public class CanvasController {
     }
   }
 
-  public void searchDefinition() throws WordNotFoundException, IOException {
-    hintButton.setVisible(true);
+  public void startHidden() throws WordNotFoundException, IOException {
     wordLabel.setFont(new Font(15));
     wordLabel.setWrapText(true);
     startDrawButton.setDisable(true);
+    gamemodeLabel.setText("Hidden Mode");
     wordLabel.setText("Getting word definition...");
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {

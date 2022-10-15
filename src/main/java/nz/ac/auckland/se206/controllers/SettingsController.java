@@ -94,7 +94,7 @@ public class SettingsController {
   private void onStartHidden(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
-    controller.searchDefinition();
+    controller.startHidden();
   }
 
   @FXML
