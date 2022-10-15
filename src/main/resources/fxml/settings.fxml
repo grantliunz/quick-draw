@@ -22,12 +22,13 @@
             <String fx:value="bg-Biege" />
             <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
+            <String fx:value="new-profile" />
          </styleClass>
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="166.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="196.0" fitWidth="254.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/classic.png" />
                </image>
@@ -42,12 +43,13 @@
             <String fx:value="bg-Biege" />
             <String fx:value="text-white" />
             <String fx:value="rounded" />
+            <String fx:value="new-profile" />
          </styleClass>
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="166.0" fitWidth="187.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="192.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/zen.png" />
                </image>
@@ -74,12 +76,13 @@
             <String fx:value="text-white" />
             <String fx:value="bg-Biege" />
             <String fx:value="rounded" />
+            <String fx:value="new-profile" />
          </styleClass>
          <font>
             <Font name="Segoe UI" size="39.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="166.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="190.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/hidden.png" />
                </image>
