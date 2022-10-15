@@ -113,6 +113,5 @@
             <String fx:value="outline" />
          </styleClass>
       </Button>
-      <Button fx:id="trial" layoutX="491.0" layoutY="366.0" mnemonicParsing="false" onAction="#trial" text="Button" />
    </children>
 </Pane>
