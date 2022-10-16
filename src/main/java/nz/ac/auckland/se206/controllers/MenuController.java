@@ -123,14 +123,14 @@ public class MenuController {
   private void onStart(ActionEvent event) throws Exception {
     startGame(event);
     javafx.concurrent.Task<Void> task =
-            new javafx.concurrent.Task<Void>() {
-              @Override
-              protected Void call() throws Exception {
-                // Uses Text to speech to speak given lines
-                tts.speak("choose your settings");
-                return null;
-              }
-            };
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            // Uses Text to speech to speak given lines
+            tts.speak("choose your settings");
+            return null;
+          }
+        };
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();

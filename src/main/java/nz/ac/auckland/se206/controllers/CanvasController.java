@@ -39,8 +39,6 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
-
-
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.dict.DictionaryLookup;
 import nz.ac.auckland.se206.dict.WordNotFoundException;
@@ -256,16 +254,16 @@ public class CanvasController {
     thread.start();
   }
 
-  public void speak(String toSpeak){
+  public void speak(String toSpeak) {
     javafx.concurrent.Task<Void> task =
-            new javafx.concurrent.Task<Void>() {
-              @Override
-              protected Void call() throws Exception {
-                // Uses Text to speech to speak given lines
-                tts.speak(toSpeak);
-                return null;
-              }
-            };
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            // Uses Text to speech to speak given lines
+            tts.speak(toSpeak);
+            return null;
+          }
+        };
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();
@@ -676,20 +674,20 @@ public class CanvasController {
     timer.scheduleAtFixedRate(
         new TimerTask() {
           public void run() {
-if(remainingTime == 15){
-playSound("/sounds/mixkit-tick-tock-clock-timer-1045.mp3");
-}
+            if (remainingTime == 15) {
+              playSound("/sounds/mixkit-tick-tock-clock-timer-1045.mp3");
+            }
             // Updated timer and predictions every second
-            if(remainingTime == 30){
+            if (remainingTime == 30) {
               speak("30 seconds remaining");
             }
-            if(remainingTime == 3){
+            if (remainingTime == 3) {
               speak("3");
             }
-            if(remainingTime == 2){
+            if (remainingTime == 2) {
               speak("2");
             }
-            if(remainingTime == 1){
+            if (remainingTime == 1) {
               speak("1");
             }
             if (remainingTime > 0) {
@@ -722,17 +720,18 @@ playSound("/sounds/mixkit-tick-tock-clock-timer-1045.mp3");
         1000,
         1000);
   }
-  public static void playSound(String s){
+
+  public static void playSound(String s) {
     javafx.concurrent.Task<Void> task =
-            new javafx.concurrent.Task<Void>() {
-              @Override
-              protected Void call() throws Exception {
-                Media sound = new Media(App.class.getResource(s).toURI().toString());
-                 player = new MediaPlayer(sound);
-                player.play();
-                return null;
-              }
-            };
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            Media sound = new Media(App.class.getResource(s).toURI().toString());
+            player = new MediaPlayer(sound);
+            player.play();
+            return null;
+          }
+        };
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();

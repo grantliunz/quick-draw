@@ -15,9 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
 import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
@@ -85,7 +82,7 @@ public class SettingsController {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.CLASSIC);
     controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
-    //controller.speakWord();
+    // controller.speakWord();
   }
 
   @FXML
