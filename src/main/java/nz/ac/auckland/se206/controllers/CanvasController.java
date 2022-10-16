@@ -707,6 +707,7 @@ playSound("/sounds/mixkit-tick-tock-clock-timer-1045.mp3");
               Platform.runLater(
                   () -> {
                     resultLabel.setText("Times Up, you lose!");
+                    playSound("/sounds/mixkit-little-piano-game-over-1944 (1).mp3");
                     try {
                       updateResult(Result.LOSS);
                     } catch (IOException e) {
