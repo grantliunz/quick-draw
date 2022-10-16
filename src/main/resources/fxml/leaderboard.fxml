@@ -45,22 +45,22 @@
                <children>
                   <Label fx:id="leaderboard" alignment="TOP_CENTER" prefHeight="327.0" prefWidth="294.0" styleClass="text-Burgundy" text="User">
                      <font>
-                        <Font name="Segoe UI Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Label>
                   <Label fx:id="leaderboardScore" alignment="TOP_CENTER" prefHeight="324.0" prefWidth="193.0" styleClass="text-Burgundy" text="Score">
                      <font>
-                        <Font name="Segoe UI Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Label alignment="CENTER" layoutX="86.0" layoutY="-2.0" prefHeight="65.0" prefWidth="154.0" styleClass="text-Burgundy" text="User">
+            <Label alignment="CENTER" layoutX="75.0" layoutY="-2.0" prefHeight="65.0" prefWidth="154.0" styleClass="text-Burgundy" text="User">
                <font>
                   <Font name="Segoe UI Bold" size="50.0" />
                </font>
             </Label>
-            <Label layoutX="390.0" prefHeight="61.0" prefWidth="158.0" styleClass="text-Burgundy" text="Score">
+            <Label layoutX="333.0" prefHeight="61.0" prefWidth="158.0" styleClass="text-Burgundy" text="Score">
                <font>
                   <Font name="Segoe UI Bold" size="50.0" />
                </font>

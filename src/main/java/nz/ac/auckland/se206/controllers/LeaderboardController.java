@@ -18,9 +18,12 @@ import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
 
-  @FXML private Button homeButton;
-  @FXML private Label leaderboard;
-  @FXML private Label leaderboardScore;
+  @FXML
+  private Button homeButton;
+  @FXML
+  private Label leaderboard;
+  @FXML
+  private Label leaderboardScore;
 
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
@@ -57,8 +60,8 @@ public class LeaderboardController {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     return userList;
   }
 
@@ -92,15 +95,15 @@ public class LeaderboardController {
   /**
    * this method is a sub function of the mergesort algorithm
    *
-   * @param l left part of the array
-   * @param r right part of the array
+   * @param l        left part of the array
+   * @param r        right part of the array
    * @param userList list of users read by json
    * @return
    */
   private List<User> merge(List<User> l, List<User> r, List<User> userList) {
     // initializes the required indexes
     int lenL = l.size();
-    int lenR = l.size();
+    int lenR = r.size();
     int i = 0;
     int j = 0;
     int k = 0;
