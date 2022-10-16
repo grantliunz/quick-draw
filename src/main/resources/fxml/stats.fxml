@@ -64,7 +64,7 @@
             </Label>
             <ScrollPane prefHeight="200.0" prefWidth="200.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="388.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="388.0">
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" prefWidth="367.0">
                            <children>
@@ -96,6 +96,7 @@
          <styleClass>
             <String fx:value="bg-light-Biege" />
             <String fx:value="rounded" />
+            <String fx:value="border-burgundy" />
          </styleClass>
       </VBox>
       <VBox alignment="TOP_CENTER" layoutX="123.0" layoutY="455.0" prefHeight="247.0" prefWidth="388.0">
@@ -126,6 +127,7 @@
          <styleClass>
             <String fx:value="bg-light-Biege" />
             <String fx:value="rounded" />
+            <String fx:value="border-burgundy" />
          </styleClass>
       </VBox>
       <Pane layoutX="610.0" layoutY="110.0" prefHeight="588.0" prefWidth="316.0">
@@ -188,6 +190,7 @@
          <styleClass>
             <String fx:value="bg-light-Biege" />
             <String fx:value="rounded" />
+            <String fx:value="border-burgundy" />
          </styleClass>
       </Pane>
    </children>

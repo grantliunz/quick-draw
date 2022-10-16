@@ -31,7 +31,7 @@ public class MenuController {
   @FXML private Button addProfileButton;
   @FXML private Button switchProfileButton;
   @FXML private Button displayStatsButton;
-  @FXML private Button leaderboard;
+  @FXML private Button leaderboardButton;
   private User chosenUser;
 
   /**
@@ -66,7 +66,7 @@ public class MenuController {
               addProfileButton.setVisible(false);
               switchProfileButton.setVisible(true);
               displayStatsButton.setVisible(true);
-              leaderboard.setVisible(true);
+              leaderboardButton.setVisible(true);
             });
         button.getStyleClass().add("select-profile-button");
         b.add(button);
@@ -88,7 +88,6 @@ public class MenuController {
 
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
-    leaderboard.setVisible(false);
     profilesHbox.setVisible(true);
     view(); // display current profiles
   }
@@ -152,7 +151,7 @@ public class MenuController {
   }
 
   @FXML
-  private void switchToLeaderboard(ActionEvent event) throws IOException {
+  private void onSwitchToLeaderboard(ActionEvent event) throws IOException {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     SceneManager.addUi(SceneManager.AppUi.LEADERBOARD, loadFxml("leaderboard"));

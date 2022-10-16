@@ -25,6 +25,12 @@ import nz.ac.auckland.se206.user.User;
 
 public class StatsController {
 
+  public static ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {
+    ArrayList<Data> wonGames = new ArrayList<>(allGames);
+    wonGames.removeIf(data -> !data.getResult().equals(result));
+    return wonGames;
+  }
+
   @FXML private Label headerLabel;
   @FXML private Label winListLabel;
   @FXML private Label winTimeListLabel;
@@ -129,11 +135,5 @@ public class StatsController {
         Tooltip.install(imageView, t);
       }
     }
-  }
-
-  public static ArrayList<Data> getGamesWonOrLoss(ArrayList<Data> allGames, Result result) {
-    ArrayList<Data> wonGames = new ArrayList<>(allGames);
-    wonGames.removeIf(data -> !data.getResult().equals(result));
-    return wonGames;
   }
 }
