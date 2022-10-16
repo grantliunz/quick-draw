@@ -644,6 +644,7 @@ public class CanvasController {
     MenuController controller =
         (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.updateUser(user);
+    controller.view();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
   }
 
