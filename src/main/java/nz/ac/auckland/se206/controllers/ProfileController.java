@@ -23,7 +23,7 @@ public class ProfileController {
    * Upon pressing the add button if the name is blank give an error
    *
    * @param event on button pressing
-   * @throws Exception
+   * @throws Exception the inputted name is blank
    */
   @FXML
   private void onAdd(ActionEvent event) throws Exception {
@@ -61,7 +61,7 @@ public class ProfileController {
   /**
    *If the cancel button is pressed go back to the menu ui
    *
-   * @param event
+   * @param event button is pressed event
    */
   @FXML
   private void onCancel(ActionEvent event) {

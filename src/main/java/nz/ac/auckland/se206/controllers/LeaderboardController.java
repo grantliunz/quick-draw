@@ -25,9 +25,9 @@ public class LeaderboardController {
    * Updates the leaderboard each time it is viewed
    * Reads from users accumlative score and displays it
    *
-   * @throws StreamReadException
-   * @throws DatabindException
-   * @throws IOException
+   * @throws StreamReadException error when reading from a stream
+   * @throws DatabindException this is databind exception
+   * @throws IOException invalid input or output
    */
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
@@ -69,9 +69,9 @@ public class LeaderboardController {
    * This method retrieves a user list
    *
    * @return A list of users
-   * @throws StreamReadException
-   * @throws DatabindException
-   * @throws IOException
+   * @throws StreamReadException error when reading from a stream
+   * @throws DatabindException this is databind exception
+   * @throws IOException invalid input or output
    */
   private List<User> getUserList() throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
@@ -115,7 +115,7 @@ public class LeaderboardController {
    * @param l left part of the array
    * @param r right part of the array
    * @param userList list of users read by json
-   * @return
+   * @return returns list of sorted users
    */
   private List<User> merge(List<User> l, List<User> r, List<User> userList) {
     // initializes the required indexes

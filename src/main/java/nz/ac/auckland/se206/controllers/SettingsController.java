@@ -106,7 +106,7 @@ public class SettingsController {
    * Method for when you hover over ZEN mode and it is not unlocked
    * Displays the text to tell you to play more games
    *
-   * @param t
+   * @param t Tooltip to be written on for the object
    * @param pane pane in which button is in
    */
   private void setTooltip(Tooltip t, Pane pane) {
@@ -155,8 +155,8 @@ public class SettingsController {
   /**
    * Upon pressing the hidden mode button load the canvas with the hidden mode settings
    *
-   * @param event
-   * @throws Exception
+   * @param event button pressing event
+   * @throws Exception Error loading UI
    */
   @FXML
   private void onStartHidden(ActionEvent event) throws Exception {
@@ -183,9 +183,9 @@ public class SettingsController {
   /**
    * Upon pressing a gamemode button start the game and load the canvas ui with the settings selected
    *
-   * @param event
-   * @return
-   * @throws Exception
+   * @param event button pressing
+   * @return the canvas controller settings given by the user
+   * @throws Exception error switching UI
    */
   private CanvasController startGame(ActionEvent event) throws Exception {
     // updates settings so canvas changes functionality accordingly
@@ -204,7 +204,7 @@ public class SettingsController {
   /**
    * updates the settings chosen by the user before going to canvas
    *
-   * @throws IOException
+   * @throws IOException error reading from the user file
    */
   public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();

@@ -106,7 +106,7 @@ public class MenuController {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
           @Override
-          protected Void call() throws Exception {
+          protected Void call() {
             // Uses Text to speech to speak given lines
             tts.speak("choose your settings");
             return null;
@@ -120,9 +120,9 @@ public class MenuController {
   /**
    *Upon starting go to the settings page and take in preffered settings
    *
-   * @param event
+   * @param event button is pressed then action occurs
    * @return Settings controller
-   * @throws Exception
+   * @throws Exception Some profound exception case is thrown out when the controller is invalid
    */
   private SettingsController startGame(ActionEvent event) throws Exception {
     // Changes scene
@@ -143,7 +143,7 @@ public class MenuController {
    * Upon clicking the + button to add a profile this method is called to switch to the profile
    * creation menu
    *
-   * @param event
+   * @param event button press action
    */
   @FXML
   private void onAdd(ActionEvent event) {
@@ -173,7 +173,7 @@ public class MenuController {
   /**
    * upon pressing this button, the stats page is opened up
    *
-   * @param event
+   * @param event button press action
    */
   @FXML
   private void onDisplayStats(ActionEvent event) {
@@ -185,8 +185,8 @@ public class MenuController {
   /**
    * Upon pressing the leaderboard button, the leaderboard ui is opened
    *
-   * @param event
-   * @throws IOException
+   * @param event button press action
+   * @throws IOException invalid output stream printed
    */
   @FXML
   private void onSwitchToLeaderboard(ActionEvent event) throws IOException {

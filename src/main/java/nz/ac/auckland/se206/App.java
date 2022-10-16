@@ -25,9 +25,8 @@ public class App extends Application {
    *
    * @param fxml The name of the FXML file (without extension).
    * @return The node of the input file.
-   * @throws IOException If the file is not found.
    */
-  public static FXMLLoader loadFxml(final String fxml) throws IOException {
+  public static FXMLLoader loadFxml(final String fxml) {
     return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml"));
   }
 

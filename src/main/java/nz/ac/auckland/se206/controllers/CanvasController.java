@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import static nz.ac.auckland.se206.App.loadFxml;
-import static nz.ac.auckland.se206.ml.DoodlePrediction.printPredictions;
 
 import ai.djl.ModelException;
 import ai.djl.modality.Classifications;
@@ -72,9 +71,9 @@ public class CanvasController {
     HIDDEN
   }
 
-  public static int MAX_TIME;
 
-  public static String[] PEN_COLORS =
+
+  public static final String[] PEN_COLORS =
       new String[] {
         "white",
         "black",
@@ -94,6 +93,7 @@ public class CanvasController {
         "pink",
       };
 
+  public int maxTime;
   private User user;
   private Difficulty accuracyDiffculty;
   private Difficulty wordsDiffculty;
@@ -208,17 +208,17 @@ public class CanvasController {
   private void setTimerDiff(Difficulty difficulty) {
     // depending on difficulty timer value is set
     if (difficulty == Difficulty.Ma) {
-      MAX_TIME = 15;
+      maxTime = 15;
     } else if (difficulty == Difficulty.H) {
-      MAX_TIME = 30;
+      maxTime = 30;
     } else if (difficulty == Difficulty.M) {
-      MAX_TIME = 45;
+      maxTime = 45;
     } else {
-      MAX_TIME = 60;
+      maxTime = 60;
     }
     // sets the timer value for the user to see
-    timerLabel.setText(Integer.toString(MAX_TIME));
-    remainingTime = MAX_TIME;
+    timerLabel.setText(Integer.toString(maxTime));
+    remainingTime = maxTime;
   }
 
   public void setGameMode(GameMode gameMode) {
@@ -252,10 +252,10 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+    user.addData(randomWord, result, maxTime - remainingTime, Difficulty.E, gameMode);
     userList
         .get(count)
-        .addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+        .addData(randomWord, result, maxTime - remainingTime, Difficulty.E, gameMode);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -337,7 +337,7 @@ public class CanvasController {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
           @Override
-          protected Void call() throws Exception {
+          protected Void call() {
             // Uses Text to speech to speak given lines
             tts.speak("Draw", randomWord);
             return null;
@@ -533,10 +533,9 @@ public class CanvasController {
    *
    * @param event ActionEvent when button is pressed
    * @throws Exception Category does not exist exception
-   * @throws WordNotFoundException If the word is not found exception
    */
   @FXML
-  private void onNewGame(ActionEvent event) throws Exception, WordNotFoundException {
+  private void onNewGame(ActionEvent event) throws Exception {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -563,24 +562,6 @@ public class CanvasController {
     graphic.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     drawn = false;
     fire.setVisible(false);
-  }
-
-  /**
-   * This method executes when the user clicks the "Predict" button. It gets the current drawing,
-   * queries the DL model and prints on the console the top 5 predictions of the DL model and the
-   * elapsed time of the prediction in milliseconds.
-   *
-   * @throws TranslateException If there is an error in reading the input/output of the DL model.
-   */
-  @FXML
-  private void onPredict() throws TranslateException {
-    System.out.println("==== PREDICTION  ====");
-    System.out.println("Top 5 predictions");
-
-    final long start = System.currentTimeMillis();
-    printPredictions(model.getPredictions(getCurrentSnapshot(), 5));
-
-    System.out.println("prediction performed in " + (System.currentTimeMillis() - start) + " ms");
   }
 
   /**
@@ -655,7 +636,7 @@ public class CanvasController {
    * depending on gamemode, you automatically win and a win sound plays If the word is close to
    * being in the top 10 its relative position will be displayed by a fire which varies in size
    *
-   * @throws TranslateException
+   * @throws TranslateException error thrown while processing input and output
    */
   private void populatePredictionList() throws TranslateException {
     Platform.runLater(
@@ -759,10 +740,8 @@ public class CanvasController {
   /**
    * searches for the defintion of the random word chosen
    *
-   * @throws WordNotFoundException if word is not found
-   * @throws IOException file error is thrown
    */
-  public void startHidden() throws WordNotFoundException, IOException {
+  public void startHidden() {
     wordLabel.setText("????");
     definitionLabel.setVisible(true);
     definitionLabel.setWrapText(true);
