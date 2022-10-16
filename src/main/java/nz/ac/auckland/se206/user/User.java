@@ -2,6 +2,7 @@ package nz.ac.auckland.se206.user;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
 import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
@@ -10,6 +11,7 @@ public class User implements Serializable {
   private String name;
   private int gamesWon = 0;
   private int gamesLost = 0;
+  private int score = 0;
   private ArrayList<Data> stats = new ArrayList<>();
   private ArrayList<Difficulty> difficulty = new ArrayList<>();
 
@@ -25,6 +27,14 @@ public class User implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getScore() {
+    return this.score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   public int getGamesWon() {
@@ -43,8 +53,9 @@ public class User implements Serializable {
     this.gamesLost = gamesLost;
   }
 
-  public void addData(String word, Result result, long time, Difficulty difficulty) {
-    Data data = new Data(word, result, time, difficulty);
+  public void addData(
+      String word, Result result, long time, Difficulty difficulty, GameMode gameMode) {
+    Data data = new Data(word, result, time, difficulty, gameMode);
     stats.add(data);
   }
 

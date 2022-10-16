@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206.user;
 
 import java.io.Serializable;
+import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 public class Data implements Serializable {
@@ -15,17 +16,22 @@ public class Data implements Serializable {
   private long time;
   private String word;
 
+  private GameMode gameMode;
+
   Data() {}
 
-  Data(String word, Result result, long time, Difficulty difficulty) {
+  Data(String word, Result result, long time, Difficulty difficulty, GameMode gameMode) {
     super();
     this.word = word;
     this.result = result;
     this.time = time;
     this.difficulty = difficulty;
+    this.gameMode = gameMode;
   }
 
   /**
+   * this is to update the result of the user's game result
+   *
    * @param result the result to set
    */
   public void setResult(Result result) {
@@ -37,6 +43,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * sets the difficult of teh user's word data
+   *
    * @param difficulty the difficulty to set
    */
   public void setDifficulty(Difficulty difficulty) {
@@ -59,6 +67,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * given the word recieved by user it is updated to instance
+   *
    * @param word the word to set
    */
   public void setWord(String word) {
@@ -67,5 +77,13 @@ public class Data implements Serializable {
 
   public String getWord() {
     return word;
+  }
+
+  public void setgameMode(GameMode gameMode) {
+    this.gameMode = gameMode;
+  }
+
+  public GameMode getgameMode() {
+    return gameMode;
   }
 }

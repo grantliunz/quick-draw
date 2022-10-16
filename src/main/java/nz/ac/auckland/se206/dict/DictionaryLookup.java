@@ -12,9 +12,18 @@ public class DictionaryLookup {
 
   private static final String API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
+  /**
+   * this method returns the defintion of the random word chosen using an api
+   *
+   * @param query
+   * @return String this is the definition of the random word
+   * @throws IOException
+   * @throws WordNotFoundException
+   */
   public static String searchWordInfo(String query) throws IOException, WordNotFoundException {
 
     OkHttpClient client = new OkHttpClient();
+    // makes a request for the word defintion using api
     Request request = new Request.Builder().url(API_URL + query).build();
     Response response = client.newCall(request).execute();
     ResponseBody responseBody = response.body();
@@ -22,7 +31,7 @@ public class DictionaryLookup {
     String jsonString = responseBody.string();
 
     ObjectMapper objectMapper = new ObjectMapper();
-
+    // returns the string definition using the object
     try {
       return objectMapper
           .readValue(jsonString, ObjectNode[].class)[0]
@@ -33,6 +42,7 @@ public class DictionaryLookup {
           .get("definition")
           .asText();
     } catch (Exception e) {
+      // in the case the api does not have the definition of the word
       throw new WordNotFoundException(query, "Word not found", "Word not found");
     }
   }

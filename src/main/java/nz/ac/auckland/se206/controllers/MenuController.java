@@ -26,15 +26,13 @@ public class MenuController {
   public static List<User> userList = new ArrayList<>();
 
   @FXML private Button startButton;
-  // @FXML
-  // private Button zenButton;
-  // @FXML
-  // private Button hiddenButton;
+
   @FXML private HBox profilesHbox; // This box contains all the user profile buttons
   @FXML private Label headerLabel;
   @FXML private Button addProfileButton;
   @FXML private Button switchProfileButton;
   @FXML private Button displayStatsButton;
+  @FXML private Button leaderboardButton;
   private User chosenUser;
   private TextToSpeech tts = new TextToSpeech();
 
@@ -42,9 +40,9 @@ public class MenuController {
    * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
    *
-   * @throws IOException
-   * @throws DatabindException
-   * @throws StreamReadException
+   * @throws IOExceptionerror thrown in case json has issues
+   * @throws DatabindException error thrown in case json has issues
+   * @throws StreamReadException error thrown in case json has issues
    */
   protected void view() throws StreamReadException, DatabindException, IOException {
     List<Button> b = new ArrayList<>(); // stores buttons
@@ -66,12 +64,11 @@ public class MenuController {
               profilesHbox.setVisible(false);
               headerLabel.setText("Welcome" + " " + button.getText() + "!");
               startButton.setVisible(true);
-              // zenButton.setVisible(true);
-              // hiddenButton.setVisible(true);
 
               addProfileButton.setVisible(false);
               switchProfileButton.setVisible(true);
               displayStatsButton.setVisible(true);
+              leaderboardButton.setVisible(true);
             });
         button.getStyleClass().add("select-profile-button");
         b.add(button);
@@ -90,34 +87,12 @@ public class MenuController {
 
     startButton.setVisible(false); // set start button invis
     // zenButton.setVisible(false); // set start button invis
-    // hiddenButton.setVisible(false); //
+
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
     profilesHbox.setVisible(true);
     view(); // display current profiles
   }
-
-  // @FXML
-  // private void onStartClassic(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.CLASSIC);
-  // controller.speak();
-  // }
-
-  // @FXML
-  // private void onStartZen(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.ZEN);
-  // controller.speak();
-  // controller.startZen();
-  // }
-
-  // @FXML
-  // private void onStartHidden(ActionEvent event) throws Exception {
-  // CanvasController controller = startGame(event);
-  // controller.setGameMode(GameMode.HIDDEN);
-  // controller.searchDefinition();
-  // }
 
   @FXML
   private void onStart(ActionEvent event) throws Exception {
@@ -168,7 +143,7 @@ public class MenuController {
    * This method is called when the user wants to switch profiles which takes them back to the
    * initial profile select menu
    *
-   * @param event
+   * @param event event of the button being pressed
    */
   @FXML
   private void onSwitchProfile(ActionEvent event) {
@@ -176,8 +151,7 @@ public class MenuController {
     // Update buttons
     profilesHbox.setVisible(true);
     startButton.setVisible(false);
-    // zenButton.setVisible(false);
-    // hiddenButton.setVisible(false);
+
     addProfileButton.setVisible(true);
     switchProfileButton.setVisible(false);
     displayStatsButton.setVisible(false);
@@ -188,5 +162,16 @@ public class MenuController {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.STATS));
+  }
+
+  @FXML
+  private void onSwitchToLeaderboard(ActionEvent event) throws IOException {
+    Button button = (Button) event.getSource();
+    Scene sceneButtonIsIn = button.getScene();
+    SceneManager.addUi(SceneManager.AppUi.LEADERBOARD, loadFxml("leaderboard"));
+    LeaderboardController controller =
+        (LeaderboardController) SceneManager.getUiController(SceneManager.AppUi.LEADERBOARD);
+    controller.updateLeaderboard();
+    sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.LEADERBOARD));
   }
 }

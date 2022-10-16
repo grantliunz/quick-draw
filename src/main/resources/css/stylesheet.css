@@ -9,13 +9,36 @@
 
 .bg-light-Biege {
   -fx-background-color: #FFE9A0;
+}
 
+.bg-transparent {
+  -fx-background-color: transparent;
+}
+
+.bg-white {
+  -fx-background-color: white;
 }
 
 .text-Burgundy {
   -fx-text-fill: #874C62;
-
 }
+
+.scrollbar-none {
+  -fx-vbar-policy: NEVER;
+  -fx-hbar-policy: NEVER;
+}
+
+.border-none {
+  -fx-border-style: none;
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+}
+
+.border-burgundy {
+  -fx-border-color: #874C62;
+  -fx-border-width: 2;
+}
+
 .outline.label .text {
   -fx-stroke: #ffff;
   -fx-stroke-width: 1px;
@@ -44,7 +67,6 @@
 .rounded {
   -fx-background-radius: 10px;
   -fx-border-radius: 10px;
-  -fx-border-color: #ffff;
 }
 
 
@@ -61,7 +83,8 @@
   -fx-padding: 0px;
 
 }
-.pane{
+
+.pane {
   -fx-background-color: #fff;
   -fx-border-color: #F2D388;
   -fx-background-radius: 10px;
@@ -75,8 +98,9 @@
   -fx-font-size: 30.0px;
 
 }
-.button:pressed{
--fx-background-color: #d6bb78;
+
+.button:pressed {
+  -fx-background-color: #d6bb78;
 }
 
 .list-default {
@@ -84,22 +108,33 @@
 }
 
 /*Background color of the whole context menu*/
-.choice-box .context-menu { 
-    -fx-background-color: #F2D388;
-    -fx-pref-width: 150;
-  }
+.choice-box .context-menu {
+  -fx-background-color: #F2D388;
+  -fx-pref-width: 150;
+}
+
 /*Focused item background color in the list*/
-.choice-box .menu-item:focused { -fx-background-color: #d6bb78; }
+.choice-box .menu-item:focused {
+  -fx-background-color: #d6bb78;
+}
+
 /*Text color of non-focused items in the list*/
-.choice-box .menu-item > .label { -fx-text-fill: white; }
+.choice-box .menu-item > .label {
+  -fx-text-fill: white;
+}
+
 /*Text color of focused item in the list*/
-.choice-box .menu-item:focused > .label { -fx-text-fill:  white; }
+.choice-box .menu-item:focused > .label {
+  -fx-text-fill: white;
+}
 
 /*Background color of the control itself*/
 .choice-box {
-  -fx-background-color:  #F2D388;
+  -fx-background-color: #F2D388;
   -fx-mark-color: #FFE9A0; /* arrow color*/
 }
 
 /* elected item text color on the control itself */
-.choice-box > .label { -fx-text-fill: white; }
+.choice-box > .label {
+  -fx-text-fill: white;
+}
