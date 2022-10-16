@@ -134,6 +134,7 @@ public class CanvasController {
   private Timer timer;
   private boolean drawn;
   private int remainingTime;
+  private Result result;
 
   private String randomWord;
   // mouse coordinates
@@ -330,6 +331,7 @@ public class CanvasController {
             return null;
           }
         };
+
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();
@@ -387,7 +389,9 @@ public class CanvasController {
             public void run() {
 
               try {
-                populatePredictionList();
+                if (result != Result.WIN) {
+                  populatePredictionList();
+                }
               } catch (TranslateException e) {
                 throw new RuntimeException(e);
               }
@@ -661,8 +665,11 @@ public class CanvasController {
                     isPredicted = true;
                     fire.setVisible(true);
                     fire.setFitWidth((10 - i) * 10);
+                    result = Result.WIN;
                     try {
-                      updateResult(Result.WIN);
+                      if (gameMode != GameMode.ZEN) {
+                        updateResult(Result.WIN);
+                      }
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
