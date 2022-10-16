@@ -271,7 +271,6 @@ public class CanvasController {
 
   @FXML
   private void onStartDraw() {
-    speakWord();
     // Enables drawing controls
     brushButton.setDisable(false);
     eraserButton.setDisable(false);
@@ -280,6 +279,9 @@ public class CanvasController {
       saveImageButton.setVisible(true);
     }
     onSwitchToBrush();
+    if (gameMode != GameMode.HIDDEN) {
+      speakWord();
+    }
     if (gameMode != GameMode.ZEN) {
       setTimer();
     } else {
