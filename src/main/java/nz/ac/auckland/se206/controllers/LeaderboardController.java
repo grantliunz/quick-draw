@@ -18,19 +18,29 @@ import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
 
-  @FXML
-  private Button homeButton;
-  @FXML
-  private Label leaderboard;
-  @FXML
-  private Label leaderboardScore;
+  @FXML private Button homeButton;
+  @FXML private Label leaderboard;
+  @FXML private Label leaderboardScore;
 
+  /**
+   * Updates the leaderboard each time it is viewed Reads from users accumlative score and displays
+   * it
+   *
+   * @throws StreamReadException error when reading from a stream
+   * @throws DatabindException this is databind exception
+   * @throws IOException invalid input or output
+   */
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
     List<User> sortedList = sortUserList(userList);
     populateLeaderboard(sortedList);
   }
 
+  /**
+   * Switches back to the home screen ui
+   *
+   * @param event Button press event
+   */
   @FXML
   private void onSwitchToHome(ActionEvent event) {
     Button button = (Button) event.getSource();
@@ -41,7 +51,7 @@ public class LeaderboardController {
   /**
    * this method just sets the labels and prints the leaderboard
    *
-   * @param sortedList
+   * @param sortedList List of users
    */
   private void populateLeaderboard(List<User> sortedList) {
     StringBuilder sbUser = new StringBuilder();
@@ -56,12 +66,20 @@ public class LeaderboardController {
     leaderboardScore.setText(sbScore.toString());
   }
 
+  /**
+   * This method retrieves a user list
+   *
+   * @return A list of users
+   * @throws StreamReadException error when reading from a stream
+   * @throws DatabindException this is databind exception
+   * @throws IOException invalid input or output
+   */
   private List<User> getUserList() throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
-    });
+    List<User> userList =
+        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     return userList;
   }
 
@@ -77,15 +95,18 @@ public class LeaderboardController {
       return userList;
     }
     int mid = len / 2;
+    // create new subarray lists left and right of pivot
     List<User> l = new ArrayList<User>();
     List<User> r = new ArrayList<User>();
-
+    // get left of middle element
     for (int i = 0; i < mid; i++) {
       l.add(userList.get(i));
     }
+    // get right of middle element
     for (int i = mid; i < len; i++) {
       r.add(userList.get(i));
     }
+    // recursively sort left and right arraylists
     sortUserList(l);
     sortUserList(r);
     userList = merge(l, r, userList);
@@ -95,10 +116,10 @@ public class LeaderboardController {
   /**
    * this method is a sub function of the mergesort algorithm
    *
-   * @param l        left part of the array
-   * @param r        right part of the array
+   * @param l left part of the array
+   * @param r right part of the array
    * @param userList list of users read by json
-   * @return
+   * @return returns list of sorted users
    */
   private List<User> merge(List<User> l, List<User> r, List<User> userList) {
     // initializes the required indexes

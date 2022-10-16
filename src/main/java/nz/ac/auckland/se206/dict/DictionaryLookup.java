@@ -15,10 +15,10 @@ public class DictionaryLookup {
   /**
    * this method returns the defintion of the random word chosen using an api
    *
-   * @param query
+   * @param query Word to find definition of
    * @return String this is the definition of the random word
-   * @throws IOException
-   * @throws WordNotFoundException
+   * @throws IOException error on input string
+   * @throws WordNotFoundException word definition is not found or word does not exist
    */
   public static String searchWordInfo(String query) throws IOException, WordNotFoundException {
 

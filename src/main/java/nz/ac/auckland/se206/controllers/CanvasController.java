@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import static nz.ac.auckland.se206.App.loadFxml;
-import static nz.ac.auckland.se206.ml.DoodlePrediction.printPredictions;
 
 import ai.djl.ModelException;
 import ai.djl.modality.Classifications;
@@ -72,9 +71,7 @@ public class CanvasController {
     HIDDEN
   }
 
-  public static int MAX_TIME;
-
-  public static String[] PEN_COLORS =
+  public static final String[] PEN_COLORS =
       new String[] {
         "white",
         "black",
@@ -93,7 +90,30 @@ public class CanvasController {
         "magenta",
         "pink",
       };
+  /**
+   * Takes a string input of an mp3 file location to play and plays the sound
+   *
+   * @param s A string of the mp3 file location to play
+   */
+  public static void playSound(String s) {
+    javafx.concurrent.Task<Void> task =
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            // create new media object
+            Media sound = new Media(App.class.getResource(s).toURI().toString());
+            player = new MediaPlayer(sound);
+            // play the sound
+            player.play();
+            return null;
+          }
+        };
+    // Delegates sound playing to new thread to prevent blocking of GUI
+    Thread thread = new Thread(task);
+    thread.start();
+  }
 
+  public int maxTime;
   private User user;
   private Difficulty accuracyDiffculty;
   private Difficulty wordsDiffculty;
@@ -169,13 +189,25 @@ public class CanvasController {
     setConf(confidenceDiffculty);
   }
 
+  /**
+   * Displays the word to draw on canvas page
+   *
+   * @throws Exception difficulty does not exist
+   */
   private void displayWord() throws Exception {
     CategorySelector selector = new CategorySelector();
-    randomWord = selector.getRandomWord(wordsDiffculty);
+    randomWord =
+        selector.getRandomWord(
+            wordsDiffculty); // select a random word from the word list for that difficulty
     wordLabel.setText(randomWord);
     wordLabel.autosize();
   }
 
+  /**
+   * Sets confidence level of a prediction to win Has to be above said percentage to win the game
+   *
+   * @param difficulty enum of difficulty chosen
+   */
   private void setConf(Difficulty difficulty) {
     // depending on the difficulty confidence level is set
     if (difficulty == Difficulty.Ma) {
@@ -189,20 +221,25 @@ public class CanvasController {
     }
   }
 
+  /**
+   * sets the timer length depending on difficulty chosen
+   *
+   * @param difficulty enum for difficulty chosen
+   */
   private void setTimerDiff(Difficulty difficulty) {
     // depending on difficulty timer value is set
     if (difficulty == Difficulty.Ma) {
-      MAX_TIME = 15;
+      maxTime = 15;
     } else if (difficulty == Difficulty.H) {
-      MAX_TIME = 30;
+      maxTime = 30;
     } else if (difficulty == Difficulty.M) {
-      MAX_TIME = 45;
+      maxTime = 45;
     } else {
-      MAX_TIME = 60;
+      maxTime = 60;
     }
     // sets the timer value for the user to see
-    timerLabel.setText(Integer.toString(MAX_TIME));
-    remainingTime = MAX_TIME;
+    timerLabel.setText(Integer.toString(maxTime));
+    remainingTime = maxTime;
   }
 
   public void setGameMode(GameMode gameMode) {
@@ -236,10 +273,10 @@ public class CanvasController {
     }
 
     // Updates the played words of user
-    user.addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+    user.addData(randomWord, result, maxTime - remainingTime, Difficulty.E, gameMode);
     userList
         .get(count)
-        .addData(randomWord, result, MAX_TIME - remainingTime, Difficulty.E, gameMode);
+        .addData(randomWord, result, maxTime - remainingTime, Difficulty.E, gameMode);
 
     // Updates the score of the user
     if (result == Result.WIN) {
@@ -316,16 +353,12 @@ public class CanvasController {
     currentColor = Color.BLACK;
   }
 
-  public void setTimerLabel(String string) {
-    this.timerLabel.setText(string);
-  }
-
   /** this is for tts implementation where word prompted is said */
   public void speakWord() {
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
           @Override
-          protected Void call() throws Exception {
+          protected Void call() {
             // Uses Text to speech to speak given lines
             tts.speak("Draw", randomWord);
             return null;
@@ -340,7 +373,7 @@ public class CanvasController {
   /**
    * This method is for speaking a certain string that you provide
    *
-   * @param toSpeak
+   * @param toSpeak string to speak
    */
   public void speak(String toSpeak) {
     javafx.concurrent.Task<Void> task =
@@ -414,6 +447,7 @@ public class CanvasController {
     timerLabel.setText("∞");
   }
 
+  /** Switching to brush from eraser method Enables drawing when pencil button is pressed */
   @FXML
   private void onSwitchToBrush() {
     // Brush size
@@ -453,6 +487,7 @@ public class CanvasController {
         });
   }
 
+  /** Switching to eraser method Enables erasing drawing components when eraser button is pressed */
   @FXML
   private void onSwitchToEraser() {
     // brush size
@@ -478,6 +513,10 @@ public class CanvasController {
         });
   }
 
+  /**
+   * When a game is over via time or win this method stops the timer and preps the canvas for the
+   * next game
+   */
   private void finishGame() {
     timer.cancel();
     // Stop timer
@@ -500,8 +539,15 @@ public class CanvasController {
     wordPos = 0;
   }
 
+  /**
+   * When a new game is started, this method is called and switches the scene to the canvas Then
+   * depending on the gamemode pressed, calls the method to prep that gamemode's canvas
+   *
+   * @param event ActionEvent when button is pressed
+   * @throws Exception Category does not exist exception
+   */
   @FXML
-  private void onNewGame(ActionEvent event) throws Exception, WordNotFoundException {
+  private void onNewGame(ActionEvent event) throws Exception {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
@@ -531,24 +577,6 @@ public class CanvasController {
   }
 
   /**
-   * This method executes when the user clicks the "Predict" button. It gets the current drawing,
-   * queries the DL model and prints on the console the top 5 predictions of the DL model and the
-   * elapsed time of the prediction in milliseconds.
-   *
-   * @throws TranslateException If there is an error in reading the input/output of the DL model.
-   */
-  @FXML
-  private void onPredict() throws TranslateException {
-    System.out.println("==== PREDICTION  ====");
-    System.out.println("Top 5 predictions");
-
-    final long start = System.currentTimeMillis();
-    printPredictions(model.getPredictions(getCurrentSnapshot(), 5));
-
-    System.out.println("prediction performed in " + (System.currentTimeMillis() - start) + " ms");
-  }
-
-  /**
    * Get the current snapshot of the canvas.
    *
    * @return The BufferedImage corresponding to the current canvas content.
@@ -572,29 +600,11 @@ public class CanvasController {
   }
 
   /**
-   * Save the current snapshot on a bitmap file.
+   * When the save button is pressed this method is called to open the file manager and save a BMP
+   * image file of the canvas
    *
-   * @return The file of the saved image.
-   * @throws IOException If the image cannot be saved.
+   * @throws IOException Error when saving file
    */
-  private File saveCurrentSnapshotOnFile() throws IOException {
-    // You can change the location as you see fit.
-    final File tmpFolder = new File("tmp");
-
-    if (!tmpFolder.exists()) {
-      tmpFolder.mkdir();
-    }
-
-    // We save the image to a file in the tmp folder.
-    final File imageToClassify =
-        new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
-
-    // Save the image to a file.
-    ImageIO.write(getCurrentSnapshot(), "bmp", imageToClassify);
-
-    return imageToClassify;
-  }
-
   @FXML
   private void onSaveImage() throws IOException {
 
@@ -614,6 +624,13 @@ public class CanvasController {
     }
   }
 
+  /**
+   * Upon pressing the main menu button this method takes you back to the menu UI by loading the
+   * FXML and controller file
+   *
+   * @param event Button ActionEvent pressed
+   * @throws IOException Error when switching to a scene that does not exist
+   */
   @FXML
   private void onDisplayMenu(ActionEvent event) throws IOException {
     // Updates UI back to the main menu
@@ -633,7 +650,7 @@ public class CanvasController {
    * depending on gamemode, you automatically win and a win sound plays If the word is close to
    * being in the top 10 its relative position will be displayed by a fire which varies in size
    *
-   * @throws TranslateException
+   * @throws TranslateException error thrown while processing input and output
    */
   private void populatePredictionList() throws TranslateException {
     Platform.runLater(
@@ -686,11 +703,12 @@ public class CanvasController {
                 } else {
                   if (randomWord.equals(prediction) && predictionList.isVisible()) {
                     isPredicted = true;
-                    if (i < wordPos) { // if the word position has increased, display the hot face
+                    // if the word position has increased, display the hot face
+                    if (i < wordPos) {
                       hotFace.setVisible(true);
                       coldFace.setVisible(false);
-
-                    } else if (i > wordPos) { // if word position has decreased then display cold
+                      // if word position has decreased then display cold
+                    } else if (i > wordPos) {
                       coldFace.setVisible(true);
                       hotFace.setVisible(false);
                     }
@@ -717,6 +735,11 @@ public class CanvasController {
         });
   }
 
+  /**
+   * This method sets how far up the prediction needs to be to win IE top 3, top 2, top 1
+   *
+   * @param difficulty choosen difficulty by the user
+   */
   private void setAccuracy(Difficulty difficulty) {
     // depending on user difficulty winning predicition becomes stricter
     if (difficulty == Difficulty.H) {
@@ -728,13 +751,8 @@ public class CanvasController {
     }
   }
 
-  /**
-   * searches for the defintion of the random word chosen
-   *
-   * @throws WordNotFoundException if word is not found
-   * @throws IOException file error is thrown
-   */
-  public void startHidden() throws WordNotFoundException, IOException {
+  /** searches for the defintion of the random word chosen */
+  public void startHidden() {
     wordLabel.setText("????");
     definitionLabel.setVisible(true);
     definitionLabel.setWrapText(true);
@@ -779,6 +797,10 @@ public class CanvasController {
     thread.start();
   }
 
+  /**
+   * This method lays out a preselect number of colors onto the canvas to choose from Upon selecting
+   * a color in the canvas, the cursor color changes and lines will appear in that color
+   */
   private void createPenColors() {
     colorGrid.setHgap(2);
     colorGrid.setVgap(2);
@@ -796,12 +818,20 @@ public class CanvasController {
     }
   }
 
+  /**
+   * This method displays the first letter of the word to draw in hidden mode if the hint button is
+   * pressed
+   */
   @FXML
   private void onShowHint() {
     hintButton.setVisible(false);
     wordLabel.setText(randomWord.charAt(0) + " _".repeat(randomWord.length() - 1));
   }
 
+  /**
+   * This method sets and starts a timer counting down from 60 seconds Has specific time queues that
+   * play sounds informing the player of the limit
+   */
   private void setTimer() {
     /*
      * Adapted from:
@@ -865,27 +895,5 @@ public class CanvasController {
         },
         1000,
         1000);
-  }
-
-  /**
-   * Takes a string input of a file location to play and plays the sound
-   *
-   * @param s
-   */
-  public static void playSound(String s) {
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            Media sound =
-                new Media(App.class.getResource(s).toURI().toString()); // create new media object
-            player = new MediaPlayer(sound);
-            player.play(); // play the sound
-            return null;
-          }
-        };
-    // Delegates sound playing to new thread to prevent blocking of GUI
-    Thread thread = new Thread(task);
-    thread.start();
   }
 }

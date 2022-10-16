@@ -56,6 +56,8 @@ public class Data implements Serializable {
   }
 
   /**
+   * Sets the time
+   *
    * @param time the time to set
    */
   public void setTime(long time) {

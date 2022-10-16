@@ -35,7 +35,7 @@ public class CategorySelector {
   /**
    * method picks a random word for csv file depneding on difficulty passed
    *
-   * @param difficulty
+   * @param difficulty the chosen difficulty object
    * @return String this is the word randomly picked
    */
   public String getRandomWord(Difficulty difficulty) {

@@ -102,6 +102,13 @@ public class SettingsController {
     }
   }
 
+  /**
+   * Method for when you hover over ZEN mode and it is not unlocked Displays the text to tell you to
+   * play more games
+   *
+   * @param t Tooltip to be written on for the object
+   * @param pane pane in which button is in
+   */
   private void setTooltip(Tooltip t, Pane pane) {
     t.setShowDelay(javafx.util.Duration.millis(0));
     t.setStyle("-fx-font-size: 20");
@@ -118,31 +125,54 @@ public class SettingsController {
     user = u;
   }
 
+  /**
+   * Upon pressing the classic game button load the canvas with the classic settings
+   *
+   * @param event Button is pressed
+   * @throws Exception Thrown is an exception
+   */
   @FXML
   private void onStartClassic(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.CLASSIC);
-    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
+    CanvasController.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
   }
 
+  /**
+   * Upon pressing the ZEN game button load the canvas with the zen mode settings
+   *
+   * @param event button pressure applied
+   * @throws Exception An exception is thrown
+   */
   @FXML
   private void onStartZen(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.ZEN);
     controller.startZen();
-    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
+    CanvasController.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
   }
 
+  /**
+   * Upon pressing the hidden mode button load the canvas with the hidden mode settings
+   *
+   * @param event button pressing event
+   * @throws Exception Error loading UI
+   */
   @FXML
   private void onStartHidden(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
 
-    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
+    CanvasController.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
 
     controller.startHidden();
   }
 
+  /**
+   * On pressing the home button, return to the main menu
+   *
+   * @param event Button pressed event moment
+   */
   @FXML
   private void onReturn(ActionEvent event) {
     Button button = (Button) event.getSource();
@@ -150,6 +180,14 @@ public class SettingsController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
   }
 
+  /**
+   * Upon pressing a gamemode button start the game and load the canvas ui with the settings
+   * selected
+   *
+   * @param event button pressing
+   * @return the canvas controller settings given by the user
+   * @throws Exception error switching UI
+   */
   private CanvasController startGame(ActionEvent event) throws Exception {
     // updates settings so canvas changes functionality accordingly
 
@@ -167,7 +205,7 @@ public class SettingsController {
   /**
    * updates the settings chosen by the user before going to canvas
    *
-   * @throws IOException
+   * @throws IOException error reading from the user file
    */
   public void updateSettings() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
