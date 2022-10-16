@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,12 +17,9 @@ import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
-  @FXML
-  private Button homeButton;
-  @FXML
-  private Label leaderboard;
-  @FXML
-  private Label leaderboardScore;
+  @FXML private Button homeButton;
+  @FXML private Label leaderboard;
+  @FXML private Label leaderboardScore;
 
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
@@ -60,8 +56,8 @@ public class LeaderboardController {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
-    });
+    List<User> userList =
+        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
     return userList;
   }
 
@@ -95,8 +91,8 @@ public class LeaderboardController {
   /**
    * this method is a sub function of the mergesort algorithm
    *
-   * @param l        left part of the array
-   * @param r        right part of the array
+   * @param l left part of the array
+   * @param r right part of the array
    * @param userList list of users read by json
    * @return
    */

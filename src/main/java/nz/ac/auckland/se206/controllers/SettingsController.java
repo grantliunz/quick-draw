@@ -74,21 +74,24 @@ public class SettingsController {
   private void onStartClassic(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.CLASSIC);
-    controller.speak();
+    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
   }
 
   @FXML
   private void onStartZen(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.ZEN);
-    controller.speak();
     controller.startZen();
+    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
   }
 
   @FXML
   private void onStartHidden(ActionEvent event) throws Exception {
     CanvasController controller = startGame(event);
     controller.setGameMode(GameMode.HIDDEN);
+
+    controller.playSound("/sounds/mixkit-arcade-game-complete-or-approved-mission-205.mp3");
+
     controller.startHidden();
   }
 
