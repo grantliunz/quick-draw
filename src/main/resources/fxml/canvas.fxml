@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CanvasController">
@@ -32,19 +33,37 @@
                 <Font name="Segoe UI Bold" size="40.0" />
               </font>
             </Label>
-            <Label fx:id="wordLabel" alignment="BOTTOM_LEFT" layoutX="227.0" layoutY="117.0" prefHeight="84.0" prefWidth="432.0" styleClass="text-Burgundy" text="Word">
-              <font>
-                <Font name="Segoe UI Bold" size="35.0" />
-              </font>
-            </Label>
-            <Label fx:id="timerLabel" alignment="TOP_RIGHT" contentDisplay="CENTER" layoutX="636.0" layoutY="150.0" prefHeight="51.0" prefWidth="63.0" styleClass="text-Burgundy" text="60">
-              <font>
-                <Font name="System Bold" size="35.0" />
-              </font>
-            </Label>
-            <Pane layoutX="227.0" layoutY="201.0" maxWidth="-Infinity" prefHeight="294.0" prefWidth="475.0" styleClass="drawing-canvas">
+                  <Pane layoutX="227.0" layoutY="134.0" prefHeight="90.0" prefWidth="475.0">
+                     <children>
+                  <Label fx:id="wordLabel" layoutX="5.0" layoutY="8.0" prefHeight="75.0" prefWidth="384.0" text="Word">
+                    <font>
+                      <Font name="Segoe UI Bold" size="35.0" />
+                    </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="bg-white" />
+                              <String fx:value="rounded" />
+                           </styleClass>
+                  </Label>
+                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="397.0" layoutY="10.0" prefHeight="71.0" prefWidth="71.0" text="60">
+                    <font>
+                      <Font name="System Bold" size="35.0" />
+                    </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="bg-white" />
+                              <String fx:value="rounded" />
+                           </styleClass>
+                  </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="bg-light-Biege" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Pane>
+            <Pane layoutX="227.0" layoutY="231.0" maxWidth="-Infinity" prefHeight="294.0" prefWidth="475.0" styleClass="drawing-canvas">
               <children>
-                <Canvas fx:id="canvas" height="280.0" layoutX="9.0" layoutY="7.0" styleClass="drawing-canvas" width="459.0">
+                <Canvas fx:id="canvas" height="284.0" layoutX="6.0" layoutY="6.0" styleClass="drawing-canvas" width="463.0">
                   <cursor>
                     <Cursor fx:constant="HAND" />
                   </cursor>
@@ -61,7 +80,7 @@
                 </Button>
               </children>
             </Pane>
-            <Pane layoutX="206.0" layoutY="503.0" prefHeight="90.0" prefWidth="518.0">
+            <Pane layoutX="206.0" layoutY="535.0" prefHeight="90.0" prefWidth="518.0">
               <children>
                 <Button fx:id="saveImageButton" layoutX="160.0" mnemonicParsing="false" onAction="#onSaveImage" prefHeight="63.0" prefWidth="95.0">
                   <font>
@@ -80,11 +99,11 @@
                     <String fx:value="new-profile" />
                   </styleClass>
                 </Button>
-                <Button fx:id="brushButton" contentDisplay="RIGHT" disable="true" layoutX="410.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSwitchToBrush" prefHeight="63.0" prefWidth="95.0">
+                <Button fx:id="brushButton" contentDisplay="RIGHT" disable="true" layoutX="400.0" mnemonicParsing="false" onAction="#onSwitchToBrush" prefHeight="63.0" prefWidth="95.0">
                   <graphic>
-                    <ImageView fitHeight="50.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="81.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../images/pencil.png" />
+                        <Image url="@../images/colorPencil.png" />
                       </image>
                     </ImageView>
                   </graphic>
@@ -96,9 +115,9 @@
                 </Button>
                 <Button fx:id="eraserButton" contentDisplay="RIGHT" disable="true" layoutX="285.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSwitchToEraser" prefHeight="63.0" prefWidth="95.0">
                   <graphic>
-                    <ImageView fitHeight="44.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="58.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../images/eraser.png" />
+                        <Image url="@../images/colorEraser.png" />
                       </image>
                     </ImageView>
                   </graphic>
@@ -110,7 +129,7 @@
                 </Button>
                 <Button fx:id="clearButton" contentDisplay="RIGHT" disable="true" layoutX="36.0" layoutY="1.0" mnemonicParsing="false" onAction="#onClear" prefHeight="63.0" prefWidth="95.0">
                   <graphic>
-                    <ImageView fitHeight="35.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="53.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
                       <image>
                         <Image url="@../images/bin.png" />
                       </image>
@@ -154,25 +173,30 @@
                 <RowConstraints maxHeight="83.19999389648439" minHeight="10.0" prefHeight="38.8" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
+                  <Label fx:id="hintLabel" alignment="CENTER" layoutX="9.0" layoutY="221.0" prefHeight="52.0" prefWidth="210.0" text="Hint label">
+                     <font>
+                        <Font name="System Bold" size="34.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text-Burgundy" />
+                        <String fx:value="bg-white" />
+                        <String fx:value="rounded" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="gamemodeLabel" alignment="CENTER" layoutX="234.0" prefHeight="72.0" prefWidth="557.0" styleClass="text-Burgundy" text="gamemode">
+                     <font>
+                        <Font name="Segoe UI Bold" size="59.0" />
+                     </font>
+                  </Label>
                   <Button fx:id="hintButton" layoutX="79.0" layoutY="224.0" mnemonicParsing="false" onAction="#onShowHint" text="Hint">
                      <font>
-                        <Font size="22.0" />
+                        <Font name="System Bold" size="22.0" />
                      </font>
                      <styleClass>
                         <String fx:value="bg-Biege" />
                         <String fx:value="text-white" />
                      </styleClass>
                   </Button>
-                  <Label fx:id="hintLabel" layoutX="36.0" layoutY="222.0" styleClass="text-Burgundy" text="Hint label">
-                     <font>
-                        <Font name="System Bold" size="34.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="gamemodeLabel" layoutX="356.0" layoutY="4.0" styleClass="text-Burgundy" text="gamemode">
-                     <font>
-                        <Font name="Segoe UI Bold" size="59.0" />
-                     </font>
-                  </Label>
           </children>
         </Pane>
         <Pane prefHeight="720.0" prefWidth="421.0" stylesheets="@../css/stylesheet.css">
@@ -187,7 +211,7 @@
             </Label>
             <Pane layoutX="14.0" layoutY="194.0" prefHeight="386.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="pane">
               <children>
-                <ListView fx:id="predictionList" layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="281.0" stylesheets="@../css/stylesheet.css">
+                <ListView fx:id="predictionList" layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="247.0" stylesheets="@../css/stylesheet.css">
                   <styleClass>
                     <String fx:value="bg-light-blue" />
                     <String fx:value="list-cell" />
@@ -216,11 +240,15 @@
                 <Image url="@../images/1f975.png" />
               </image>
             </ImageView>
-          <ImageView fx:id="fire" fitHeight="100.0" layoutX="117.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-              <Image url="@../images/af8a27bf984e189f6a6bd7a6922075c1.gif" />
-            </image>
-          </ImageView>
+                  <VBox alignment="BOTTOM_RIGHT" layoutX="103.0" layoutY="66.0" prefHeight="100.0" prefWidth="71.0">
+                     <children>
+                <ImageView fx:id="fire" fitHeight="100.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../images/af8a27bf984e189f6a6bd7a6922075c1.gif" />
+                  </image>
+                </ImageView>
+                     </children>
+                  </VBox>
           </children>
         </Pane>
       </children>

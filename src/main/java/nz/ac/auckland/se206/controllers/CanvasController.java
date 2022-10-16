@@ -166,6 +166,7 @@ public class CanvasController {
     CategorySelector selector = new CategorySelector();
     randomWord = selector.getRandomWord(wordsDiffculty);
     wordLabel.setText(randomWord);
+    wordLabel.autosize();
   }
 
   private void setConf(Difficulty difficulty) {
@@ -288,7 +289,7 @@ public class CanvasController {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
     wordPos = 0;
-
+    wordLabel.autosize();
     // Set up timer
 
     // Hide end game buttons
@@ -298,7 +299,8 @@ public class CanvasController {
     predictionList.setVisible(false);
     colorGrid.setVisible(false);
     hintButton.setVisible(false);
-    hintLabel.setText("");
+    hintLabel.setVisible(false);
+
     gamemodeLabel.setText("Classic");
     resultLabel.setText("");
     fire.setVisible(false);
@@ -372,6 +374,7 @@ public class CanvasController {
     menuButton.setVisible(true);
     colorGrid.setVisible(true);
     gamemodeLabel.setText("Zen Mode");
+    timerLabel.setText("∞");
   }
 
   @FXML
@@ -379,7 +382,7 @@ public class CanvasController {
     // Brush size
     final double size = 5.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/purplePencil.png"), 0, 1000));
+    canvas.setCursor(new ImageCursor(new Image("images/colorPencil.png"), 0, 1000));
 
     // This is the colour of the brush.
     graphic.setFill(currentColor);
@@ -418,7 +421,7 @@ public class CanvasController {
     // brush size
     final double size = 10.0;
 
-    canvas.setCursor(new ImageCursor(new Image("images/purpleEraser.png"), 4, 16));
+    canvas.setCursor(new ImageCursor(new Image("images/colorEraser.png"), 50, 250));
 
     canvas.setOnMousePressed(
         e -> {
@@ -642,12 +645,12 @@ public class CanvasController {
                       hotFace.setVisible(false);
                     }
                     fire.setVisible(true);
-                    fire.setFitWidth((20 - i) * 10);
-                    wordPos = i;
+                    fire.setFitWidth((40 - i) * 10);
                   }
                 }
                 i++;
               }
+              wordPos = i;
               if (!isPredicted) {
                 fire.setVisible(false);
                 hotFace.setVisible(false);
@@ -687,6 +690,8 @@ public class CanvasController {
     startDrawButton.setDisable(true);
     gamemodeLabel.setText("Hidden Mode");
     wordLabel.setText("Getting word definition...");
+    wordLabel.autosize();
+
     // runs a background task for no freezing
     javafx.concurrent.Task<Void> task =
         new javafx.concurrent.Task<Void>() {
@@ -709,6 +714,7 @@ public class CanvasController {
             Platform.runLater(
                 () -> {
                   wordLabel.setText(finalDefinition);
+                  wordLabel.autosize();
                   startDrawButton.setDisable(false);
                 });
             ;
@@ -741,8 +747,9 @@ public class CanvasController {
   @FXML
   private void onShowHint() {
     hintButton.setVisible(false);
-
-    hintLabel.setText(randomWord.charAt(0) + "_".repeat(randomWord.length() - 1));
+    hintLabel.setVisible(true);
+    hintLabel.setText(randomWord.charAt(0) + " _".repeat(randomWord.length() - 1));
+    hintLabel.autosize();
   }
 
   private void setTimer() {

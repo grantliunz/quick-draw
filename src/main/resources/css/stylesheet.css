@@ -15,6 +15,10 @@
   -fx-background-color: transparent;
 }
 
+.bg-white {
+  -fx-background-color: white;
+}
+
 .text-Burgundy {
   -fx-text-fill: #874C62;
 }
