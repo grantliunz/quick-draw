@@ -660,6 +660,7 @@ public class CanvasController {
                   if (randomWord.equals(prediction)
                       && predictionList.isVisible()
                       && confLevel <= classification.getProbability() * 100) {
+                    player.stop();
                     playSound("/sounds/mixkit-cartoon-positive-sound-2255.mp3");
                     resultLabel.setText("You win!");
                     isPredicted = true;
