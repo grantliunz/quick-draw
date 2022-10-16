@@ -16,7 +16,7 @@
             <Image url="@../images/pngegg%20(1).png" />
          </image>
       </ImageView>
-      <Pane layoutX="43.0" layoutY="55.0" prefHeight="150.0" prefWidth="916.0">
+      <Pane layoutX="43.0" layoutY="64.0" prefHeight="172.0" prefWidth="916.0">
          <children>
             <ChoiceBox fx:id="accuracyChoiceBox" layoutX="41.0" layoutY="53.0" prefHeight="67.0" prefWidth="172.0" stylesheets="@../css/stylesheet.css">
                <styleClass>
@@ -62,6 +62,11 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
+            <Label layoutX="533.0" layoutY="135.0" styleClass="text-Burgundy" text="Harder difficulty gives higher score!!">
+               <font>
+                  <Font name="Segoe UI Italic" size="24.0" />
+               </font>
+            </Label>
          </children>
          <styleClass>
             <String fx:value="bg-white" />
@@ -69,7 +74,7 @@
             <String fx:value="rounded" />
          </styleClass>
       </Pane>
-      <Pane layoutX="43.0" layoutY="255.0" prefHeight="332.0" prefWidth="916.0">
+      <Pane layoutX="43.0" layoutY="260.0" prefHeight="332.0" prefWidth="916.0">
          <styleClass>
             <String fx:value="bg-white" />
             <String fx:value="rounded" />
@@ -158,5 +163,10 @@
             <String fx:value="outline" />
          </styleClass>
       </Button>
+      <ImageView fitHeight="67.0" fitWidth="139.0" layoutX="46.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/dog.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

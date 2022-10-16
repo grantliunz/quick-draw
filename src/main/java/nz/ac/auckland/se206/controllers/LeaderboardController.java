@@ -17,6 +17,7 @@ import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
+
   @FXML private Button homeButton;
   @FXML private Label leaderboard;
   @FXML private Label leaderboardScore;
@@ -28,7 +29,7 @@ public class LeaderboardController {
   }
 
   @FXML
-  private void switchToHome(ActionEvent event) {
+  private void onSwitchToHome(ActionEvent event) {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));

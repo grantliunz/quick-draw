@@ -42,6 +42,7 @@ public class StatsController {
   @FXML private Label gamesLostLabel;
 
   @FXML private GridPane badgeGrid;
+  @FXML private Label scoreLabel;
 
   @FXML
   private void onReturn(ActionEvent event) {
@@ -77,6 +78,7 @@ public class StatsController {
 
     boolean[] badges = unlockBadges(user);
     hideBadges(badges);
+    scoreLabel.setText("Score: " + user.getScore());
   }
 
   private void populateWinLists(ArrayList<Data> gamesWon) {

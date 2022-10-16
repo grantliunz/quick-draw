@@ -31,7 +31,7 @@
             </Label>
             <Label alignment="CENTER" layoutX="23.0" layoutY="42.0" prefHeight="88.0" prefWidth="406.0" stylesheets="@../css/stylesheet.css" text="Quick Draw!">
                <font>
-                  <Font name="Bauhaus 93" size="64.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="64.0" />
                </font>
                <styleClass>
                   <String fx:value="text-Burgundy" />
