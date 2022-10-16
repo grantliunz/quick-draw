@@ -17,9 +17,13 @@ import nz.ac.auckland.se206.scenes.SceneManager;
 import nz.ac.auckland.se206.user.User;
 
 public class LeaderboardController {
-  @FXML private Button homeButton;
-  @FXML private Label leaderboard;
-  @FXML private Label leaderboardScore;
+
+  @FXML
+  private Button homeButton;
+  @FXML
+  private Label leaderboard;
+  @FXML
+  private Label leaderboardScore;
 
   /**
    * Updates the leaderboard each time it is viewed
@@ -41,7 +45,7 @@ public class LeaderboardController {
    * @param event Button press event
    */
   @FXML
-  private void switchToHome(ActionEvent event) {
+  private void onSwitchToHome(ActionEvent event) {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.MENU));
@@ -77,8 +81,8 @@ public class LeaderboardController {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     return userList;
   }
 
@@ -112,15 +116,15 @@ public class LeaderboardController {
   /**
    * this method is a sub function of the mergesort algorithm
    *
-   * @param l left part of the array
-   * @param r right part of the array
+   * @param l        left part of the array
+   * @param r        right part of the array
    * @param userList list of users read by json
    * @return returns list of sorted users
    */
   private List<User> merge(List<User> l, List<User> r, List<User> userList) {
     // initializes the required indexes
     int lenL = l.size();
-    int lenR = l.size();
+    int lenR = r.size();
     int i = 0;
     int j = 0;
     int k = 0;
