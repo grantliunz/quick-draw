@@ -40,7 +40,7 @@ public class MenuController {
    * This method is setup to display all the user profiles as buttons and assign actions to them
    * TODO: Add the json user files to this and finish implementation
    *
-   * @throws IOExceptionerror thrown in case json has issues
+   * @throws IOException error thrown in case json has issues
    * @throws DatabindException error thrown in case json has issues
    * @throws StreamReadException error thrown in case json has issues
    */
@@ -94,6 +94,12 @@ public class MenuController {
     view(); // display current profiles
   }
 
+  /**
+   * Upon pressing the start button this takes you to the settings page where you choose your gamemode
+   *
+   * @param event button press event
+   * @throws Exception this is an exception
+   */
   @FXML
   private void onStart(ActionEvent event) throws Exception {
     startGame(event);
@@ -111,6 +117,13 @@ public class MenuController {
     thread.start();
   }
 
+  /**
+   *Upon starting go to the settings page and take in preffered settings
+   *
+   * @param event
+   * @return Settings controller
+   * @throws Exception
+   */
   private SettingsController startGame(ActionEvent event) throws Exception {
     // Changes scene
     Button button = (Button) event.getSource();
@@ -157,6 +170,11 @@ public class MenuController {
     displayStatsButton.setVisible(false);
   }
 
+  /**
+   * upon pressing this button, the stats page is opened up
+   *
+   * @param event
+   */
   @FXML
   private void onDisplayStats(ActionEvent event) {
     Button button = (Button) event.getSource();
@@ -164,6 +182,12 @@ public class MenuController {
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.STATS));
   }
 
+  /**
+   * Upon pressing the leaderboard button, the leaderboard ui is opened
+   *
+   * @param event
+   * @throws IOException
+   */
   @FXML
   private void onSwitchToLeaderboard(ActionEvent event) throws IOException {
     Button button = (Button) event.getSource();

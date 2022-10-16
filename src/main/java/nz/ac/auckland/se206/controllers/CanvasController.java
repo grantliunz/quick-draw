@@ -169,13 +169,24 @@ public class CanvasController {
     setConf(confidenceDiffculty);
   }
 
+  /**
+   * Displays the word to draw on canvas page
+   *
+   * @throws Exception difficulty does not exist
+   */
   private void displayWord() throws Exception {
     CategorySelector selector = new CategorySelector();
-    randomWord = selector.getRandomWord(wordsDiffculty);
+    randomWord = selector.getRandomWord(wordsDiffculty); //select a random word from the word list for that difficulty
     wordLabel.setText(randomWord);
     wordLabel.autosize();
   }
 
+  /**
+   * Sets confidence level of a prediction to win
+   * Has to be above said percentage to win the game
+   *
+   * @param difficulty enum of difficulty chosen
+   */
   private void setConf(Difficulty difficulty) {
     // depending on the difficulty confidence level is set
     if (difficulty == Difficulty.Ma) {
@@ -189,6 +200,11 @@ public class CanvasController {
     }
   }
 
+  /**
+   * sets the timer length depending on difficulty chosen
+   *
+   * @param difficulty enum for difficulty chosen
+   */
   private void setTimerDiff(Difficulty difficulty) {
     // depending on difficulty timer value is set
     if (difficulty == Difficulty.Ma) {
@@ -316,10 +332,6 @@ public class CanvasController {
     currentColor = Color.BLACK;
   }
 
-  public void setTimerLabel(String string) {
-    this.timerLabel.setText(string);
-  }
-
   /** this is for tts implementation where word prompted is said */
   public void speakWord() {
     javafx.concurrent.Task<Void> task =
@@ -340,7 +352,7 @@ public class CanvasController {
   /**
    * This method is for speaking a certain string that you provide
    *
-   * @param toSpeak
+   * @param toSpeak string to speak
    */
   public void speak(String toSpeak) {
     javafx.concurrent.Task<Void> task =
@@ -414,6 +426,11 @@ public class CanvasController {
     timerLabel.setText("∞");
   }
 
+  /**
+   * Switching to brush from eraser method
+   * Enables drawing when pencil button is pressed
+   *
+   */
   @FXML
   private void onSwitchToBrush() {
     // Brush size
@@ -453,6 +470,11 @@ public class CanvasController {
         });
   }
 
+  /**
+   * Switching to eraser method
+   * Enables erasing drawing components when eraser button is pressed
+   *
+   */
   @FXML
   private void onSwitchToEraser() {
     // brush size
@@ -478,6 +500,11 @@ public class CanvasController {
         });
   }
 
+  /**
+   * When a game is over via time or win this method stops the timer
+   * and preps the canvas for the next game
+   *
+   */
   private void finishGame() {
     timer.cancel();
     // Stop timer
@@ -500,6 +527,14 @@ public class CanvasController {
     wordPos = 0;
   }
 
+  /**
+   * When a new game is started, this method is called and switches the scene to the canvas
+   * Then depending on the gamemode pressed, calls the method to prep that gamemode's canvas
+   *
+   * @param event ActionEvent when button is pressed
+   * @throws Exception Category does not exist exception
+   * @throws WordNotFoundException If the word is not found exception
+   */
   @FXML
   private void onNewGame(ActionEvent event) throws Exception, WordNotFoundException {
     SceneManager.addUi(SceneManager.AppUi.CANVAS, loadFxml("canvas"));
@@ -572,29 +607,10 @@ public class CanvasController {
   }
 
   /**
-   * Save the current snapshot on a bitmap file.
+   * When the save button is pressed this method is called to open the file manager and save a BMP image file of the canvas
    *
-   * @return The file of the saved image.
-   * @throws IOException If the image cannot be saved.
+   * @throws IOException Error when saving file
    */
-  private File saveCurrentSnapshotOnFile() throws IOException {
-    // You can change the location as you see fit.
-    final File tmpFolder = new File("tmp");
-
-    if (!tmpFolder.exists()) {
-      tmpFolder.mkdir();
-    }
-
-    // We save the image to a file in the tmp folder.
-    final File imageToClassify =
-        new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
-
-    // Save the image to a file.
-    ImageIO.write(getCurrentSnapshot(), "bmp", imageToClassify);
-
-    return imageToClassify;
-  }
-
   @FXML
   private void onSaveImage() throws IOException {
 
@@ -614,6 +630,12 @@ public class CanvasController {
     }
   }
 
+  /**
+   * Upon pressing the main menu button this method takes you back to the menu UI by loading the FXML and controller file
+   *
+   * @param event Button ActionEvent pressed
+   * @throws IOException Error when switching to a scene that does not exist
+   */
   @FXML
   private void onDisplayMenu(ActionEvent event) throws IOException {
     // Updates UI back to the main menu
@@ -717,6 +739,12 @@ public class CanvasController {
         });
   }
 
+  /**
+   * This method sets how far up the prediction needs to be to win
+   * IE top 3, top 2, top 1
+   *
+   * @param difficulty choosen difficulty by the user
+   */
   private void setAccuracy(Difficulty difficulty) {
     // depending on user difficulty winning predicition becomes stricter
     if (difficulty == Difficulty.H) {
@@ -779,6 +807,10 @@ public class CanvasController {
     thread.start();
   }
 
+  /**
+   * This method lays out a preselect number of colors onto the canvas to choose from
+   * Upon selecting a color in the canvas, the cursor color changes and lines will appear in that color
+   */
   private void createPenColors() {
     colorGrid.setHgap(2);
     colorGrid.setVgap(2);
@@ -796,12 +828,19 @@ public class CanvasController {
     }
   }
 
+  /**
+   * This method displays the first letter of the word to draw in hidden mode if the hint button is pressed
+   */
   @FXML
   private void onShowHint() {
     hintButton.setVisible(false);
     wordLabel.setText(randomWord.charAt(0) + " _".repeat(randomWord.length() - 1));
   }
 
+  /**
+   * This method sets and starts a timer counting down from 60 seconds
+   * Has specific time queues that play sounds informing the player of the limit
+   */
   private void setTimer() {
     /*
      * Adapted from:
@@ -868,9 +907,9 @@ public class CanvasController {
   }
 
   /**
-   * Takes a string input of a file location to play and plays the sound
+   * Takes a string input of an mp3 file location to play and plays the sound
    *
-   * @param s
+   * @param s A string of the mp3 file location to play
    */
   public static void playSound(String s) {
     javafx.concurrent.Task<Void> task =

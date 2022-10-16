@@ -53,7 +53,7 @@ public class StatsController {
   /**
    * updates the stats of the user chosen and updates labels
    *
-   * @param user
+   * @param user User object
    */
   public void updateStats(User user) {
     // Changes the header to show user name
@@ -79,6 +79,11 @@ public class StatsController {
     hideBadges(badges);
   }
 
+  /**
+   * Add all won game words of the user to the wins list
+   *
+   * @param gamesWon Arraylist of won games and their time
+   */
   private void populateWinLists(ArrayList<Data> gamesWon) {
     // Creates a string of words won
     StringBuilder sbWords = new StringBuilder();
@@ -94,6 +99,11 @@ public class StatsController {
     winTimeListLabel.setText(sbTimes.toString());
   }
 
+  /**
+   * Add all lost game words to the lost games list
+   *
+   * @param gamesLost Arraylist of games words lost by the user
+   */
   private void populateLossList(ArrayList<Data> gamesLost) {
     StringBuilder sbWords = new StringBuilder();
     gamesLostLabel.setText("Games Lost: " + gamesLost.size());
@@ -103,6 +113,11 @@ public class StatsController {
     lossListLabel.setText(sbWords.toString());
   }
 
+  /**
+   * Hide badge if a user has not met the requirements to unlock them and display that they are locked.
+   *Displays the badges
+   * @param badges boolean array of whether they have unlcked the badges based on stats
+   */
   private void hideBadges(boolean[] badges) {
     ObservableList<Node> children = badgeGrid.getChildren();
     for (int i = 0; i < children.size(); i++) {
@@ -110,17 +125,17 @@ public class StatsController {
       if (node instanceof ImageView imageView) {
         Image image;
         Tooltip t;
-        if (!badges[i]) {
+        if (!badges[i]) { //if the badge is locked then add a tool tip and hide the badge
           image = new Image("/images/badges/locked.png");
           t = new Tooltip("LOCKED:\n " + BADGE_DESCRIPTIONS[i]);
-        } else {
+        } else { //otherwise display the badge
           image = new Image("/images/badges/badge" + i + ".png");
           t = new Tooltip(BADGE_DESCRIPTIONS[i]);
         }
         imageView.setImage(image);
         imageView.setPickOnBounds(true);
         t.setShowDelay(javafx.util.Duration.millis(0));
-        t.setStyle("-fx-font-size: 20");
+        t.setStyle("-fx-font-size: 20"); //set tooltip font size
         int finalI = i;
         t.setOnShowing(
             s -> {

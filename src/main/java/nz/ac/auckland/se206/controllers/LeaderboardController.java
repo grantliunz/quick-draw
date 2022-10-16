@@ -21,12 +21,25 @@ public class LeaderboardController {
   @FXML private Label leaderboard;
   @FXML private Label leaderboardScore;
 
+  /**
+   * Updates the leaderboard each time it is viewed
+   * Reads from users accumlative score and displays it
+   *
+   * @throws StreamReadException
+   * @throws DatabindException
+   * @throws IOException
+   */
   public void updateLeaderboard() throws StreamReadException, DatabindException, IOException {
     List<User> userList = getUserList();
     List<User> sortedList = sortUserList(userList);
     populateLeaderboard(sortedList);
   }
 
+  /**
+   * Switches back to the home screen ui
+   *
+   * @param event Button press event
+   */
   @FXML
   private void switchToHome(ActionEvent event) {
     Button button = (Button) event.getSource();
@@ -37,7 +50,7 @@ public class LeaderboardController {
   /**
    * this method just sets the labels and prints the leaderboard
    *
-   * @param sortedList
+   * @param sortedList List of users
    */
   private void populateLeaderboard(List<User> sortedList) {
     StringBuilder sbUser = new StringBuilder();
@@ -52,6 +65,14 @@ public class LeaderboardController {
     leaderboardScore.setText(sbScore.toString());
   }
 
+  /**
+   * This method retrieves a user list
+   *
+   * @return A list of users
+   * @throws StreamReadException
+   * @throws DatabindException
+   * @throws IOException
+   */
   private List<User> getUserList() throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
