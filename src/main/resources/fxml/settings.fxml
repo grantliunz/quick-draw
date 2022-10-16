@@ -16,78 +16,123 @@
             <Image url="@../images/pngegg%20(1).png" />
          </image>
       </ImageView>
-      <Button fx:id="classicButton" contentDisplay="TOP" layoutX="388.0" layoutY="313.0" mnemonicParsing="false" onAction="#onStartClassic" prefHeight="248.0" prefWidth="225.0" text="Classic">
+      <Pane layoutX="43.0" layoutY="55.0" prefHeight="150.0" prefWidth="916.0">
+         <children>
+            <ChoiceBox fx:id="accuracyChoiceBox" layoutX="41.0" layoutY="53.0" prefHeight="67.0" prefWidth="172.0" stylesheets="@../css/stylesheet.css">
+               <styleClass>
+                  <String fx:value="bg-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </ChoiceBox>
+            <ChoiceBox fx:id="wordsChoiceBox" layoutX="268.0" layoutY="53.0" prefHeight="67.0" prefWidth="172.0" stylesheets="@../css/stylesheet.css">
+               <styleClass>
+                  <String fx:value="bg-light-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </ChoiceBox>
+            <ChoiceBox fx:id="timeChoiceBox" layoutX="490.0" layoutY="53.0" prefHeight="67.0" prefWidth="172.0">
+               <styleClass>
+                  <String fx:value="bg-light-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </ChoiceBox>
+            <ChoiceBox fx:id="confidenceChoiceBox" layoutX="705.0" layoutY="52.0" prefHeight="67.0" prefWidth="172.0">
+               <styleClass>
+                  <String fx:value="bg-light-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </ChoiceBox>
+            <Label layoutX="51.0" layoutY="23.0" prefHeight="29.0" prefWidth="113.0" styleClass="text-Burgundy" text="Accuracy">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="268.0" layoutY="23.0" styleClass="text-Burgundy" text="Word">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="23.0" styleClass="text-Burgundy" text="Timer">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="712.0" layoutY="23.0" styleClass="text-Burgundy" text="Confidence">
+               <font>
+                  <Font name="Segoe UI Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
          <styleClass>
-            <String fx:value="text-white" />
-            <String fx:value="bg-Biege" />
-            <String fx:value="bg-Biege" />
+            <String fx:value="bg-white" />
+            <String fx:value="border-burgundy" />
             <String fx:value="rounded" />
-            <String fx:value="new-profile" />
          </styleClass>
-         <font>
-            <Font name="Segoe UI" size="39.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="196.0" fitWidth="254.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/classic.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
-      <ChoiceBox fx:id="accuracyChoiceBox" layoutX="57.0" layoutY="119.0" prefHeight="67.0" prefWidth="172.0" styleClass="bg-Biege" stylesheets="@../css/stylesheet.css" />
-      <ChoiceBox fx:id="wordsChoiceBox" layoutX="302.0" layoutY="119.0" prefHeight="67.0" prefWidth="172.0" styleClass="bg-light-Biege" stylesheets="@../css/stylesheet.css" />
-      <ChoiceBox fx:id="timeChoiceBox" layoutX="528.0" layoutY="117.0" prefHeight="67.0" prefWidth="172.0" styleClass="bg-light-Biege" />
-      <ChoiceBox fx:id="confidenceChoiceBox" layoutX="778.0" layoutY="119.0" prefHeight="67.0" prefWidth="172.0" styleClass="bg-light-Biege" />
-      <Button fx:id="zenButton" alignment="CENTER" contentDisplay="TOP" layoutX="88.0" layoutY="313.0" mnemonicParsing="false" onAction="#onStartZen" prefHeight="248.0" prefWidth="225.0" text="Zen">
+      </Pane>
+      <Pane layoutX="43.0" layoutY="255.0" prefHeight="332.0" prefWidth="916.0">
          <styleClass>
-            <String fx:value="bg-Biege" />
-            <String fx:value="text-white" />
+            <String fx:value="bg-white" />
             <String fx:value="rounded" />
-            <String fx:value="new-profile" />
+            <String fx:value="border-burgundy" />
          </styleClass>
-         <font>
-            <Font name="Segoe UI" size="39.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="192.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/zen.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
-      <Label layoutX="87.0" layoutY="76.0" prefHeight="42.0" prefWidth="113.0" styleClass="text-Burgundy" text="Accuracy">
-         <font>
-            <Font name="Segoe UI Bold" size="24.0" />
-         </font></Label>
-      <Label layoutX="356.0" layoutY="83.0" styleClass="text-Burgundy" text="Word">
-         <font>
-            <Font name="Segoe UI Bold" size="24.0" />
-         </font></Label>
-      <Label layoutX="581.0" layoutY="82.0" styleClass="text-Burgundy" text="Timer">
-         <font>
-            <Font name="Segoe UI Bold" size="24.0" />
-         </font></Label>
-      <Label layoutX="800.0" layoutY="83.0" styleClass="text-Burgundy" text="Confidence">
-         <font>
-            <Font name="Segoe UI Bold" size="24.0" />
-         </font></Label>
-      <Button fx:id="hiddenButton" contentDisplay="TOP" layoutX="666.0" layoutY="313.0" mnemonicParsing="false" onAction="#onStartHidden" prefHeight="248.0" prefWidth="225.0" text="Hidden">
-         <styleClass>
-            <String fx:value="text-white" />
-            <String fx:value="bg-Biege" />
-            <String fx:value="rounded" />
-            <String fx:value="new-profile" />
-         </styleClass>
-         <font>
-            <Font name="Segoe UI" size="39.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="190.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/hidden.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
+         <children>
+            <Button fx:id="classicButton" contentDisplay="TOP" layoutX="346.0" layoutY="41.0" mnemonicParsing="false" onAction="#onStartClassic" prefHeight="248.0" prefWidth="225.0" text="Classic">
+               <styleClass>
+                  <String fx:value="text-white" />
+                  <String fx:value="bg-Biege" />
+                  <String fx:value="bg-Biege" />
+                  <String fx:value="rounded" />
+                  <String fx:value="new-profile" />
+               </styleClass>
+               <font>
+                  <Font name="Segoe UI" size="39.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="196.0" fitWidth="254.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/classic.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="zenButton" alignment="CENTER" contentDisplay="TOP" layoutX="50.0" layoutY="42.0" mnemonicParsing="false" onAction="#onStartZen" prefHeight="248.0" prefWidth="225.0" text="Zen">
+               <styleClass>
+                  <String fx:value="bg-Biege" />
+                  <String fx:value="text-white" />
+                  <String fx:value="rounded" />
+                  <String fx:value="new-profile" />
+               </styleClass>
+               <font>
+                  <Font name="Segoe UI" size="39.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="192.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/zen.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="hiddenButton" contentDisplay="TOP" layoutX="634.0" layoutY="42.0" mnemonicParsing="false" onAction="#onStartHidden" prefHeight="248.0" prefWidth="225.0" text="Hidden">
+               <styleClass>
+                  <String fx:value="text-white" />
+                  <String fx:value="bg-Biege" />
+                  <String fx:value="rounded" />
+                  <String fx:value="new-profile" />
+               </styleClass>
+               <font>
+                  <Font name="Segoe UI" size="39.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="190.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/hidden.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
       <Button fx:id="menuButton" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="100.0" prefWidth="100.0">
          <graphic>
             <ImageView fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">

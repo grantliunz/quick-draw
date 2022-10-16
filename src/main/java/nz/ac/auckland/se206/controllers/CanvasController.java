@@ -21,6 +21,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -29,11 +30,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
@@ -119,10 +120,11 @@ public class CanvasController {
   @FXML private ImageView hotFace;
   @FXML private ImageView coldFace;
 
-  @FXML private Label hintLabel;
   @FXML private Button hintButton;
 
   @FXML private Label gamemodeLabel;
+
+  @FXML private Label definitionLabel;
 
   private GraphicsContext graphic;
   private DoodlePrediction model;
@@ -289,7 +291,6 @@ public class CanvasController {
     graphic = canvas.getGraphicsContext2D();
     model = new DoodlePrediction();
     wordPos = 0;
-    wordLabel.autosize();
     // Set up timer
 
     // Hide end game buttons
@@ -299,8 +300,7 @@ public class CanvasController {
     predictionList.setVisible(false);
     colorGrid.setVisible(false);
     hintButton.setVisible(false);
-    hintLabel.setVisible(false);
-
+    definitionLabel.setVisible(false);
     gamemodeLabel.setText("Classic");
     resultLabel.setText("");
     fire.setVisible(false);
@@ -449,7 +449,7 @@ public class CanvasController {
     canvas.setCursor(Cursor.DEFAULT);
 
     if (gameMode == GameMode.HIDDEN) {
-      hintLabel.setText(randomWord);
+      wordLabel.setText(randomWord);
       hintButton.setVisible(false);
     }
 
@@ -685,12 +685,15 @@ public class CanvasController {
    * @throws IOException file error is thrown
    */
   public void startHidden() throws WordNotFoundException, IOException {
-    wordLabel.setFont(new Font(15));
-    wordLabel.setWrapText(true);
+    wordLabel.setText("????");
+    definitionLabel.setVisible(true);
+    definitionLabel.setWrapText(true);
     startDrawButton.setDisable(true);
     gamemodeLabel.setText("Hidden Mode");
-    wordLabel.setText("Getting word definition...");
-    wordLabel.autosize();
+    definitionLabel.setText("Getting word definition...");
+    definitionLabel.setTextOverrun(OverrunStyle.CLIP);
+    // add padding to definitonlabel
+    definitionLabel.setPadding(new Insets(0, 0, 0, 10));
 
     // runs a background task for no freezing
     javafx.concurrent.Task<Void> task =
@@ -713,8 +716,7 @@ public class CanvasController {
             // when defintion found word is shown on gui
             Platform.runLater(
                 () -> {
-                  wordLabel.setText(finalDefinition);
-                  wordLabel.autosize();
+                  definitionLabel.setText(finalDefinition);
                   startDrawButton.setDisable(false);
                 });
             ;
@@ -747,9 +749,7 @@ public class CanvasController {
   @FXML
   private void onShowHint() {
     hintButton.setVisible(false);
-    hintLabel.setVisible(true);
-    hintLabel.setText(randomWord.charAt(0) + " _".repeat(randomWord.length() - 1));
-    hintLabel.autosize();
+    wordLabel.setText(randomWord.charAt(0) + " _".repeat(randomWord.length() - 1));
   }
 
   private void setTimer() {
