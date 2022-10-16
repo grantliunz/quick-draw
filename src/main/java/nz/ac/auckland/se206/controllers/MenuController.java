@@ -172,9 +172,9 @@ public class MenuController {
   }
 
   /**
-   * upon pressing this button, the stats page is opened up
+   * This method is called when the user wants to view their stats
    *
-   * @param event button press action
+   * @param event the button click event
    */
   @FXML
   private void onDisplayStats(ActionEvent event) {
