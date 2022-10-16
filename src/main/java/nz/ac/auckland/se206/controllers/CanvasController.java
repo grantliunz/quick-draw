@@ -50,15 +50,22 @@ import nz.ac.auckland.se206.words.CategorySelector;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
 /**
- * This is the controller of the canvas. You are free to modify this class and the corresponding
- * FXML file as you see fit. For example, you might no longer need the "Predict" button because the
+ * This is the controller of the canvas. You are free to modify this class and
+ * the corresponding
+ * FXML file as you see fit. For example, you might no longer need the "Predict"
+ * button because the
  * DL model should be automatically queried in the background every second.
  *
- * <p>!! IMPORTANT !!
+ * <p>
+ * !! IMPORTANT !!
  *
- * <p>Although we added the scale of the image, you need to be careful when changing the size of the
- * drawable canvas and the brush size. If you make the brush too big or too small with respect to
- * the canvas size, the ML model will not work correctly. So be careful. If you make some changes in
+ * <p>
+ * Although we added the scale of the image, you need to be careful when
+ * changing the size of the
+ * drawable canvas and the brush size. If you make the brush too big or too
+ * small with respect to
+ * the canvas size, the ML model will not work correctly. So be careful. If you
+ * make some changes in
  * the canvas and brush sizes, make sure that the prediction works fine.
  */
 public class CanvasController {
@@ -71,25 +78,24 @@ public class CanvasController {
 
   public static int MAX_TIME;
 
-  public static String[] PEN_COLORS =
-      new String[] {
-        "white",
-        "black",
-        "lightgray",
-        "gray",
-        "brown",
-        "red",
-        "orange",
-        "yellow",
-        "lime",
-        "green",
-        "cyan",
-        "blue",
-        "violet",
-        "indigo",
-        "magenta",
-        "pink",
-      };
+  public static String[] PEN_COLORS = new String[] {
+      "white",
+      "black",
+      "lightgray",
+      "gray",
+      "brown",
+      "red",
+      "orange",
+      "yellow",
+      "lime",
+      "green",
+      "cyan",
+      "blue",
+      "violet",
+      "indigo",
+      "magenta",
+      "pink",
+  };
 
   private User user;
   private Difficulty accuracyDiffculty;
@@ -98,39 +104,59 @@ public class CanvasController {
   private Difficulty confidenceDiffculty;
   private int winningNum;
 
-  @FXML private Canvas canvas;
-  @FXML private Label wordLabel;
-  @FXML private Label timerLabel;
-  @FXML private Button startDrawButton;
-  @FXML private ListView<String> predictionList;
+  @FXML
+  private Canvas canvas;
+  @FXML
+  private Label wordLabel;
+  @FXML
+  private Label timerLabel;
+  @FXML
+  private Button startDrawButton;
+  @FXML
+  private ListView<String> predictionList;
 
-  @FXML private Label resultLabel;
-  @FXML private Button brushButton;
-  @FXML private Button eraserButton;
-  @FXML private Button clearButton;
-  @FXML private Button newGameButton;
+  @FXML
+  private Label resultLabel;
+  @FXML
+  private Button brushButton;
+  @FXML
+  private Button eraserButton;
+  @FXML
+  private Button clearButton;
+  @FXML
+  private Button newGameButton;
 
-  @FXML private Button menuButton;
-  @FXML private Button saveImageButton;
-  @FXML private GridPane colorGrid;
+  @FXML
+  private Button menuButton;
+  @FXML
+  private Button saveImageButton;
+  @FXML
+  private GridPane colorGrid;
 
   private Color currentColor;
 
-  @FXML private ImageView fire;
-  @FXML private ImageView hotFace;
-  @FXML private ImageView coldFace;
+  @FXML
+  private ImageView fire;
+  @FXML
+  private ImageView hotFace;
+  @FXML
+  private ImageView coldFace;
 
-  @FXML private Button hintButton;
+  @FXML
+  private Button hintButton;
 
-  @FXML private Label gamemodeLabel;
+  @FXML
+  private Label gamemodeLabel;
 
-  @FXML private Label definitionLabel;
+  @FXML
+  private Label definitionLabel;
 
   private GraphicsContext graphic;
   private DoodlePrediction model;
   private Timer timer;
   private boolean drawn;
   private int remainingTime;
+  private Result result;
 
   private String randomWord;
   // mouse coordinates
@@ -209,16 +235,16 @@ public class CanvasController {
    *
    * @param result enum for whether won or lost
    * @throws StreamReadException thrown if writing has a problem
-   * @throws DatabindException thrown if writing has a problem
-   * @throws IOException thrown if writing has a problem
+   * @throws DatabindException   thrown if writing has a problem
+   * @throws IOException         thrown if writing has a problem
    */
   public void updateResult(Result result)
       throws StreamReadException, DatabindException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
     // List of users read from json file
-    List<User> userList =
-        mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {});
+    List<User> userList = mapper.readValue(new File(".profiles/users.json"), new TypeReference<List<User>>() {
+    });
     User temp = null;
     int count = 0;
     // Accesses the current user
@@ -281,11 +307,13 @@ public class CanvasController {
   }
 
   /**
-   * JavaFX calls this method once the GUI elements are loaded. In our case we create a listener for
+   * JavaFX calls this method once the GUI elements are loaded. In our case we
+   * create a listener for
    * the drawing, and we load the ML model.
    *
-   * @throws ModelException If there is an error in reading the input/output of the DL model.
-   * @throws IOException If the model cannot be found on the file system.
+   * @throws ModelException If there is an error in reading the input/output of
+   *                        the DL model.
+   * @throws IOException    If the model cannot be found on the file system.
    */
   public void initialize() throws Exception {
     graphic = canvas.getGraphicsContext2D();
@@ -317,15 +345,14 @@ public class CanvasController {
 
   /** this is for tts implementation where word prompted is said */
   public void speak() {
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            // Uses Text to speech to speak given lines
-            tts.speak("Draw", randomWord);
-            return null;
-          }
-        };
+    javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
+      @Override
+      protected Void call() throws Exception {
+        // Uses Text to speech to speak given lines
+        tts.speak("Draw", randomWord);
+        return null;
+      }
+    };
     // Delegates speaking task to new thread to prevent blocking of GUI
     Thread thread = new Thread(task);
     thread.start();
@@ -354,7 +381,9 @@ public class CanvasController {
             public void run() {
 
               try {
-                populatePredictionList();
+                if (result != Result.WIN) {
+                  populatePredictionList();
+                }
               } catch (TranslateException e) {
                 throw new RuntimeException(e);
               }
@@ -471,8 +500,7 @@ public class CanvasController {
     drawn = false;
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(SceneManager.AppUi.CANVAS));
     // controller set so that methods are accessible
-    CanvasController controller =
-        (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
+    CanvasController controller = (CanvasController) SceneManager.getUiController(SceneManager.AppUi.CANVAS);
     // sets user for canvas and the gamemode
     controller.setUser(user);
     controller.setGameMode(this.gameMode);
@@ -496,11 +524,14 @@ public class CanvasController {
   }
 
   /**
-   * This method executes when the user clicks the "Predict" button. It gets the current drawing,
-   * queries the DL model and prints on the console the top 5 predictions of the DL model and the
+   * This method executes when the user clicks the "Predict" button. It gets the
+   * current drawing,
+   * queries the DL model and prints on the console the top 5 predictions of the
+   * DL model and the
    * elapsed time of the prediction in milliseconds.
    *
-   * @throws TranslateException If there is an error in reading the input/output of the DL model.
+   * @throws TranslateException If there is an error in reading the input/output
+   *                            of the DL model.
    */
   @FXML
   private void onPredict() throws TranslateException {
@@ -523,8 +554,8 @@ public class CanvasController {
     final BufferedImage image = SwingFXUtils.fromFXImage(snapshot, null);
 
     // Convert into a binary image.
-    final BufferedImage imageBinary =
-        new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+    final BufferedImage imageBinary = new BufferedImage(image.getWidth(), image.getHeight(),
+        BufferedImage.TYPE_BYTE_BINARY);
 
     final Graphics2D graphics = imageBinary.createGraphics();
 
@@ -551,8 +582,7 @@ public class CanvasController {
     }
 
     // We save the image to a file in the tmp folder.
-    final File imageToClassify =
-        new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
+    final File imageToClassify = new File(tmpFolder.getName() + "/snapshot" + System.currentTimeMillis() + ".bmp");
 
     // Save the image to a file.
     ImageIO.write(getCurrentSnapshot(), "bmp", imageToClassify);
@@ -587,8 +617,7 @@ public class CanvasController {
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();
 
-    MenuController controller =
-        (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
+    MenuController controller = (MenuController) SceneManager.getUiController(SceneManager.AppUi.MENU);
     controller.updateUser(user);
     sceneButtonIsIn.setRoot(SceneManager.getUiRoot(AppUi.MENU));
   }
@@ -605,8 +634,8 @@ public class CanvasController {
             // Loop through top 10 predictions
             if (drawn) {
               boolean isPredicted = false;
-              for (final Classifications.Classification classification :
-                  model.getPredictions(getCurrentSnapshot(), 40)) {
+              for (final Classifications.Classification classification : model.getPredictions(getCurrentSnapshot(),
+                  40)) {
 
                 String prediction = classification.getClassName().replace("_", " ");
                 // Top 3 predictions are displayed in largest text
@@ -622,8 +651,11 @@ public class CanvasController {
                     isPredicted = true;
                     fire.setVisible(true);
                     fire.setFitWidth((10 - i) * 10);
+                    result = Result.WIN;
                     try {
-                      updateResult(Result.WIN);
+                      if (gameMode != GameMode.ZEN) {
+                        updateResult(Result.WIN);
+                      }
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
@@ -682,7 +714,7 @@ public class CanvasController {
    * searches for the defintion of the random word chosen
    *
    * @throws WordNotFoundException if word is not found
-   * @throws IOException file error is thrown
+   * @throws IOException           file error is thrown
    */
   public void startHidden() throws WordNotFoundException, IOException {
     wordLabel.setText("????");
@@ -696,34 +728,33 @@ public class CanvasController {
     definitionLabel.setPadding(new Insets(0, 0, 0, 10));
 
     // runs a background task for no freezing
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
+    javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<Void>() {
 
-          @Override
-          protected Void call() throws Exception {
-            String definition;
-            // finds the defintion of word in background task
-            while (true) {
-              try {
-                definition = DictionaryLookup.searchWordInfo(randomWord);
-                break;
-              } catch (WordNotFoundException e) {
-                CategorySelector selector = new CategorySelector();
-                randomWord = selector.getRandomWord(Difficulty.E);
-              }
-            }
-            String finalDefinition = definition;
-            // when defintion found word is shown on gui
-            Platform.runLater(
-                () -> {
-                  definitionLabel.setText(finalDefinition);
-                  startDrawButton.setDisable(false);
-                });
-            ;
-
-            return null;
+      @Override
+      protected Void call() throws Exception {
+        String definition;
+        // finds the defintion of word in background task
+        while (true) {
+          try {
+            definition = DictionaryLookup.searchWordInfo(randomWord);
+            break;
+          } catch (WordNotFoundException e) {
+            CategorySelector selector = new CategorySelector();
+            randomWord = selector.getRandomWord(Difficulty.E);
           }
-        };
+        }
+        String finalDefinition = definition;
+        // when defintion found word is shown on gui
+        Platform.runLater(
+            () -> {
+              definitionLabel.setText(finalDefinition);
+              startDrawButton.setDisable(false);
+            });
+        ;
+
+        return null;
+      }
+    };
     // starts the thread
     Thread thread = new Thread(task);
     thread.start();
