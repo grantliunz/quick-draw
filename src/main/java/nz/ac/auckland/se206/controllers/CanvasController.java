@@ -654,6 +654,9 @@ public class CanvasController {
                 // Top 3 predictions are displayed in largest text
                 if (i <= 10) {
                   predictionList.getItems().add(prediction);
+                  if (i == winningNum) {
+                    predictionList.getItems().add("---------------------------");
+                  }
                 }
                 if (i <= winningNum) {
                   // Check if prediction is correct
