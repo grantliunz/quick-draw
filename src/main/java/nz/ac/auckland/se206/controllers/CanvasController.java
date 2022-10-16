@@ -90,6 +90,7 @@ public class CanvasController {
         "magenta",
         "pink",
       };
+
   /**
    * Takes a string input of an mp3 file location to play and plays the sound
    *
@@ -283,6 +284,7 @@ public class CanvasController {
       int gamesWon = temp.getGamesWon() + 1;
       int score = userList.get(count).getScore();
       userList.get(count).setScore(getScore() + score);
+      user.setScore(getScore() + score);
       userList.get(count).setGamesWon(gamesWon);
       mapper.writeValue(new File(".profiles/users.json"), userList);
     } else {
