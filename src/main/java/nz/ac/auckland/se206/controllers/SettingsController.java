@@ -1,6 +1,8 @@
 package nz.ac.auckland.se206.controllers;
 
 import static nz.ac.auckland.se206.App.loadFxml;
+import static nz.ac.auckland.se206.controllers.StatsController.getGamesWonOrLoss;
+import static nz.ac.auckland.se206.util.BadgeUtil.getGamemodeWins;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,11 +13,16 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Pane;
 import nz.ac.auckland.se206.controllers.CanvasController.GameMode;
 import nz.ac.auckland.se206.scenes.SceneManager;
+import nz.ac.auckland.se206.user.Data;
+import nz.ac.auckland.se206.user.Data.Result;
 import nz.ac.auckland.se206.user.User;
 import nz.ac.auckland.se206.words.CategorySelector.Difficulty;
 
@@ -25,6 +32,11 @@ public class SettingsController {
   @FXML private ChoiceBox<String> wordsChoiceBox;
   @FXML private ChoiceBox<String> timeChoiceBox;
   @FXML private ChoiceBox<String> confidenceChoiceBox;
+
+  @FXML private Button hiddenButton;
+  @FXML Button zenButton;
+  @FXML private Pane hiddenPane;
+  @FXML private Pane zenPane;
 
   private List<Difficulty> difficultyList = Arrays.asList(Difficulty.values());
   private List<String> difficultyNames = Arrays.asList("Easy", "Medium", "Hard", "Master");
@@ -64,6 +76,41 @@ public class SettingsController {
       confidenceChoiceBox.setValue(
           difficultyNames.get(difficultyList.indexOf(user.getDifficulty().get(3))));
     }
+    ArrayList<Data> gameData = user.getData();
+    ArrayList<Data> gamesWon = getGamesWonOrLoss(gameData, Result.WIN);
+
+    int classicWins = getGamemodeWins(gamesWon, GameMode.CLASSIC);
+    int hiddenWins = getGamemodeWins(gamesWon, GameMode.HIDDEN);
+    if (classicWins < 5) {
+      hiddenButton.setDisable(true);
+      Tooltip t =
+          new Tooltip("Win " + (5 - classicWins) + " more \n Classic Mode games\n to unlock");
+      setTooltip(t, hiddenPane);
+    } else {
+      hiddenButton.setDisable(false);
+      Tooltip.install(hiddenPane, null);
+    }
+
+    if (hiddenWins < 5) {
+      zenButton.setDisable(true);
+      Tooltip t = new Tooltip("Win " + (5 - hiddenWins) + " more \n Hidden Mode games\n to unlock");
+      setTooltip(t, zenPane);
+    } else {
+      zenButton.setDisable(false);
+      Tooltip.install(zenPane, null);
+    }
+  }
+
+  private void setTooltip(Tooltip t, Pane pane) {
+    t.setShowDelay(javafx.util.Duration.millis(0));
+    t.setStyle("-fx-font-size: 20");
+    t.setOnShowing(
+        s -> {
+          Bounds bounds = pane.localToScreen(pane.getBoundsInLocal());
+          t.setX(bounds.getMinX());
+          t.setY(bounds.getMaxY() - t.getHeight());
+        });
+    Tooltip.install(pane, t);
   }
 
   public void setUser(User u) {
@@ -104,6 +151,7 @@ public class SettingsController {
 
   private CanvasController startGame(ActionEvent event) throws Exception {
     // updates settings so canvas changes functionality accordingly
+
     updateSettings();
     Button button = (Button) event.getSource();
     Scene sceneButtonIsIn = button.getScene();

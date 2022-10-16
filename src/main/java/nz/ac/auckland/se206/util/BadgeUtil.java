@@ -59,17 +59,17 @@ public class BadgeUtil {
       }
     }
 
-    if (getGamemodeWins(gamesWon, GameMode.CLASSIC).size() >= 5
-        && getGamemodeWins(gamesWon, GameMode.HIDDEN).size() >= 5) {
+    if (getGamemodeWins(gamesWon, GameMode.CLASSIC) >= 5
+        && getGamemodeWins(gamesWon, GameMode.HIDDEN) >= 5) {
       badges[6] = true;
     }
 
     return badges;
   }
 
-  public static ArrayList<Data> getGamemodeWins(ArrayList<Data> allWins, GameMode gameMode) {
+  public static int getGamemodeWins(ArrayList<Data> allWins, GameMode gameMode) {
     ArrayList<Data> wonGames = new ArrayList<>(allWins);
     wonGames.removeIf(data -> !data.getgameMode().equals(gameMode));
-    return wonGames;
+    return wonGames.size();
   }
 }
