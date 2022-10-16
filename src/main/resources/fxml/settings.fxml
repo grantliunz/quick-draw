@@ -11,7 +11,7 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.SettingsController">
    <children>
-      <ImageView fitHeight="961.0" fitWidth="1143.0" layoutX="-55.0" layoutY="-108.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="961.0" fitWidth="1143.0" layoutX="-55.0" layoutY="-108.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/pngegg%20(1).png" />
          </image>
@@ -83,6 +83,7 @@
                   <String fx:value="bg-Biege" />
                   <String fx:value="rounded" />
                   <String fx:value="new-profile" />
+                  <String fx:value="border-burgundy" />
                </styleClass>
                <font>
                   <Font name="Segoe UI" size="39.0" />
@@ -103,6 +104,7 @@
                         <String fx:value="bg-Biege" />
                         <String fx:value="rounded" />
                         <String fx:value="new-profile" />
+                        <String fx:value="border-burgundy" />
                      </styleClass>
                      <font>
                         <Font name="Segoe UI" size="39.0" />
@@ -125,6 +127,7 @@
                         <String fx:value="text-white" />
                         <String fx:value="rounded" />
                         <String fx:value="new-profile" />
+                        <String fx:value="border-burgundy" />
                      </styleClass>
                      <font>
                         <Font name="Segoe UI" size="39.0" />

@@ -22,28 +22,38 @@
       <children>
         <Pane prefHeight="714.0" prefWidth="855.0">
           <children>
-            <ImageView fitHeight="951.0" fitWidth="1078.0" layoutX="-27.0" layoutY="-121.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="951.0" fitWidth="1078.0" layoutX="-27.0" layoutY="-121.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../images/pngegg%20(1).png" />
               </image>
             </ImageView>
-                  <Pane layoutX="227.0" layoutY="42.0" prefHeight="114.0" prefWidth="475.0">
+                  <Pane layoutX="228.0" layoutY="12.0" prefHeight="144.0" prefWidth="475.0">
                      <children>
-                        <Label fx:id="gamemodeLabel" alignment="CENTER" layoutX="-4.0" prefHeight="72.0" prefWidth="475.0" styleClass="text-Burgundy" text="gamemode">
+                        <Label fx:id="gamemodeLabel" alignment="CENTER" layoutX="6.0" layoutY="9.0" prefHeight="63.0" prefWidth="463.0" text="gamemode">
                            <font>
                               <Font name="Segoe UI Bold" size="59.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="bg-light-Biege" />
+                              <String fx:value="rounded" />
+                           </styleClass>
                         </Label>
-                  <Label fx:id="resultLabel" alignment="CENTER" layoutY="61.0" prefHeight="51.0" prefWidth="475.0" styleClass="text-Burgundy" text="Result" textAlignment="CENTER">
+                  <Label fx:id="resultLabel" alignment="CENTER" layoutX="6.0" layoutY="85.0" prefHeight="51.0" prefWidth="463.0" text="Result" textAlignment="CENTER">
                     <font>
                       <Font name="Segoe UI Bold" size="40.0" />
                     </font>
+                           <styleClass>
+                              <String fx:value="text-Burgundy" />
+                              <String fx:value="bg-light-Biege" />
+                              <String fx:value="rounded" />
+                           </styleClass>
                   </Label>
                      </children>
                      <styleClass>
-                        <String fx:value="bg-light-Biege" />
+                        <String fx:value="bg-white" />
                         <String fx:value="rounded" />
-                        <String fx:value="b" />
+                        <String fx:value="border-burgundy" />
                      </styleClass>
                   </Pane>
                   <Pane layoutX="227.0" layoutY="165.0" prefHeight="90.0" prefWidth="475.0">
@@ -83,7 +93,7 @@
                 </Canvas>
                 <Button fx:id="startDrawButton" layoutX="156.0" layoutY="121.0" mnemonicParsing="false" onAction="#onStartDraw" prefHeight="63.0" prefWidth="164.0" text="Let's Draw!!">
                   <font>
-                    <Font name="Segoe UI" size="22.0" />
+                    <Font name="Segoe UI Bold" size="22.0" />
                   </font>
                   <styleClass>
                     <String fx:value="bg-Biege" />
@@ -197,13 +207,14 @@
                         <String fx:value="border-burgundy" />
                      </styleClass>
                   </Label>
-                  <Button fx:id="hintButton" layoutX="77.0" layoutY="187.0" mnemonicParsing="false" onAction="#onShowHint" text="Hint">
+                  <Button fx:id="hintButton" layoutX="61.0" layoutY="172.0" mnemonicParsing="false" onAction="#onShowHint" prefHeight="63.0" prefWidth="107.0" text="Hint">
                      <font>
-                        <Font name="System Bold" size="22.0" />
+                        <Font name="System Bold" size="29.0" />
                      </font>
                      <styleClass>
                         <String fx:value="bg-Biege" />
-                        <String fx:value="text-white" />
+                        <String fx:value="text-Burgundy" />
+                        <String fx:value="rounded" />
                      </styleClass>
                   </Button>
           </children>
@@ -249,11 +260,11 @@
             </ImageView>
             <Button fx:id="newGameButton" layoutX="58.0" layoutY="621.0" mnemonicParsing="false" onAction="#onNewGame" prefHeight="75.0" prefWidth="218.0" text="New Game">
               <font>
-                <Font name="Segoe UI Bold" size="23.0" />
+                <Font name="Segoe UI Bold" size="33.0" />
               </font>
               <styleClass>
                 <String fx:value="bg-Biege" />
-                <String fx:value="text-white" />
+                <String fx:value="text-Burgundy" />
                 <String fx:value="rounded" />
               </styleClass>
             </Button>

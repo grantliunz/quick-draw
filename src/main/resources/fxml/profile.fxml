@@ -16,21 +16,31 @@
             <Image url="@../images/pngegg%20(1).png" />
          </image>
       </ImageView>
-      <Label layoutX="181.0" layoutY="130.0" text="Whats your name?">
-         <font>
-            <Font name="Bauhaus 93" size="79.0" />
-         </font>
+      <Pane layoutX="172.0" layoutY="43.0" prefHeight="134.0" prefWidth="690.0">
          <styleClass>
-            <String fx:value="text-Burgundy" />
-            <String fx:value="outline" />
+            <String fx:value="bg-white" />
+            <String fx:value="rounded" />
+            <String fx:value="border-burgundy" />
          </styleClass>
-      </Label>
+         <children>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="22.0" prefHeight="91.0" prefWidth="655.0" text="Whats Your Name?">
+               <font>
+                  <Font name="Bauhaus 93" size="64.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text-Burgundy" />
+                  <String fx:value="bg-light-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </Label>
+         </children>
+      </Pane>
       <TextField fx:id="name" layoutX="362.0" layoutY="328.0" promptText="Enter name here" styleClass="text-purple">
          <font>
             <Font name="Segoe UI" size="25.0" />
          </font>
       </TextField>
-      <Button fx:id="add" layoutX="467.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="60.0" prefWidth="60.0" text="+">
+      <Button fx:id="add" layoutX="442.0" layoutY="413.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="60.0" prefWidth="150.0" text="Submit">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
@@ -56,10 +66,5 @@
             <String fx:value="rounded" />
          </styleClass>
       </Button>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="836.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/transparent-cartoon-koala-snout-bored-freetoedit-sticker-by-lee5dadaccc9ec6f8.2719892115716630526504.png" />
-         </image>
-      </ImageView>
    </children>
 </Pane>
