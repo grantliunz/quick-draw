@@ -95,7 +95,8 @@ public class MenuController {
   }
 
   /**
-   * Upon pressing the start button this takes you to the settings page where you choose your gamemode
+   * Upon pressing the start button this takes you to the settings page where you choose your
+   * gamemode
    *
    * @param event button press event
    * @throws Exception this is an exception
@@ -118,7 +119,7 @@ public class MenuController {
   }
 
   /**
-   *Upon starting go to the settings page and take in preffered settings
+   * Upon starting go to the settings page and take in preffered settings
    *
    * @param event button is pressed then action occurs
    * @return Settings controller

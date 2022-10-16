@@ -59,7 +59,7 @@ public class ProfileController {
   }
 
   /**
-   *If the cancel button is pressed go back to the menu ui
+   * If the cancel button is pressed go back to the menu ui
    *
    * @param event button is pressed event
    */

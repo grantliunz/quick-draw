@@ -25,31 +25,31 @@ public class BadgeUtil {
   /**
    * unlocks the badges depending on the user stats
    *
-   * @param user  Pass in a user object
+   * @param user Pass in a user object
    * @return a boolean array of what badges are unlocked
    */
   public static boolean[] unlockBadges(User user) {
-    boolean[] badges = new boolean[8]; //List representing the badges
+    boolean[] badges = new boolean[8]; // List representing the badges
     ArrayList<Data> gameData = user.getData();
     ArrayList<Data> gamesWon = getGamesWonOrLoss(gameData, Result.WIN);
 
     for (Data data : gamesWon) {
-      if (data.getTime() <= 10) { //Games won > 10 unlock badge
+      if (data.getTime() <= 10) { // Games won > 10 unlock badge
         badges[0] = true;
       }
     }
 
     for (Data data : gamesWon) {
-      if (data.getTime() <= 5) { //Games won > 5 unlock badge
+      if (data.getTime() <= 5) { // Games won > 5 unlock badge
         badges[1] = true;
       }
     }
 
-    if (gamesWon.size() >= 10) { //Games won > 10 unlock badge
+    if (gamesWon.size() >= 10) { // Games won > 10 unlock badge
       badges[2] = true;
     }
 
-    if (gamesWon.size() >= 50) { //Games won > 50 unlock badge
+    if (gamesWon.size() >= 50) { // Games won > 50 unlock badge
       badges[3] = true;
     }
 
@@ -66,7 +66,8 @@ public class BadgeUtil {
     }
 
     if (getGamemodeWins(gamesWon, GameMode.CLASSIC) >= 5
-        && getGamemodeWins(gamesWon, GameMode.HIDDEN) >= 5) { //if 5 hidden games are won unlock badge
+        && getGamemodeWins(gamesWon, GameMode.HIDDEN)
+            >= 5) { // if 5 hidden games are won unlock badge
       badges[6] = true;
     }
 

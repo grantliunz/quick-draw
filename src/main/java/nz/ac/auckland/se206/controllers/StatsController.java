@@ -116,8 +116,9 @@ public class StatsController {
   }
 
   /**
-   * Hide badge if a user has not met the requirements to unlock them and display that they are locked.
-   *Displays the badges
+   * Hide badge if a user has not met the requirements to unlock them and display that they are
+   * locked. Displays the badges
+   *
    * @param badges boolean array of whether they have unlcked the badges based on stats
    */
   private void hideBadges(boolean[] badges) {
@@ -127,17 +128,17 @@ public class StatsController {
       if (node instanceof ImageView imageView) {
         Image image;
         Tooltip t;
-        if (!badges[i]) { //if the badge is locked then add a tool tip and hide the badge
+        if (!badges[i]) { // if the badge is locked then add a tool tip and hide the badge
           image = new Image("/images/badges/locked.png");
           t = new Tooltip("LOCKED:\n " + BADGE_DESCRIPTIONS[i]);
-        } else { //otherwise display the badge
+        } else { // otherwise display the badge
           image = new Image("/images/badges/badge" + i + ".png");
           t = new Tooltip(BADGE_DESCRIPTIONS[i]);
         }
         imageView.setImage(image);
         imageView.setPickOnBounds(true);
         t.setShowDelay(javafx.util.Duration.millis(0));
-        t.setStyle("-fx-font-size: 20"); //set tooltip font size
+        t.setStyle("-fx-font-size: 20"); // set tooltip font size
         int finalI = i;
         t.setOnShowing(
             s -> {

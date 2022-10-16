@@ -71,8 +71,6 @@ public class CanvasController {
     HIDDEN
   }
 
-
-
   public static final String[] PEN_COLORS =
       new String[] {
         "white",
@@ -92,6 +90,28 @@ public class CanvasController {
         "magenta",
         "pink",
       };
+  /**
+   * Takes a string input of an mp3 file location to play and plays the sound
+   *
+   * @param s A string of the mp3 file location to play
+   */
+  public static void playSound(String s) {
+    javafx.concurrent.Task<Void> task =
+        new javafx.concurrent.Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            // create new media object
+            Media sound = new Media(App.class.getResource(s).toURI().toString());
+            player = new MediaPlayer(sound);
+            // play the sound
+            player.play();
+            return null;
+          }
+        };
+    // Delegates sound playing to new thread to prevent blocking of GUI
+    Thread thread = new Thread(task);
+    thread.start();
+  }
 
   public int maxTime;
   private User user;
@@ -176,14 +196,15 @@ public class CanvasController {
    */
   private void displayWord() throws Exception {
     CategorySelector selector = new CategorySelector();
-    randomWord = selector.getRandomWord(wordsDiffculty); //select a random word from the word list for that difficulty
+    randomWord =
+        selector.getRandomWord(
+            wordsDiffculty); // select a random word from the word list for that difficulty
     wordLabel.setText(randomWord);
     wordLabel.autosize();
   }
 
   /**
-   * Sets confidence level of a prediction to win
-   * Has to be above said percentage to win the game
+   * Sets confidence level of a prediction to win Has to be above said percentage to win the game
    *
    * @param difficulty enum of difficulty chosen
    */
@@ -426,11 +447,7 @@ public class CanvasController {
     timerLabel.setText("∞");
   }
 
-  /**
-   * Switching to brush from eraser method
-   * Enables drawing when pencil button is pressed
-   *
-   */
+  /** Switching to brush from eraser method Enables drawing when pencil button is pressed */
   @FXML
   private void onSwitchToBrush() {
     // Brush size
@@ -470,11 +487,7 @@ public class CanvasController {
         });
   }
 
-  /**
-   * Switching to eraser method
-   * Enables erasing drawing components when eraser button is pressed
-   *
-   */
+  /** Switching to eraser method Enables erasing drawing components when eraser button is pressed */
   @FXML
   private void onSwitchToEraser() {
     // brush size
@@ -501,9 +514,8 @@ public class CanvasController {
   }
 
   /**
-   * When a game is over via time or win this method stops the timer
-   * and preps the canvas for the next game
-   *
+   * When a game is over via time or win this method stops the timer and preps the canvas for the
+   * next game
    */
   private void finishGame() {
     timer.cancel();
@@ -528,8 +540,8 @@ public class CanvasController {
   }
 
   /**
-   * When a new game is started, this method is called and switches the scene to the canvas
-   * Then depending on the gamemode pressed, calls the method to prep that gamemode's canvas
+   * When a new game is started, this method is called and switches the scene to the canvas Then
+   * depending on the gamemode pressed, calls the method to prep that gamemode's canvas
    *
    * @param event ActionEvent when button is pressed
    * @throws Exception Category does not exist exception
@@ -588,7 +600,8 @@ public class CanvasController {
   }
 
   /**
-   * When the save button is pressed this method is called to open the file manager and save a BMP image file of the canvas
+   * When the save button is pressed this method is called to open the file manager and save a BMP
+   * image file of the canvas
    *
    * @throws IOException Error when saving file
    */
@@ -612,7 +625,8 @@ public class CanvasController {
   }
 
   /**
-   * Upon pressing the main menu button this method takes you back to the menu UI by loading the FXML and controller file
+   * Upon pressing the main menu button this method takes you back to the menu UI by loading the
+   * FXML and controller file
    *
    * @param event Button ActionEvent pressed
    * @throws IOException Error when switching to a scene that does not exist
@@ -689,11 +703,12 @@ public class CanvasController {
                 } else {
                   if (randomWord.equals(prediction) && predictionList.isVisible()) {
                     isPredicted = true;
-                    if (i < wordPos) { // if the word position has increased, display the hot face
+                    // if the word position has increased, display the hot face
+                    if (i < wordPos) {
                       hotFace.setVisible(true);
                       coldFace.setVisible(false);
-
-                    } else if (i > wordPos) { // if word position has decreased then display cold
+                      // if word position has decreased then display cold
+                    } else if (i > wordPos) {
                       coldFace.setVisible(true);
                       hotFace.setVisible(false);
                     }
@@ -721,8 +736,7 @@ public class CanvasController {
   }
 
   /**
-   * This method sets how far up the prediction needs to be to win
-   * IE top 3, top 2, top 1
+   * This method sets how far up the prediction needs to be to win IE top 3, top 2, top 1
    *
    * @param difficulty choosen difficulty by the user
    */
@@ -737,10 +751,7 @@ public class CanvasController {
     }
   }
 
-  /**
-   * searches for the defintion of the random word chosen
-   *
-   */
+  /** searches for the defintion of the random word chosen */
   public void startHidden() {
     wordLabel.setText("????");
     definitionLabel.setVisible(true);
@@ -787,8 +798,8 @@ public class CanvasController {
   }
 
   /**
-   * This method lays out a preselect number of colors onto the canvas to choose from
-   * Upon selecting a color in the canvas, the cursor color changes and lines will appear in that color
+   * This method lays out a preselect number of colors onto the canvas to choose from Upon selecting
+   * a color in the canvas, the cursor color changes and lines will appear in that color
    */
   private void createPenColors() {
     colorGrid.setHgap(2);
@@ -808,7 +819,8 @@ public class CanvasController {
   }
 
   /**
-   * This method displays the first letter of the word to draw in hidden mode if the hint button is pressed
+   * This method displays the first letter of the word to draw in hidden mode if the hint button is
+   * pressed
    */
   @FXML
   private void onShowHint() {
@@ -817,8 +829,8 @@ public class CanvasController {
   }
 
   /**
-   * This method sets and starts a timer counting down from 60 seconds
-   * Has specific time queues that play sounds informing the player of the limit
+   * This method sets and starts a timer counting down from 60 seconds Has specific time queues that
+   * play sounds informing the player of the limit
    */
   private void setTimer() {
     /*
@@ -883,27 +895,5 @@ public class CanvasController {
         },
         1000,
         1000);
-  }
-
-  /**
-   * Takes a string input of an mp3 file location to play and plays the sound
-   *
-   * @param s A string of the mp3 file location to play
-   */
-  public static void playSound(String s) {
-    javafx.concurrent.Task<Void> task =
-        new javafx.concurrent.Task<Void>() {
-          @Override
-          protected Void call() throws Exception {
-            Media sound =
-                new Media(App.class.getResource(s).toURI().toString()); // create new media object
-            player = new MediaPlayer(sound);
-            player.play(); // play the sound
-            return null;
-          }
-        };
-    // Delegates sound playing to new thread to prevent blocking of GUI
-    Thread thread = new Thread(task);
-    thread.start();
   }
 }
