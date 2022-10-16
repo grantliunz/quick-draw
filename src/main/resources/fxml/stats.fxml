@@ -17,20 +17,30 @@
 
 <Pane prefHeight="720.0" prefWidth="1000.0" styleClass="bg-light-blue" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.StatsController">
    <children>
-      <ImageView fitHeight="1009.0" fitWidth="1118.0" layoutX="-95.0" layoutY="-132.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1009.0" fitWidth="1118.0" layoutX="-95.0" layoutY="-132.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/pngegg%20(1).png" />
          </image>
       </ImageView>
-      <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="17.0" prefHeight="110.0" prefWidth="980.0" text="Stats" textAlignment="CENTER">
-         <font>
-            <Font name="Bauhaus 93" size="96.0" />
-         </font>
+      <Pane layoutX="258.0" layoutY="10.0" prefHeight="94.0" prefWidth="530.0">
+         <children>
+            <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="73.0" prefWidth="502.0" text="Stats" textAlignment="CENTER">
+               <font>
+                  <Font name="Bauhaus 93" size="64.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text-Burgundy" />
+                  <String fx:value="bg-light-Biege" />
+                  <String fx:value="rounded" />
+               </styleClass>
+            </Label>
+         </children>
          <styleClass>
-            <String fx:value="text-Burgundy" />
-            <String fx:value="outline" />
+            <String fx:value="bg-white" />
+            <String fx:value="rounded" />
+            <String fx:value="border-burgundy" />
          </styleClass>
-      </Label>
+      </Pane>
       <Button fx:id="menu" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="100.0" prefWidth="100.0">
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">

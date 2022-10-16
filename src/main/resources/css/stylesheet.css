@@ -55,7 +55,8 @@
 
 .select-profile-button {
   -fx-background-color: #F2D388;
-  -fx-text-fill: white;
+  -fx-text-fill: #874C62;
+  -fx-font-weight: bold;
   -fx-font-size: 30px;
   -fx-background-radius: 10px;
   -fx-stroke: #ffff;
@@ -120,21 +121,24 @@
 
 /*Text color of non-focused items in the list*/
 .choice-box .menu-item > .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #874C62;
 }
 
 /*Text color of focused item in the list*/
 .choice-box .menu-item:focused > .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #874C62;
+  -fx-font-weight: bold;
 }
 
 /*Background color of the control itself*/
 .choice-box {
   -fx-background-color: #F2D388;
-  -fx-mark-color: #FFE9A0; /* arrow color*/
+  -fx-mark-color: #874C62; /* arrow color*/
 }
 
 /* elected item text color on the control itself */
 .choice-box > .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #874C62;
 }
+
+
