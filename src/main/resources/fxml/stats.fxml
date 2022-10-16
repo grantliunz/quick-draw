@@ -26,7 +26,7 @@
          <children>
             <Label fx:id="headerLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="73.0" prefWidth="502.0" text="Stats" textAlignment="CENTER">
                <font>
-                  <Font name="Bauhaus 93" size="64.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="64.0" />
                </font>
                <styleClass>
                   <String fx:value="text-Burgundy" />
@@ -203,5 +203,21 @@
             <String fx:value="border-burgundy" />
          </styleClass>
       </Pane>
+      <Label fx:id="scoreLabel" alignment="CENTER" layoutX="14.0" layoutY="25.0" prefHeight="65.0" prefWidth="202.0" text="Score:">
+         <font>
+            <Font name="Segoe UI Bold" size="33.0" />
+         </font>
+         <styleClass>
+            <String fx:value="bg-light-Biege" />
+            <String fx:value="border-burgundy" />
+            <String fx:value="rounded" />
+            <String fx:value="text-Burgundy" />
+         </styleClass>
+      </Label>
+      <ImageView fitHeight="65.0" fitWidth="129.0" layoutX="803.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/dog2.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

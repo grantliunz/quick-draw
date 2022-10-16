@@ -273,6 +273,11 @@
                 <Image url="@../images/1f975.png" />
               </image>
             </ImageView>
+                  <ImageView fitHeight="63.0" fitWidth="114.0" layoutX="192.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/cat.png" />
+                     </image>
+                  </ImageView>
           </children>
         </Pane>
       </children>
