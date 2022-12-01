@@ -1,42 +1,43 @@
-# SE206 - 2022 - Beta & Final Releases
+# Quick, Draw!
+### Welcome to Quick, Draw!
 
-### Quick, Draw! 
+Based on the [Google Quick Draw](https://quickdraw.withgoogle.com/) machine learning algorithm, this fun app is designed to improve the speed drawing skills of young children
 
-**Requirements**
+Includes support for various gamemodes and multiple profiles
 
-- Java JDK 17.0.2 (download
-  it [https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) )
-  and JAVA_HOME env variable properly set
-- Scene Builder (download it
-  here [https://gluonhq.com/products/scene-builder/#download](https://gluonhq.com/products/scene-builder/#download))
+<div >
+  
+## Gameplay
+- **Classic** - Draw the word in the allocated time!
+- **Hidden** - Guess the word before drawing!
+- **Zen** - No restrictions, maximum fun
+
+  <img src="./screenshots/classic.png" alt="Classic" width=33%/>
+  <img src="./screenshots/hidden.png" alt="Hidden" width=33%/>
+  <img src="./screenshots/zen.png" alt="Zen" width=33%/>
+  
+## Stats and Leaderboard
+- Unlock badges for playing
+- Compete against family and friends
+
+  <div align="center">
+    <img src="./screenshots/stats.png" alt="Stats" width=33%/>
+    <img src="./screenshots/leaderboard.png" alt="Leaderboard" width=33%/>
+  <div>
+
+</div>
 
 
-**What to do first?**
 
-Make sure that the provided tests pass.
+## Requirements
+- [Java Runtime Environment (JRE)](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
+- [Java JDK 17.0.2+](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
-Unix/MacOsX:  
-`./mvnw clean test`
 
-Windows:  
-`.\mvnw.cmd clean test`
+## Run the game!
 
-This will also install the GIT pre-commit hooks to activate the auto-formatting at every GIT commit.
-
-**How to run the game?**
-
-Unix/MacOsX:  
+Unix/MacOS:  
 `./mvnw clean javafx:run`
 
 Windows:  
 `.\mvnw.cmd clean javafx:run`
-
-**How to format the Java code?**
-
-You can format the code at any time by running the command:
-
-Unix/MacOsX:  
-`./mvnw git-code-format:format-code `
-
-Windows:  
-`.\mvnw.cmd git-code-format:format-code `
